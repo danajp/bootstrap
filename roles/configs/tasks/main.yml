@@ -13,3 +13,24 @@
 
 - name: Install py3status
   shell: virtualenv ~/.i3/py3status-env && ~/.i3/py3status-env/bin/pip install py3status
+
+- name: Get dotemacs
+  git: repo=git@github.com:danajp/dotemacs.git dest=/home/dana/src/dotemacs accept_hostkey=yes
+
+- name: Get cask
+  git: repo=git@github.com:cask/cask.git dest=/home/dana/.cask accept_hostkey=yes
+
+- name: Bootstrap cask
+  command: ./bin/cask upgrade-cask
+  args:
+    chdir: /home/dana/.cask
+
+- name: Install dotemacs
+  command: cask install
+  args:
+    chdir: /home/dana/src/dotemacs
+
+- name: Link emacs config
+  command: ln -s .emacs.d src/dotemacs
+  args:
+    chdir: /home/dana
