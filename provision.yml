@@ -13,4 +13,5 @@
   roles:
     - tools
     - desktop
-    - configs
+    - role: configs
+      become_user: "{{ username }}"
