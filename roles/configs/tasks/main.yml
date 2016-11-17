@@ -4,7 +4,7 @@
   file: path=/home/dana/src owner=dana state=directory
 
 - name: Get dotfiles
-  git: repo=git@github.com:danajp/dotfiles.git dest=/home/dana/src/dotfiles
+  git: repo=git@github.com:danajp/dotfiles.git dest=/home/dana/src/dotfiles accept_hostkey=yes
 
 - name: Install dotfiles
   command: make install
