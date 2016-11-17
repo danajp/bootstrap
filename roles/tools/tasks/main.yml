@@ -8,3 +8,4 @@
     - jq
     - gnupg
     - tmux
+    - python-virtualenv

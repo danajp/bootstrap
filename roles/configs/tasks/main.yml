@@ -10,3 +10,6 @@
   command: make clean install
   args:
     chdir: /home/dana/src/dotfiles
+
+- name: Install py3status
+  shell: virtualenv ~/.i3/py3status-env && ~/.i3/py3status-env/bin/pip install py3status
