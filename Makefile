@@ -4,4 +4,4 @@ bootstrap:
 
 .PHONY: provision
 provision:
-	ansible-playbook --become provision.yml
+	ansible-playbook --become -K provision.yml
