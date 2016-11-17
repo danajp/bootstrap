@@ -1,0 +1,10 @@
+---
+
+- name: Install basic packages
+  apt: name="{{ item }}" state=latest
+  with_items:
+    - emacs
+    - git
+    - jq
+    - gnupg
+    - tmux

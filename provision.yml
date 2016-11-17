@@ -1,0 +1,14 @@
+---
+
+- name: Provision a workstation
+  hosts: localhost
+
+  vars:
+    username: dana
+
+  pre_tasks:
+    - name: Update OS packages
+      apt: upgrade=dist update_cache=yes
+
+  roles:
+    - tools
