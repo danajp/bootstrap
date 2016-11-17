@@ -1,0 +1,12 @@
+---
+
+- name: Create src
+  file: path=/home/dana/src owner=dana state=directory
+
+- name: Get dotfiles
+  git: repo=git@github.com:danajp/dotfiles.git dest=/home/dana/src/dotfiles
+
+- name: Install dotfiles
+  command: make install
+  args:
+    chdir: /home/dana/src/dotfiles
