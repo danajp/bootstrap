@@ -7,6 +7,6 @@
   git: repo=git@github.com:danajp/dotfiles.git dest=/home/dana/src/dotfiles accept_hostkey=yes
 
 - name: Install dotfiles
-  command: make install
+  command: make clean install
   args:
     chdir: /home/dana/src/dotfiles
