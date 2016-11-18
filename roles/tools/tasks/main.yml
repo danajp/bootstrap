@@ -9,3 +9,4 @@
     - gnupg
     - tmux
     - python-virtualenv
+    - openssh-server
