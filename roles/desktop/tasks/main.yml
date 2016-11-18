@@ -5,6 +5,8 @@
   with_items:
     - i3
     - pasystray
+    - rxvt-unicode
+    - xfonts-terminus
 
 - name: Install chrome
   apt: deb="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" state=present
