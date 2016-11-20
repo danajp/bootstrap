@@ -61,3 +61,6 @@
     rbenv global 2.3.1
   args:
     executable: /bin/bash
+
+- name: Update terminal emulator
+  command: update-alternatives --set x-terminal-emulator /usr/bin/urxvt
