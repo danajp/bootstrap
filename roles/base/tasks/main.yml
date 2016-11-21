@@ -24,6 +24,7 @@
     - libssl-dev
     - libreadline-dev
     - zlib1g-dev
+    - libsqlite3-dev
 
 - name: Install desktop packages
   tags: [packages, desktop]
