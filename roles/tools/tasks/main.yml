@@ -1,6 +1,7 @@
 ---
 
 - name: Install basic packages
+  tags: [packages]
   apt: name="{{ item }}" state=latest
   with_items:
     - emacs
@@ -11,6 +12,11 @@
     - python-virtualenv
     - openssh-server
     - laptop-mode-tools
+
+- name: Install ruby build dependencies
+  tags: [ruby, packages]
+  apt: name="{{ item }}" state=latest
+  with_items:
     - libssl-dev
     - libreadline-dev
     - zlib1g-dev
