@@ -11,6 +11,7 @@
     - tmux
     - python-virtualenv
     - openssh-server
+    - openvpn
     - laptop-mode-tools
 
 - name: Install ruby build dependencies
