@@ -14,6 +14,7 @@
   roles:
     - { role: base, become: yes }
     - user
+    - { role: work, tags: [work] }
 
   post_tasks:
     - name: Add {{ username }} to docker group
