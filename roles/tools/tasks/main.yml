@@ -10,6 +10,7 @@
     - tmux
     - python-virtualenv
     - openssh-server
+    - laptop-mode-tools
     - libssl-dev
     - libreadline-dev
     - zlib1g-dev
