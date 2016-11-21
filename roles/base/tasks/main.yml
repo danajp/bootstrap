@@ -43,3 +43,7 @@
 - name: Add sudoers files
   tags: [sudoers]
   copy: src=sudoers.d/ dest=/etc/sudoers.d/ owner=root group=root mode=0440 validate="visudo -cf %s"
+
+- name: Modify nsswitch.conf
+  tags: [nsswitch]
+  copy: src=nsswitch.conf dest=/etc/ owner=root group=root mode=0644 backup=yes
