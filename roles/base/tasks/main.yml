@@ -16,6 +16,9 @@
     - apt-transport-https
     - ca-certificates
     - postgresql-client
+    - libpq-dev
+    - awscli
+    - redis-tools
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
