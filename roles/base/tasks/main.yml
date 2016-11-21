@@ -15,6 +15,7 @@
     - laptop-mode-tools
     - apt-transport-https
     - ca-certificates
+    - postgresql-client
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
