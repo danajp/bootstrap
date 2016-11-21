@@ -13,6 +13,8 @@
     - openssh-server
     - openvpn
     - laptop-mode-tools
+    - apt-transport-https
+    - ca-certificates
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
@@ -39,6 +41,15 @@
 - name: Install slack client
   tags: [packages, desktop]
   apt: deb="https://downloads.slack-edge.com/linux_releases/slack-desktop-2.3.2-amd64.deb" state=present
+
+- name: Add apt keys for docker
+  apt_key: keyserver=hkp://ha.pool.sks-keyservers.net:80 id=58118E89F3A912897C070ADBF76221572C52609D
+
+- name: Add apt repository for docker
+  apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-xenial main' state=present update_cache=yes
+
+- name: Install docker
+  apt: pkg=docker-engine=1.12* state=present
 
 - name: Add sudoers files
   tags: [sudoers]

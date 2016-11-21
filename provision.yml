@@ -12,6 +12,10 @@
       become: yes
 
   roles:
-    - role: base
+    - { role: base, become: yes }
+    - user
+
+  post_tasks:
+    - name: Add {{ username }} to docker group
+      user: name="{{ username }}" groups=docker append=yes
       become: yes
-    - role: user
