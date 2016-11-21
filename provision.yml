@@ -9,9 +9,9 @@
   pre_tasks:
     - name: Update OS packages
       apt: upgrade=dist update_cache=yes
+      become: yes
 
   roles:
-    - tools
-    - desktop
-    - role: configs
-      become_user: "{{ username }}"
+    - role: base
+      become: yes
+    - role: user

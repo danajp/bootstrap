@@ -1,46 +1,48 @@
 ---
 
 - name: Get dotfiles
-  git: repo=git@github.com:danajp/dotfiles.git dest=/home/dana/src/dotfiles accept_hostkey=yes
+  git: repo=git@github.com:danajp/dotfiles.git dest=~/src/dotfiles accept_hostkey=yes
 
 - name: Install dotfiles
   command: make clean install
   args:
-    chdir: /home/dana/src/dotfiles
+    chdir: ~/src/dotfiles
 
 - name: Install py3status
   shell: virtualenv ~/.i3/py3status-env && ~/.i3/py3status-env/bin/pip install py3status
+  args:
+    creates: ~/.i3/py3status-env/bin/py3status
 
 - name: Get dotemacs
   tags: [emacs]
-  git: repo=git@github.com:danajp/dotemacs.git dest=/home/dana/src/dotemacs accept_hostkey=yes
+  git: repo=git@github.com:danajp/dotemacs.git dest=~/src/dotemacs accept_hostkey=yes
 
 - name: Link emacs config
   tags: [emacs]
-  file: src=/home/dana/src/dotemacs dest=/home/dana/.emacs.d state=link force=yes
+  file: src=~/src/dotemacs dest=~/.emacs.d state=link force=yes
 
 - name: Get cask
-  git: repo=git@github.com:cask/cask.git dest=/home/dana/.cask accept_hostkey=yes
+  git: repo=git@github.com:cask/cask.git dest=~/.cask accept_hostkey=yes
 
 - name: Bootstrap cask
   tags: [emacs]
   command: ./bin/cask upgrade-cask
   args:
-    chdir: /home/dana/.cask
+    chdir: ~/.cask
 
 - name: Install dotemacs
   tags: [emacs]
   shell: cask install
   args:
-    chdir: /home/dana/src/dotemacs
+    chdir: ~/src/dotemacs
 
 - name: Install rbenv
   tags: [ruby]
-  git: repo=git@github.com:rbenv/rbenv.git dest=/home/dana/.rbenv accept_hostkey=yes
+  git: repo=git@github.com:rbenv/rbenv.git dest=~/.rbenv accept_hostkey=yes
 
 - name: Install rbenv ruby-build
   tags: [ruby]
-  git: repo=git@github.com:rbenv/ruby-build.git dest=/home/dana/.rbenv/plugins/ruby-build accept_hostkey=yes
+  git: repo=git@github.com:rbenv/ruby-build.git dest=~/.rbenv/plugins/ruby-build accept_hostkey=yes
 
 - name: Install ruby version
   tags: [ruby]
@@ -49,7 +51,7 @@
     rbenv install {{ item }}
   args:
     executable: /bin/bash
-    creates: "/home/dana/.rbenv/versions/{{ item }}"
+    creates: "~/.rbenv/versions/{{ item }}"
   with_items:
     - 2.3.1
     - 2.2.5
@@ -61,6 +63,7 @@
     rbenv global 2.3.1
   args:
     executable: /bin/bash
+    creates: ~/.rbenv/version
 
 - name: Update terminal emulator
   command: update-alternatives --set x-terminal-emulator /usr/bin/urxvt

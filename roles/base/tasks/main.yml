@@ -1,0 +1,40 @@
+---
+
+- name: Install basic packages
+  tags: [packages]
+  apt: name="{{ item }}" state=latest
+  with_items:
+    - emacs
+    - git
+    - jq
+    - gnupg
+    - tmux
+    - python-virtualenv
+    - openssh-server
+    - laptop-mode-tools
+
+- name: Install ruby build dependencies
+  tags: [ruby, packages]
+  apt: name="{{ item }}" state=latest
+  with_items:
+    - libssl-dev
+    - libreadline-dev
+    - zlib1g-dev
+
+- name: Install desktop packages
+  tags: [packages, desktop]
+  apt: name="{{ item }}" state=latest
+  with_items:
+    - i3
+    - pasystray
+    - rxvt-unicode
+    - xfonts-terminus
+    - arandr
+
+- name: Install chrome
+  tags: [packages, desktop]
+  apt: deb="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" state=present
+
+- name: Install slack client
+  tags: [packages, desktop]
+  apt: deb="https://downloads.slack-edge.com/linux_releases/slack-desktop-2.3.2-amd64.deb" state=present
