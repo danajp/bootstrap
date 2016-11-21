@@ -56,6 +56,18 @@
     - 2.3.1
     - 2.2.5
 
+- name: Install bundler for all ruby versions
+  tags: [ruby]
+  shell: |
+    . ~/.bashrc
+    RBENV_VERSION={{ item }} gem install bundler
+  args:
+    executable: /bin/bash
+    creates: "~/.rbenv/versions/{{ item }}/bin/bundle"
+  with_items:
+    - 2.3.1
+    - 2.2.5
+
 - name: Set global ruby version
   tags: [ruby]
   shell: |
