@@ -67,3 +67,10 @@
 
 - name: Update terminal emulator
   command: update-alternatives --set x-terminal-emulator /usr/bin/urxvt
+
+- name: Install dropbox
+  tags: [dropbox]
+  shell: wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+  args:
+    chdir: ~/
+    creates: ~/.dropbox-dist/dropboxd
