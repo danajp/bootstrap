@@ -21,6 +21,7 @@
     - redis-tools
     # for ansible aws
     - python-boto
+    - virtualbox
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
@@ -40,6 +41,14 @@
     - rxvt-unicode
     - xfonts-terminus
     - arandr
+
+- name: Install kubectl
+  tags: [packages, kubernetes]
+  get_url: url=http://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/linux/amd64/kubectl dest=/usr/local/bin/kubectl owner=root group=root mode=0755
+
+- name: Install minikube
+  tags: [packages, kubernetes]
+  get_url: url=https://storage.googleapis.com/minikube/releases/v0.12.2/minikube-linux-amd64 dest=/usr/local/bin/minikube owner=root group=root mode=0755
 
 - name: Install chrome
   tags: [packages, desktop]
