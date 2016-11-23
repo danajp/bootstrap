@@ -22,6 +22,7 @@
     # for ansible aws
     - python-boto
     - virtualbox
+    - powertop
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
