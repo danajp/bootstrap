@@ -1,11 +1,17 @@
-.PHONY: bootstrap
-bootstrap:
-	./bootstrap.sh
+ANSIBLE?=/usr/bin/ansible
+SSH_KEY?=~/.ssh/id_rsa
 
 .PHONY: provision
-provision:
+provision: $(ANSIBLE) $(SSH_KEY)
 	ansible-playbook -K provision.yml
 
 .PHONY: packages
-packages:
+packages: $(ANSIBLE)
 	ansible-playbook -K provision.yml --tags packages
+
+$(ANSIBLE):
+	sudo apt-get update
+	DEBIAN_FRONTEND=noninteractive sudo apt-get install -y ansible
+
+$(SSH_KEY):
+	$(error No ssh key found at $(SSH_KEY), you're gonna need this to clone git repos)
