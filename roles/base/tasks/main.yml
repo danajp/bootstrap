@@ -87,3 +87,7 @@
 - name: Modify nsswitch.conf
   tags: [nsswitch]
   copy: src=nsswitch.conf dest=/etc/ owner=root group=root mode=0644 backup=yes
+
+- name: Install heroku toolbelt
+  tags: [heroku]
+  shell: wget -O- https://toolbelt.heroku.com/install-ubuntu.sh | sh
