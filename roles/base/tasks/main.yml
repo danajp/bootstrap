@@ -23,6 +23,7 @@
     - python-boto
     - virtualbox
     - powertop
+    - powerline
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
@@ -42,6 +43,10 @@
     - rxvt-unicode
     - xfonts-terminus
     - arandr
+
+- name: Add powerline symbols to terminus font
+  tags: [packages, powerline]
+  copy: src=11-powerline-symbols-terminus.conf dest=/etc/fonts/conf.d/ owner=root group=root mode=0644
 
 - name: Install kubectl
   tags: [packages, kubernetes]
