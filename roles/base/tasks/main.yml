@@ -92,3 +92,33 @@
 - name: Install heroku toolbelt
   tags: [heroku]
   shell: wget -O- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+
+- name: Check if hub is installed
+  tags: [hub]
+  stat: path=/usr/local/bin/hub
+  register: hub
+
+- name: Create hub install dir
+  tags: [hub]
+  file: path=/tmp/hub state=directory
+  when: hub.stat.exists == false
+
+- name: Download hub
+  tags: [hub]
+  get_url: url=https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz dest=/tmp/hub
+  when: hub.stat.exists == false
+
+- name: Install hub
+  tags: [hub]
+  shell: |
+    tar --strip-components=1 -zxpf *.tgz
+    ./install
+  args:
+    chdir: /tmp/hub
+  when: hub.stat.exists == false
+
+- name: Remove hub installation files
+  tags: [hub]
+  file: path=/tmp/hub state=absent
+  when: hub.stat.exists == false
+
