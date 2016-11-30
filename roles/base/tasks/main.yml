@@ -25,6 +25,8 @@
     - powertop
     - powerline
     - youtube-dl
+    - phantomjs
+    - nodejs
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
