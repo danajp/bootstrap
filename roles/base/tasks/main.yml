@@ -10,6 +10,8 @@
     - gnupg
     - tmux
     - python-virtualenv
+    - virtualenvwrapper
+    - python-dev
     - openssh-server
     - openvpn
     - laptop-mode-tools
