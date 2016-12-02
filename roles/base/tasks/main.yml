@@ -124,3 +124,6 @@
   file: path=/tmp/hub state=absent
   when: hub.stat.exists == false
 
+- name: Install Slackcat
+  tags: [slackcat]
+  get_url: url=https://github.com/vektorlab/slackcat/releases/download/v1.1/slackcat-1.1-linux-amd64 dest=/usr/local/bin/slackcat owner=root group=root mode=0755
