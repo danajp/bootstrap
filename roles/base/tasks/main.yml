@@ -27,6 +27,7 @@
     - youtube-dl
     - phantomjs
     - nodejs
+    - wine-stable
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
