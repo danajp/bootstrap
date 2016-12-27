@@ -60,7 +60,7 @@
 
 - name: Install minikube
   tags: [packages, kubernetes]
-  get_url: url=https://storage.googleapis.com/minikube/releases/v0.12.2/minikube-linux-amd64 dest=/usr/local/bin/minikube owner=root group=root mode=0755
+  get_url: url=https://storage.googleapis.com/minikube/releases/v0.14.0/minikube-linux-amd64 dest=/usr/local/bin/minikube owner=root group=root mode=0755
 
 - name: Install chrome
   tags: [packages, desktop]
