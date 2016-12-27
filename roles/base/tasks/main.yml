@@ -31,6 +31,7 @@
     - phantomjs
     - nodejs
     - wine-stable
+    - shellcheck
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
