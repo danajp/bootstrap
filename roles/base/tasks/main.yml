@@ -32,6 +32,7 @@
     - nodejs
     - wine-stable
     - shellcheck
+    - default-jre
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
