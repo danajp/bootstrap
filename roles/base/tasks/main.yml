@@ -61,13 +61,18 @@
   tags: [packages, powerline]
   copy: src=11-powerline-symbols-terminus.conf dest=/etc/fonts/conf.d/ owner=root group=root mode=0644
 
+- name: Get latest kubectl version
+  tags: [packages, kubernetes]
+  command: curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt
+  register: kubernetes_version
+
 - name: Install kubectl
   tags: [packages, kubernetes]
-  get_url: url=http://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/linux/amd64/kubectl dest=/usr/local/bin/kubectl owner=root group=root mode=0755
+  get_url: url="http://storage.googleapis.com/kubernetes-release/release/{{ kubernetes_version.stdout }}/bin/linux/amd64/kubectl" dest=/usr/local/bin/kubectl owner=root group=root mode=0755
 
 - name: Install minikube
   tags: [packages, kubernetes]
-  get_url: url=https://storage.googleapis.com/minikube/releases/v0.14.0/minikube-linux-amd64 dest=/usr/local/bin/minikube owner=root group=root mode=0755
+  get_url: url=https://storage.googleapis.com/minikube/releases/v0.15.0/minikube-linux-amd64 dest=/usr/local/bin/minikube owner=root group=root mode=0755 force=yes
 
 - name: Check if helm is installed
   tags: [packages, kubernetes, helm]
