@@ -36,6 +36,7 @@
     - sloccount
     - htop
     - traceroute
+    - gnutls-bin
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
