@@ -116,6 +116,18 @@
   tags: [packages, desktop]
   apt: deb="https://downloads.slack-edge.com/linux_releases/slack-desktop-2.3.2-amd64.deb" state=present
 
+- name: Add apt keys for spotify
+  tags: [packages, desktop, spotify]
+  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=BBEBDCB318AD50EC6865090613B00F1FD2C19886
+
+- name: Add apt repository for spotify
+  tags: [packages, desktop, spotify]
+  apt_repository: repo='deb http://repository.spotify.com stable non-free' state=present update_cache=yes
+
+- name: Install spotify
+  tags: [packages, desktop, spotify]
+  apt: pkg=spotify-client state=present
+
 - name: Add apt keys for docker
   tags: [packages, docker]
   apt_key: keyserver=hkp://ha.pool.sks-keyservers.net:80 id=58118E89F3A912897C070ADBF76221572C52609D
