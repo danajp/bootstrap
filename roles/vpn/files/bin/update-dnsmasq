@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -xeo pipefail
+
+TARGET=${TARGET:-/etc/NetworkManager/dnsmasq.d/10_vpn_servers}
+DOMAINS=${DOMAINS:-int.greenhouse.io consul}
+
+option_to_dnsmasq() {
+  local prefix type value
+
+  prefix="$1"
+  type="$2"
+  value="$3"
+
+  [[ "$prefix" != "dhcp-option" ]] && return
+
+  if [[ "$type" == "DOMAIN" ]]; then
+    echo "dhcp-option=15,${value}"
+    return
+  fi
+
+  for domain in $DOMAINS; do
+    if [[ "$type" == "DNS" ]]; then
+      echo "server=/${domain}/${value}"
+    fi
+  done
+}
+
+dnsmasq_config() {
+  for var in ${!foreign_option_*}; do
+    option="${!var}"
+
+    option_to_dnsmasq $option
+  done
+}
+
+main() {
+  [[ -n "$script_type" ]] || exit 0
+
+  case "$script_type" in
+    up)
+      dnsmasq_config > "$TARGET"
+      service network-manager reload
+      ;;
+    down)
+      rm -f "$TARGET"
+      service network-manager reload
+      ;;
+  esac
+}
+
+main

@@ -13,6 +13,7 @@
 
   roles:
     - { role: base, become: yes }
+    - { role: vpn, become: yes, tags: [vpn] }
     - user
     - { role: work, tags: [work] }
 

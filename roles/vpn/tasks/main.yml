@@ -1,0 +1,13 @@
+---
+
+- name: Install openvpn
+  apt: name=openvpn state=latest
+
+- name: Install dnsmasq config
+  copy: src=dnsmasq.d/ dest=/etc/NetworkManager/dnsmasq.d/ owner=root group=root
+
+- name: Installer sudoers config
+  copy: src=sudoers.d/ dest=/etc/sudoers.d/ owner=root group=root mode=0440 validate="visudo -cf %s"
+
+- name: Install vpn scripts
+  copy: src=bin/ dest=/usr/local/bin/ owner=root group=root mode=0755
