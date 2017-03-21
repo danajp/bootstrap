@@ -47,6 +47,7 @@
     - libreadline-dev
     - zlib1g-dev
     - libsqlite3-dev
+    - cmake
 
 - name: Install desktop packages
   tags: [packages, desktop]
