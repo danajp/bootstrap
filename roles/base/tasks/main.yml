@@ -37,6 +37,7 @@
     - htop
     - traceroute
     - gnutls-bin
+    - xclip
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
