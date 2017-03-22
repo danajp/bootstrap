@@ -5,6 +5,15 @@ set -xeo pipefail
 TARGET=${TARGET:-/etc/NetworkManager/dnsmasq.d/10_vpn_servers}
 DOMAINS=${DOMAINS:-int.greenhouse.io consul}
 
+dnsmasq_config_file() {
+  if [[ -n "$config" ]]; then
+    # contains the path to the config file
+    echo "${TARGET}_$(basename $config -vpn.ovpn)"
+  else
+    echo "$TARGET"
+  fi
+}
+
 option_to_dnsmasq() {
   local prefix type value
 
@@ -39,14 +48,14 @@ main() {
 
   case "$script_type" in
     up)
-      dnsmasq_config > "$TARGET"
-      service network-manager reload
+      dnsmasq_config > "$(dnsmasq_config_file)"
       ;;
     down)
-      rm -f "$TARGET"
-      service network-manager reload
+      rm -f "$(dnsmasq_config_file)"
       ;;
   esac
+
+  service network-manager reload
 }
 
-main
+main "$@"
