@@ -33,7 +33,7 @@ function config_file() {
 
   vpn="$1"
 
-  echo "$CONFIG_DIR/${vpn}-vpn.ovpn"
+  echo "$CONFIG_DIR/${vpn}.ovpn"
 }
 
 function connected() {
