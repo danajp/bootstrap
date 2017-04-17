@@ -2,10 +2,13 @@
 
 CONFIG_DIR="${HOME}/Documents/vpn"
 OPENVPN="/usr/sbin/openvpn"
-VPNS="support prod prod-staging"
 
 function info() {
   echo "[$(date)] $1" >&2
+}
+
+function all_vpns() {
+  basename -s .ovpn "$CONFIG_DIR"/*.ovpn
 }
 
 function parent_vpn() {
@@ -73,13 +76,13 @@ function connect() {
 }
 
 connect_all() {
-  for vpn in $VPNS; do
+  for vpn in $(all_vpns); do
     connect "$vpn"
   done
 }
 
 function menu() {
-  echo "$VPNS" all close-all | xargs -n1 | dmenu -p "vpn:"
+  echo $(all_vpns) all close-all | xargs -n1 | dmenu -p "vpn:"
 }
 
 main() {
