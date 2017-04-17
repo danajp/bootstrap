@@ -16,11 +16,9 @@ function parent_vpn() {
 
   vpn="$1"
 
-  case "$vpn" in
-    prod | prod-staging)
-      echo support
-      ;;
-  esac
+  if [[ "$vpn" =~ prod* ]]; then
+    echo support
+  fi
 }
 
 function pid_file() {
