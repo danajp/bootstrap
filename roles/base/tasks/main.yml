@@ -38,6 +38,7 @@
     - traceroute
     - gnutls-bin
     - xclip
+    - ldap-utils
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
