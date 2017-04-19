@@ -1,0 +1,63 @@
+---
+
+- name: Get installed kubectl version
+  shell: |
+    kubectl version --client --short | awk '{print $NF}' | sed 's/^v//g'
+  register: kubectl_installed_version
+
+- name: Install kubectl
+  get_url: |
+    url=http://storage.googleapis.com/kubernetes-release/release/v{{ kubectl.version }}/bin/linux/amd64/kubectl
+    dest=/usr/local/bin/kubectl
+    owner=root
+    group=root
+    mode=0755
+    force=true
+  when: kubectl.version != kubectl_installed_version.stdout
+
+- name: Get installed minikube version
+  shell: |
+    minikube version | awk '{print $NF}' | sed 's/^v//g'
+  register: installed_minikube_version
+
+- name: Install minikube
+  get_url: |
+    url=https://storage.googleapis.com/minikube/releases/v{{ minikube.version }}/minikube-linux-amd64
+    dest=/usr/local/bin/minikube
+    owner=root
+    group=root
+    mode=0755
+    force=yes
+  when: installed_minikube_version.stdout != minikube.version
+
+- name: Check if helm is installed
+  stat: path=/usr/local/bin/helm
+  register: helm
+
+- name: Get installed helm version
+  shell: |
+    helm version --client --short | awk '{print $NF}' | sed -e 's/^v//' -e 's/+.\+$//'
+  register: installed_helm_version
+
+- name: Create helm install dir
+  file: path=/tmp/helm state=directory
+  when: helm.stat.exists == false
+
+- name: Download helm
+  get_url: url=https://storage.googleapis.com/kubernetes-helm/helm-v2.2.1-linux-amd64.tar.gz dest=/tmp/helm
+  when: helm.stat.exists == false
+
+- name: Unpack helm
+  shell: |
+    tar --strip-components=1 -zxpf *.tar.gz
+  args:
+    chdir: /tmp/helm
+  when: helm.stat.exists == false
+
+- name: Install helm
+  copy: src=/tmp/helm/helm remote_src=yes dest=/usr/local/bin/helm owner=root group=root mode=0755
+  when: helm.stat.exists == false
+
+- name: Remove helm installation files
+  file: path=/tmp/helm state=absent
+  when: helm.stat.exists == false

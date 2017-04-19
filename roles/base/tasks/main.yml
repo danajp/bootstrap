@@ -64,52 +64,6 @@
   tags: [packages, powerline]
   copy: src=11-powerline-symbols-terminus.conf dest=/etc/fonts/conf.d/ owner=root group=root mode=0644
 
-- name: Get latest kubectl version
-  tags: [packages, kubernetes]
-  command: curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt
-  register: kubernetes_version
-
-- name: Install kubectl
-  tags: [packages, kubernetes]
-  get_url: url="http://storage.googleapis.com/kubernetes-release/release/{{ kubernetes_version.stdout }}/bin/linux/amd64/kubectl" dest=/usr/local/bin/kubectl owner=root group=root mode=0755
-
-- name: Install minikube
-  tags: [packages, kubernetes]
-  get_url: url=https://storage.googleapis.com/minikube/releases/v0.15.0/minikube-linux-amd64 dest=/usr/local/bin/minikube owner=root group=root mode=0755 force=yes
-
-- name: Check if helm is installed
-  tags: [packages, kubernetes, helm]
-  stat: path=/usr/local/bin/helm
-  register: helm
-
-- name: Create helm install dir
-  tags: [helm]
-  file: path=/tmp/helm state=directory
-  when: helm.stat.exists == false
-
-- name: Download helm
-  tags: [packages, kubernetes, helm]
-  get_url: url=https://storage.googleapis.com/kubernetes-helm/helm-v2.2.1-linux-amd64.tar.gz dest=/tmp/helm
-  when: helm.stat.exists == false
-
-- name: Unpack helm
-  tags: [packages, kubernetes, helm]
-  shell: |
-    tar --strip-components=1 -zxpf *.tar.gz
-  args:
-    chdir: /tmp/helm
-  when: helm.stat.exists == false
-
-- name: Install helm
-  tags: [packages, kubernetes, helm]
-  copy: src=/tmp/helm/helm remote_src=yes dest=/usr/local/bin/helm owner=root group=root mode=0755
-  when: helm.stat.exists == false
-
-- name: Remove helm installation files
-  tags: [packages, kubernetes, helm]
-  file: path=/tmp/helm state=absent
-  when: helm.stat.exists == false
-
 - name: Install chrome
   tags: [packages, desktop]
   apt: deb="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" state=present

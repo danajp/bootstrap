@@ -12,10 +12,17 @@
       become: yes
 
   roles:
-    - { role: base, become: yes }
-    - { role: vpn, become: yes, tags: [vpn] }
-    - user
-    - { role: work, tags: [work] }
+    - role: base
+      become: yes
+    - role: vpn
+      tags: [vpn]
+      become: yes
+    - role: user
+    - role: work
+      tags: [work]
+    - role: kubernetes
+      tags: [kubernetes]
+      become: yes
 
   post_tasks:
     - name: Add {{ username }} to docker group

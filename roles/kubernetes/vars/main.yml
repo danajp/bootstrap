@@ -1,0 +1,10 @@
+---
+
+kubectl:
+  version: 1.5.3
+
+minikube:
+  version: 0.18.0
+
+helm:
+  version: 2.2.1
