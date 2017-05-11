@@ -1,7 +1,7 @@
 ---
 
 - name: Get dotfiles
-  git: repo=git@github.com:danajp/dotfiles.git dest=~/src/dotfiles accept_hostkey=yes
+  git: repo=git@github.com:danajp/dotfiles.git dest=~/src/dotfiles accept_hostkey=yes update=no
 
 - name: Install dotfiles
   command: make clean install
@@ -15,7 +15,7 @@
 
 - name: Get dotemacs
   tags: [emacs]
-  git: repo=git@github.com:danajp/dotemacs.git dest=~/src/dotemacs accept_hostkey=yes
+  git: repo=git@github.com:danajp/dotemacs.git dest=~/src/dotemacs accept_hostkey=yes update=no
 
 - name: Link emacs config
   tags: [emacs]
