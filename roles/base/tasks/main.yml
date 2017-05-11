@@ -71,7 +71,7 @@
 
 - name: Install slack client
   tags: [packages, desktop]
-  apt: deb="https://downloads.slack-edge.com/linux_releases/slack-desktop-2.3.2-amd64.deb" state=present
+  apt: deb="https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack.version }}-amd64.deb" state=present
 
 - name: Add apt keys for spotify
   tags: [packages, desktop, spotify]
@@ -95,11 +95,11 @@
 
 - name: Install docker
   tags: [packages, docker]
-  apt: pkg=docker-engine=1.12* state=present
+  apt: pkg=docker-engine=17* state=present
 
 - name: Install docker-compose
   tags: [packages, docker]
-  get_url: url=https://github.com/docker/compose/releases/download/1.9.0/docker-compose-Linux-x86_64  dest=/usr/local/bin/docker-compose owner=root group=root mode=0755
+  get_url: url=https://github.com/docker/compose/releases/download/{{ docker_compose.version }}/docker-compose-Linux-x86_64  dest=/usr/local/bin/docker-compose owner=root group=root mode=0755
 
 - name: Add sudoers files
   tags: [sudoers]
@@ -125,7 +125,7 @@
 
 - name: Download hub
   tags: [hub]
-  get_url: url=https://github.com/github/hub/releases/download/v2.2.9/hub-linux-amd64-2.2.9.tgz dest=/tmp/hub
+  get_url: url="https://github.com/github/hub/releases/download/v{{ hub.version }}/hub-linux-amd64-{{ hub.version }}.tgz" dest=/tmp/hub
   when: hub.stat.exists == false
 
 - name: Install hub
@@ -144,7 +144,7 @@
 
 - name: Install Slackcat
   tags: [slackcat]
-  get_url: url=https://github.com/vektorlab/slackcat/releases/download/v1.1/slackcat-1.1-linux-amd64 dest=/usr/local/bin/slackcat owner=root group=root mode=0755
+  get_url: url="https://github.com/vektorlab/slackcat/releases/download/v{{ slackcat.version }}/slackcat-{{ slackcat.version }}-linux-amd64" dest=/usr/local/bin/slackcat owner=root group=root mode=0755
 
 - name: Install lein
   tags: [clojure]

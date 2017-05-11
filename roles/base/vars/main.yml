@@ -1,0 +1,16 @@
+---
+
+docker_engine:
+  version: 17*
+
+docker_compose:
+  version: 1.13.0
+
+hub:
+  version: 2.2.9
+
+slack:
+  version: 2.6.0
+
+slackcat:
+  version: 1.2
