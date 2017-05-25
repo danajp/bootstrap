@@ -3,7 +3,7 @@
 set -xeo pipefail
 
 TARGET=${TARGET:-/etc/NetworkManager/dnsmasq.d/10_vpn_servers}
-DOMAINS=${DOMAINS:-int.greenhouse.io consul}
+DOMAINS=${DOMAINS:-int.greenhouse.io gh.internal consul}
 
 dnsmasq_config_file() {
   if [[ -n "$config" ]]; then
