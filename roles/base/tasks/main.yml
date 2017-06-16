@@ -70,7 +70,7 @@
   apt: deb="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" state=present
 
 - name: Install slack client
-  tags: [packages, desktop]
+  tags: [packages, desktop, slack]
   apt: deb="https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack.version }}-amd64.deb" state=present
 
 - name: Add apt keys for spotify

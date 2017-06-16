@@ -10,7 +10,7 @@ hub:
   version: 2.2.9
 
 slack:
-  version: 2.6.0
+  version: 2.6.3
 
 slackcat:
   version: 1.2
