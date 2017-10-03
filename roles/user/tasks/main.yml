@@ -32,7 +32,7 @@
 
 - name: Install dotemacs
   tags: [emacs]
-  shell: cask install
+  shell: ~/.cask/bin/cask install
   args:
     chdir: ~/src/dotemacs
 
