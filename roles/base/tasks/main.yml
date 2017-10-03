@@ -116,17 +116,17 @@
 - name: Check if hub is installed
   tags: [hub]
   stat: path=/usr/local/bin/hub
-  register: hub
+  register: hub_installed
 
 - name: Create hub install dir
   tags: [hub]
   file: path=/tmp/hub state=directory
-  when: hub.stat.exists == false
+  when: hub_installed.stat.exists == false
 
 - name: Download hub
   tags: [hub]
   get_url: url="https://github.com/github/hub/releases/download/v{{ hub.version }}/hub-linux-amd64-{{ hub.version }}.tgz" dest=/tmp/hub
-  when: hub.stat.exists == false
+  when: hub_installed.stat.exists == false
 
 - name: Install hub
   tags: [hub]
@@ -135,12 +135,12 @@
     ./install
   args:
     chdir: /tmp/hub
-  when: hub.stat.exists == false
+  when: hub_installed.stat.exists == false
 
 - name: Remove hub installation files
   tags: [hub]
   file: path=/tmp/hub state=absent
-  when: hub.stat.exists == false
+  when: hub_installed.stat.exists == false
 
 - name: Install Slackcat
   tags: [slackcat]
