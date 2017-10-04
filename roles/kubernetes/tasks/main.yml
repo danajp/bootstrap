@@ -1,63 +1,79 @@
 ---
 
-- name: Get installed kubectl version
-  shell: |
-    kubectl version --client --short | awk '{print $NF}' | sed 's/^v//g'
-  register: kubectl_installed_version
+- name: Get latest kubectl version
+  uri:
+    url: https://storage.googleapis.com/kubernetes-release/release/stable.txt
+    return_content: yes
+  register: kubectl_latest_version
 
 - name: Install kubectl
-  get_url: |
-    url=http://storage.googleapis.com/kubernetes-release/release/v{{ kubectl.version }}/bin/linux/amd64/kubectl
-    dest=/usr/local/bin/kubectl
-    owner=root
-    group=root
-    mode=0755
-    force=true
-  when: kubectl.version != kubectl_installed_version.stdout
+  get_url:
+    url: "http://storage.googleapis.com/kubernetes-release/release/{{ kubectl_latest_version.content | trim }}/bin/linux/amd64/kubectl"
+    dest: /usr/local/bin/kubectl
+    owner: root
+    group: root
+    mode: 0755
+    force: true
 
-- name: Get installed minikube version
-  shell: |
-    minikube version | awk '{print $NF}' | sed 's/^v//g'
-  register: installed_minikube_version
+- name: Get latest minikube version
+  uri:
+    url: https://api.github.com/repos/kubernetes/minikube/releases/latest
+    return_content: yes
+  register: minikube_latest_release
+
+- name: Set minikube url
+  set_fact:
+    minikube_url: "{{ minikube_latest_release.content | from_json | json_query(query) | first }}"
+  vars:
+    query: "assets[?name=='minikube-linux-amd64'].browser_download_url"
 
 - name: Install minikube
-  get_url: |
-    url=https://storage.googleapis.com/minikube/releases/v{{ minikube.version }}/minikube-linux-amd64
-    dest=/usr/local/bin/minikube
-    owner=root
-    group=root
-    mode=0755
-    force=yes
-  when: installed_minikube_version.stdout != minikube.version
+  get_url:
+    url: "{{ minikube_url }}"
+    dest: /usr/local/bin/minikube
+    owner: root
+    group: root
+    mode: 0755
+    force: yes
 
-- name: Check if helm is installed
-  stat: path=/usr/local/bin/helm
-  register: helm
+- name: Get latest helm version
+  uri:
+    url: https://api.github.com/repos/kubernetes/helm/releases/latest
+    return_content: yes
+  register: helm_latest_release
 
-- name: Get installed helm version
-  shell: |
-    helm version --client --short | awk '{print $NF}' | sed -e 's/^v//' -e 's/+.\+$//'
-  register: installed_helm_version
+- name: Set helm version
+  set_fact:
+    helm_version: "{{ helm_latest_release.content | from_json | json_query('tag_name') }}"
+
+- name: Set helm url
+  set_fact:
+    helm_url: "https://storage.googleapis.com/kubernetes-helm/helm-{{ helm_version }}-linux-amd64.tar.gz"
 
 - name: Create helm install dir
   file: path=/tmp/helm state=directory
-  when: helm.stat.exists == false
 
 - name: Download helm
-  get_url: url=https://storage.googleapis.com/kubernetes-helm/helm-v2.2.1-linux-amd64.tar.gz dest=/tmp/helm
-  when: helm.stat.exists == false
+  get_url:
+    url: "{{ helm_url }}"
+    dest: /tmp/helm
 
 - name: Unpack helm
   shell: |
     tar --strip-components=1 -zxpf *.tar.gz
   args:
     chdir: /tmp/helm
-  when: helm.stat.exists == false
 
 - name: Install helm
-  copy: src=/tmp/helm/helm remote_src=yes dest=/usr/local/bin/helm owner=root group=root mode=0755
-  when: helm.stat.exists == false
+  copy:
+    src: /tmp/helm/helm
+    remote_src: yes
+    dest: /usr/local/bin/helm
+    owner: root
+    group: root
+    mode: 0755
 
 - name: Remove helm installation files
-  file: path=/tmp/helm state=absent
-  when: helm.stat.exists == false
+  file:
+    path: /tmp/helm
+    state: absent
