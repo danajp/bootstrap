@@ -1,5 +1,7 @@
 ANSIBLE?=/usr/bin/ansible
 SSH_KEY?=~/.ssh/id_rsa
+IMAGE?=bootstrap
+USER?=dana
 
 .PHONY: provision
 provision: $(ANSIBLE) $(SSH_KEY)
@@ -8,6 +10,14 @@ provision: $(ANSIBLE) $(SSH_KEY)
 .PHONY: packages
 packages: $(ANSIBLE)
 	ansible-playbook -K provision.yml --tags packages
+
+.PHONY: image
+image:
+	docker build -t $(IMAGE) .
+
+.PHONY: test
+test: image
+	docker run -it --rm -v $(HOME)/.ssh:/home/$(USER)/.ssh $(IMAGE) ansible-playbook provision.yml
 
 $(ANSIBLE):
 	sudo apt-get update
