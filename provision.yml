@@ -23,6 +23,9 @@
     - role: kubernetes
       tags: [kubernetes]
       become: yes
+    - role: golang
+      tags: [golang]
+      become: yes
 
   post_tasks:
     - name: Add {{ username }} to docker group
