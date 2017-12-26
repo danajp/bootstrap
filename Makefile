@@ -11,6 +11,10 @@ provision: $(ANSIBLE) $(SSH_KEY)
 packages: $(ANSIBLE)
 	ansible-playbook -K provision.yml --tags packages
 
+.PHONY: tags
+tags:
+	ansible-playbook -K provision.yml --tags $(TAGS)
+
 .PHONY: image
 image:
 	docker build -t $(IMAGE) .
