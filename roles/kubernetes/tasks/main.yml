@@ -77,3 +77,11 @@
   file:
     path: /tmp/helm
     state: absent
+
+- name: Install stern
+  get_url:
+    url: "https://github.com/wercker/stern/releases/download/1.6.0/stern_linux_amd64"
+    dest: /usr/local/bin/stern
+    owner: root
+    group: root
+    mode: 0755
