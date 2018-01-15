@@ -1,0 +1,7 @@
+rbenv:
+  install_versions:
+    - 2.2.4
+    - 2.3.1
+    - 2.4.2
+    - 2.4.3
+  global_version: 2.4.3
