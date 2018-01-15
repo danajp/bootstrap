@@ -21,4 +21,4 @@ To just install packages using the playbook:
 
 Or just run the playbook and filter by tags:
 
-`ansible-playbook -K provision.yml --tags ruby`
+`make tags TAGS=ruby`
