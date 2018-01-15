@@ -17,15 +17,15 @@
     - role: vpn
       tags: [vpn]
       become: yes
-    - role: user
-    - role: work
-      tags: [work]
     - role: kubernetes
       tags: [kubernetes]
       become: yes
     - role: golang
       tags: [golang]
       become: yes
+    - role: user
+    - role: work
+      tags: [work]
 
   post_tasks:
     - name: Add {{ username }} to docker group
