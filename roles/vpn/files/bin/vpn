@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-CONFIG_DIR="${HOME}/Documents/vpn"
+CONFIG_DIR="${HOME}/secrets/vpn"
 OPENVPN="/usr/sbin/openvpn"
 
 function info() {
