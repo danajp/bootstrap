@@ -75,7 +75,7 @@
 
 - name: Add apt keys for spotify
   tags: [packages, desktop, spotify]
-  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=BBEBDCB318AD50EC6865090613B00F1FD2C19886
+  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=0DF731E45CE24F27EEEB1450EFDC8610341D9410
 
 - name: Add apt repository for spotify
   tags: [packages, desktop, spotify]
