@@ -49,6 +49,7 @@
     - zlib1g-dev
     - libsqlite3-dev
     - cmake
+    - libgmp-dev
 
 - name: Install desktop packages
   tags: [packages, desktop]
