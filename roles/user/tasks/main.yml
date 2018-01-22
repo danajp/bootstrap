@@ -48,7 +48,7 @@
   tags: [ruby, rbenv]
   shell: |
     . ~/.bashrc
-    rbenv install {{ item }}
+    CC=/usr/bin/gcc-6 rbenv install {{ item }}
   args:
     executable: /bin/bash
     creates: "~/.rbenv/versions/{{ item }}"

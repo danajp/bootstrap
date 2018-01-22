@@ -50,6 +50,8 @@
     - libsqlite3-dev
     - cmake
     - libgmp-dev
+    # needed to compile ruby 2.3.x
+    - gcc-6
 
 - name: Install desktop packages
   tags: [packages, desktop]
