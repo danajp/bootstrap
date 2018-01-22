@@ -156,3 +156,8 @@
 - name: Install aws-vault
   tags: [aws]
   get_url: url=https://github.com/99designs/aws-vault/releases/download/v4.1.0/aws-vault-linux-amd64 dest=/usr/local/bin/aws-vault owner=root group=root mode=0755
+
+- name: Install vagrant
+  tags: [vagrant]
+  apt:
+    deb: https://releases.hashicorp.com/vagrant/2.0.1/vagrant_2.0.1_x86_64.deb
