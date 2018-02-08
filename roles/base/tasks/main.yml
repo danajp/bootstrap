@@ -39,6 +39,7 @@
     - gnutls-bin
     - xclip
     - ldap-utils
+    - moreutils
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
