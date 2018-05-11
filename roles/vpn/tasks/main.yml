@@ -4,7 +4,7 @@
   apt: name=openvpn state=latest
 
 - name: Install dnsmasq config
-  copy: src=dnsmasq.d/ dest=/etc/dnsmasq.d/ owner=root group=root
+  copy: src=dnsmasq.d/ dest=/etc/NetworkManager/dnsmasq.d/ owner=root group=root
 
 - name: Disable systemd-resolved systemd unit
   systemd:
@@ -12,11 +12,10 @@
     state: stopped
     enabled: no
 
-- name: Enable dnsmasq systemd unit
+- name: Reload network-manager systemd unit
   systemd:
-    name: dnsmasq
-    state: restarted
-    enabled: yes
+    name: network-manager
+    state: reloaded
 
 - name: Installer sudoers config
   copy: src=sudoers.d/ dest=/etc/sudoers.d/ owner=root group=root mode=0440 validate="visudo -cf %s"
