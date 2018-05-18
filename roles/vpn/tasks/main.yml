@@ -12,6 +12,13 @@
     state: stopped
     enabled: no
 
+- name: Link to NetworkManager resolv.conf
+  file:
+    state: link
+    src: /var/run/NetworkManager/resolv.conf
+    dest: /etc/resolv.conf
+    force: yes
+
 - name: Reload network-manager systemd unit
   systemd:
     name: network-manager
