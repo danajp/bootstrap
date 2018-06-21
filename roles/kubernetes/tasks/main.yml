@@ -85,3 +85,27 @@
     owner: root
     group: root
     mode: 0755
+
+- name: Add telepresence key
+  tags: [telepresence]
+  apt_key:
+    url: https://packagecloud.io/datawireio/telepresence/gpgkey
+    state: present
+
+- name: Add telepresence apt repo
+  tags: [telepresence]
+  apt_repository:
+    repo: deb https://packagecloud.io/datawireio/telepresence/ubuntu/ artful main
+    filename: telepresence
+
+- name: Add telepresence apt repo
+  tags: [telepresence]
+  apt_repository:
+    repo: deb-src https://packagecloud.io/datawireio/telepresence/ubuntu/ artful main
+    filename: telepresence
+    update_cache: yes
+
+- name: Install telepresence
+  tags: [telepresence]
+  apt:
+    name: telepresence
