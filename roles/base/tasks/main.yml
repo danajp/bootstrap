@@ -70,9 +70,23 @@
   tags: [packages, powerline]
   copy: src=11-powerline-symbols-terminus.conf dest=/etc/fonts/conf.d/ owner=root group=root mode=0644
 
-- name: Install chrome
-  tags: [packages, desktop]
-  apt: deb="https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" state=present
+- name: Add apt keys for google chrome
+  tags: [packages, desktop, chrome]
+  apt_key:
+    url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+
+- name: Add apt repository for google chrome
+  tags: [packages, desktop, chrome]
+  apt_repository:
+    repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
+    state: present
+    update_cache: yes
+
+- name: Install google chrome
+  tags: [packages, desktop, chrome]
+  apt:
+    pkg: google-chrome-stable
+    state: present
 
 - name: Install slack client
   tags: [packages, desktop, slack]
