@@ -16,18 +16,21 @@
     force: true
 
 - name: Get latest minikube version
+  tags: [minikube]
   uri:
     url: https://api.github.com/repos/kubernetes/minikube/releases/latest
     return_content: yes
   register: minikube_latest_release
 
 - name: Set minikube url
+  tags: [minikube]
   set_fact:
     minikube_url: "{{ minikube_latest_release.content | from_json | json_query(query) | first }}"
   vars:
     query: "assets[?name=='minikube-linux-amd64'].browser_download_url"
 
 - name: Install minikube
+  tags: [minikube]
   get_url:
     url: "{{ minikube_url }}"
     dest: /usr/local/bin/minikube
