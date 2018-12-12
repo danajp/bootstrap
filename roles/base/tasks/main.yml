@@ -3,74 +3,71 @@
 - name: Install basic packages
   tags: [packages]
   apt:
-    name: "{{ item }}"
+    name:
+      - emacs
+      - git
+      - jq
+      - gnupg
+      - tmux
+      - python-virtualenv
+      - virtualenvwrapper
+      - python-dev
+      - openssh-server
+      - openvpn
+      - laptop-mode-tools
+      - apt-transport-https
+      - ca-certificates
+      - postgresql-client
+      - libpq-dev
+      - awscli
+      - redis-tools
+      # for ansible aws
+      - python-pip
+      - python-boto
+      - virtualbox
+      - powertop
+      - powerline
+      - youtube-dl
+      - phantomjs
+      - nodejs
+      - wine-stable
+      - shellcheck
+      - default-jre
+      - sloccount
+      - htop
+      - traceroute
+      - gnutls-bin
+      - xclip
+      - ldap-utils
+      - moreutils
+      - graphviz
     state: latest
-  with_items:
-    - emacs
-    - git
-    - jq
-    - gnupg
-    - tmux
-    - python-virtualenv
-    - virtualenvwrapper
-    - python-dev
-    - openssh-server
-    - openvpn
-    - laptop-mode-tools
-    - apt-transport-https
-    - ca-certificates
-    - postgresql-client
-    - libpq-dev
-    - awscli
-    - redis-tools
-    # for ansible aws
-    - python-pip
-    - python-boto
-    - virtualbox
-    - powertop
-    - powerline
-    - youtube-dl
-    - phantomjs
-    - nodejs
-    - wine-stable
-    - shellcheck
-    - default-jre
-    - sloccount
-    - htop
-    - traceroute
-    - gnutls-bin
-    - xclip
-    - ldap-utils
-    - moreutils
-    - graphviz
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
   apt:
-    name: "{{ item }}"
+    name:
+      - libssl-dev
+      - libreadline-dev
+      - zlib1g-dev
+      - libsqlite3-dev
+      - cmake
+      - libgmp-dev
+      # needed to compile ruby 2.3.x
+      - gcc-6
     state: latest
-  with_items:
-    - libssl-dev
-    - libreadline-dev
-    - zlib1g-dev
-    - libsqlite3-dev
-    - cmake
-    - libgmp-dev
-    # needed to compile ruby 2.3.x
-    - gcc-6
 
 - name: Install desktop packages
   tags: [packages, desktop]
   apt:
-    name: "{{ item }}"
+    name:
+      - i3
+      - pasystray
+      - rxvt-unicode
+      - xfonts-terminus
+      - arandr
+      - gimp
     state: latest
-  with_items:
-    - i3
-    - pasystray
-    - rxvt-unicode
-    - xfonts-terminus
-    - arandr
-    - gimp
 
 - name: Add powerline symbols to terminus font
   tags: [packages, powerline]
@@ -270,6 +267,7 @@
   tags: [vagrant]
   apt:
     deb: https://releases.hashicorp.com/vagrant/2.2.2/vagrant_2.2.2_x86_64.deb
+    validate_certs: no
 
 - name: Get yj download url
   tags: [yj]
