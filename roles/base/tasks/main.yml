@@ -136,6 +136,24 @@
     group: root
     mode: 0755
 
+- name: Add apt keys for gcloud
+  tags: [packages, gcloud]
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+- name: Add apt repository for gcloud
+  tags: [packages, gcloud]
+  apt_repository:
+    repo: deb http://packages.cloud.google.com/apt cloud-sdk-artful main
+    state: present
+    update_cache: yes
+
+- name: Install gcloud
+  tags: [packages, gcloud]
+  apt:
+    pkg: google-cloud-sdk
+    state: present
+
 - name: Add sudoers files
   tags: [sudoers]
   copy: src=sudoers.d/ dest=/etc/sudoers.d/ owner=root group=root mode=0440 validate="visudo -cf %s"
