@@ -2,7 +2,9 @@
 
 - name: Install basic packages
   tags: [packages]
-  apt: name="{{ item }}" state=latest
+  apt:
+    name: "{{ item }}"
+    state: latest
   with_items:
     - emacs
     - git
@@ -44,7 +46,9 @@
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
-  apt: name="{{ item }}" state=latest
+  apt:
+    name: "{{ item }}"
+    state: latest
   with_items:
     - libssl-dev
     - libreadline-dev
@@ -57,7 +61,9 @@
 
 - name: Install desktop packages
   tags: [packages, desktop]
-  apt: name="{{ item }}" state=latest
+  apt:
+    name: "{{ item }}"
+    state: latest
   with_items:
     - i3
     - pasystray
@@ -68,7 +74,12 @@
 
 - name: Add powerline symbols to terminus font
   tags: [packages, powerline]
-  copy: src=11-powerline-symbols-terminus.conf dest=/etc/fonts/conf.d/ owner=root group=root mode=0644
+  copy:
+    src: 11-powerline-symbols-terminus.conf
+    dest: /etc/fonts/conf.d/
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Add apt keys for google chrome
   tags: [packages, desktop, chrome]
@@ -90,19 +101,28 @@
 
 - name: Install slack client
   tags: [packages, desktop, slack]
-  apt: deb="https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack.version }}-amd64.deb" state=present
+  apt:
+    deb: "https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack.version }}-amd64.deb"
+    state: present
 
 - name: Add apt keys for spotify
   tags: [packages, desktop, spotify]
-  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=0DF731E45CE24F27EEEB1450EFDC8610341D9410
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 0DF731E45CE24F27EEEB1450EFDC8610341D9410
 
 - name: Add apt repository for spotify
   tags: [packages, desktop, spotify]
-  apt_repository: repo='deb http://repository.spotify.com stable non-free' state=present update_cache=yes
+  apt_repository:
+    repo: 'deb http://repository.spotify.com stable non-free'
+    state: present
+    update_cache: yes
 
 - name: Install spotify
   tags: [packages, desktop, spotify]
-  apt: pkg=spotify-client state=present
+  apt:
+    pkg: spotify-client
+    state: present
 
 - name: Add apt keys for docker
   tags: [packages, docker]
@@ -125,7 +145,12 @@
 
 - name: Install docker-compose
   tags: [packages, docker]
-  get_url: url=https://github.com/docker/compose/releases/download/{{ docker_compose.version }}/docker-compose-Linux-x86_64  dest=/usr/local/bin/docker-compose owner=root group=root mode=0755
+  get_url:
+    url: "https://github.com/docker/compose/releases/download/{{ docker_compose.version }}/docker-compose-Linux-x86_64"
+    dest: /usr/local/bin/docker-compose
+    owner: root
+    group: root
+    mode: 0755
 
 - name: Install container-structure-test
   tags: [packages, docker, container-structure-test]
@@ -156,11 +181,23 @@
 
 - name: Add sudoers files
   tags: [sudoers]
-  copy: src=sudoers.d/ dest=/etc/sudoers.d/ owner=root group=root mode=0440 validate="visudo -cf %s"
+  copy:
+    src: sudoers.d/
+    dest: /etc/sudoers.d/
+    owner: root
+    group: root
+    mode: 0440
+    validate: "visudo -cf %s"
 
 - name: Modify nsswitch.conf
   tags: [nsswitch]
-  copy: src=nsswitch.conf dest=/etc/ owner=root group=root mode=0644 backup=yes
+  copy:
+    src: nsswitch.conf
+    dest: /etc/
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
 
 - name: Install heroku toolbelt
   tags: [heroku]
@@ -168,17 +205,22 @@
 
 - name: Check if hub is installed
   tags: [hub]
-  stat: path=/usr/local/bin/hub
+  stat:
+    path: /usr/local/bin/hub
   register: hub_installed
 
 - name: Create hub install dir
   tags: [hub]
-  file: path=/tmp/hub state=directory
+  file:
+    path: /tmp/hub
+    state: directory
   when: hub_installed.stat.exists == false
 
 - name: Download hub
   tags: [hub]
-  get_url: url="https://github.com/github/hub/releases/download/v{{ hub.version }}/hub-linux-amd64-{{ hub.version }}.tgz" dest=/tmp/hub
+  get_url:
+    url: "https://github.com/github/hub/releases/download/v{{ hub.version }}/hub-linux-amd64-{{ hub.version }}.tgz"
+    dest: /tmp/hub
   when: hub_installed.stat.exists == false
 
 - name: Install hub
@@ -192,16 +234,28 @@
 
 - name: Remove hub installation files
   tags: [hub]
-  file: path=/tmp/hub state=absent
+  file:
+    path: /tmp/hub
+    state: absent
   when: hub_installed.stat.exists == false
 
 - name: Install Slackcat
   tags: [slackcat]
-  get_url: url="https://github.com/vektorlab/slackcat/releases/download/v{{ slackcat.version }}/slackcat-{{ slackcat.version }}-linux-amd64" dest=/usr/local/bin/slackcat owner=root group=root mode=0755
+  get_url:
+    url: "https://github.com/bcicen/slackcat/releases/download/v{{ slackcat.version }}/slackcat-{{ slackcat.version }}-linux-amd64"
+    dest: /usr/local/bin/slackcat
+    owner: root
+    group: root
+    mode: 0755
 
 - name: Install lein
   tags: [clojure]
-  get_url: url=https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein dest=/usr/local/bin/lein owner=root group=root mode=0755
+  get_url:
+    url: https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+    dest: /usr/local/bin/lein
+    owner: root
+    group: root
+    mode: 0755
 
 - name: Install aws-vault
   tags: [aws]
