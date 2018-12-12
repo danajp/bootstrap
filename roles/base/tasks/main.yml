@@ -127,6 +127,15 @@
   tags: [packages, docker]
   get_url: url=https://github.com/docker/compose/releases/download/{{ docker_compose.version }}/docker-compose-Linux-x86_64  dest=/usr/local/bin/docker-compose owner=root group=root mode=0755
 
+- name: Install container-structure-test
+  tags: [packages, docker, container-structure-test]
+  get_url:
+    url: https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64
+    dest: /usr/local/bin/container-structure-test
+    owner: root
+    group: root
+    mode: 0755
+
 - name: Add sudoers files
   tags: [sudoers]
   copy: src=sudoers.d/ dest=/etc/sudoers.d/ owner=root group=root mode=0440 validate="visudo -cf %s"
