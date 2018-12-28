@@ -1,0 +1,12 @@
+---
+
+- name: Install Pack CLI
+  unarchive:
+    src: https://github.com/buildpack/pack/releases/download/v{{ buildpacks.pack.version }}/pack-{{ buildpacks.pack.version }}-linux.tar.gz
+    remote_src: yes
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: 0755
+    extra_opts:
+      - ./pack

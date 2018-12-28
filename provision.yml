@@ -23,6 +23,9 @@
     - role: golang
       tags: [golang]
       become: yes
+    - role: buildpacks
+      tags: [buildpacks]
+      become: yes
     - role: user
     - role: work
       tags: [work]
