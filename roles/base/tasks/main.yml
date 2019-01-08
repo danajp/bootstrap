@@ -98,17 +98,17 @@
     pkg: google-chrome-stable
     state: present
 
-- name: Install slack client
-  tags: [packages, desktop, slack]
-  apt:
-    deb: "https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack.version }}-amd64.deb"
-    state: present
+#- name: Install slack client
+#  tags: [packages, desktop, slack]
+#  apt:
+#    deb: "https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack.version }}-amd64.deb"
+#    state: present
 
 - name: Add apt keys for spotify
   tags: [packages, desktop, spotify]
   apt_key:
     keyserver: hkp://keyserver.ubuntu.com:80
-    id: 0DF731E45CE24F27EEEB1450EFDC8610341D9410
+    id: 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
 
 - name: Add apt repository for spotify
   tags: [packages, desktop, spotify]
