@@ -167,7 +167,7 @@
 - name: Add apt repository for gcloud
   tags: [packages, gcloud]
   apt_repository:
-    repo: deb http://packages.cloud.google.com/apt cloud-sdk-artful main
+    repo: deb http://packages.cloud.google.com/apt cloud-sdk-{{ ubuntu.release }} main
     state: present
     update_cache: yes
 
