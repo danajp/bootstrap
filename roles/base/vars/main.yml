@@ -2,6 +2,7 @@
 
 docker_engine:
   version: 17*
+  ubuntu_release: bionic
 
 docker_compose:
   version: 1.13.0

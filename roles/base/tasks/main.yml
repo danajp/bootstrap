@@ -126,13 +126,12 @@
 - name: Add apt keys for docker
   tags: [packages, docker]
   apt_key:
-    keyserver: hkp://ha.pool.sks-keyservers.net:80
-    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    url: https://download.docker.com/linux/ubuntu/gpg
 
 - name: Add apt repository for docker
   tags: [packages, docker]
   apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu artful stable
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ docker.ubuntu_release }} stable"
     state: present
     update_cache: yes
 
