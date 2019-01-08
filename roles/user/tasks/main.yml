@@ -1,7 +1,11 @@
 ---
 
 - name: Get dotfiles
-  git: repo=git@github.com:danajp/dotfiles.git dest=~/src/dotfiles accept_hostkey=yes update=no
+  git:
+    repo: git@github.com:danajp/dotfiles.git
+    dest: ~/src/dotfiles
+    accept_hostkey: yes
+    update: yes
 
 - name: Install dotfiles
   command: make clean install
@@ -15,34 +19,51 @@
 
 - name: Get dotemacs
   tags: [emacs]
-  git: repo=git@github.com:danajp/dotemacs.git dest=~/src/dotemacs accept_hostkey=yes update=no
+  git:
+    repo: git@github.com:danajp/dotemacs.git
+    dest: ~/src/dotemacs
+    accept_hostkey: yes
+    update: no
 
 - name: Link emacs config
   tags: [emacs]
-  file: src=~/src/dotemacs dest=~/.emacs.d state=link force=yes
+  file:
+    src: ~/src/dotemacs
+    dest: ~/.emacs.d
+    state: link
+    force: yes
 
 - name: Get cask
-  git: repo=git@github.com:cask/cask.git dest=~/.cask accept_hostkey=yes
+  git:
+    repo: git@github.com:cask/cask.git
+    dest: ~/.cask
+    accept_hostkey: yes
 
-- name: Bootstrap cask
-  tags: [emacs]
-  command: ./bin/cask upgrade-cask
-  args:
-    chdir: ~/.cask
+#- name: Bootstrap cask
+#  tags: [emacs]
+#  command: ./bin/cask upgrade-cask
+#  args:
+#    chdir: ~/.cask
 
-- name: Install dotemacs
-  tags: [emacs]
-  shell: ~/.cask/bin/cask install
-  args:
-    chdir: ~/src/dotemacs
+#- name: Install dotemacs
+#  tags: [emacs]
+#  shell: ~/.cask/bin/cask install
+#  args:
+#    chdir: ~/src/dotemacs
 
 - name: Install rbenv
   tags: [ruby, rbenv]
-  git: repo=git@github.com:rbenv/rbenv.git dest=~/.rbenv accept_hostkey=yes
+  git:
+    repo: git@github.com:rbenv/rbenv.git
+    dest: ~/.rbenv
+    accept_hostkey: yes
 
 - name: Install rbenv ruby-build
   tags: [ruby, rbenv]
-  git: repo=git@github.com:rbenv/ruby-build.git dest=~/.rbenv/plugins/ruby-build accept_hostkey=yes
+  git:
+    repo: git@github.com:rbenv/ruby-build.git
+    dest: ~/.rbenv/plugins/ruby-build
+    accept_hostkey: yes
 
 - name: Install ruby version
   tags: [ruby, rbenv]
