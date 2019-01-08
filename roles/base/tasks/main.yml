@@ -41,6 +41,7 @@
       - ldap-utils
       - moreutils
       - graphviz
+      - curl
     state: latest
 
 - name: Install ruby build dependencies
