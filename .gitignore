@@ -1,1 +1,4 @@
 roles/work/
+secrets.tar.gz
+.vagrant/
+provision.retry
