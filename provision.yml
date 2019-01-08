@@ -1,36 +1,63 @@
 ---
 
 - name: Provision a workstation
-  hosts: localhost
+  hosts: all, localhost
 
   vars:
-    username: dana
+    user:
+      name: dana
+      group: dana
+      secrets:
+        tarball: "{{ secrets_tarball | default(None) }}"
+    ubuntu:
+      release: cosmic
 
   pre_tasks:
     - name: Update OS packages
-      apt: upgrade=dist update_cache=yes
+      apt:
+        upgrade: dist
+        update_cache: yes
+      become: yes
+    - name: Create user
+      user:
+        name: "{{ user.name }}"
+        groups: sudo
+        append: yes
       become: yes
 
   roles:
     - role: base
+      tags: [base]
       become: yes
     - role: vpn
       tags: [vpn]
       become: yes
+
+
     - role: kubernetes
       tags: [kubernetes]
       become: yes
+
     - role: golang
       tags: [golang]
       become: yes
+
     - role: buildpacks
       tags: [buildpacks]
       become: yes
+
     - role: user
-    - role: work
-      tags: [work]
+      tags: [user]
+      become: yes
+      become_user: "{{ user.name }}"
+
+#    - role: work
+#      tags: [work]
 
   post_tasks:
-    - name: Add {{ username }} to docker group
-      user: name="{{ username }}" groups=docker append=yes
+    - name: Add {{ user.name }} to docker group
+      user:
+        name: "{{ user.name }}"
+        groups: docker
+        append: yes
       become: yes
