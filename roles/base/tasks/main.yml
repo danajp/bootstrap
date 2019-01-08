@@ -42,6 +42,7 @@
       - moreutils
       - graphviz
       - curl
+      - libssl-dev # required for older version of ruby
     state: latest
 
 - name: Install ruby build dependencies
