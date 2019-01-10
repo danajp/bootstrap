@@ -138,17 +138,17 @@
 - name: Install docker
   tags: [packages, docker]
   apt:
-    pkg: docker-ce=18*
+    pkg: docker-ce
     state: present
 
-- name: Install docker-compose
-  tags: [packages, docker]
-  get_url:
-    url: "https://github.com/docker/compose/releases/download/{{ docker_compose.version }}/docker-compose-Linux-x86_64"
-    dest: /usr/local/bin/docker-compose
-    owner: root
-    group: root
-    mode: 0755
+#- name: Install docker-compose
+#  tags: [packages, docker]
+#  get_url:
+#    url: "https://github.com/docker/compose/releases/download/{{ docker_compose.version }}/docker-compose-Linux-x86_64"
+#    dest: /usr/local/bin/docker-compose
+#    owner: root
+#    group: root
+#    mode: 0755
 
 - name: Install container-structure-test
   tags: [packages, docker, container-structure-test]
