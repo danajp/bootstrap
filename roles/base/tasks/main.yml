@@ -131,7 +131,7 @@
 - name: Add apt repository for docker
   tags: [packages, docker]
   apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ docker.ubuntu_release }} stable"
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ docker_engine.ubuntu_release }} stable"
     state: present
     update_cache: yes
 
