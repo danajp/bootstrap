@@ -28,4 +28,24 @@ $(ANSIBLE):
 	DEBIAN_FRONTEND=noninteractive sudo apt-get install -y ansible
 
 $(SSH_KEY):
-	$(error No ssh key found at $(SSH_KEY), you're gonna need this to clone git repos)
+	$(error No ssh key found at $(SSH_KEY), you\'re gonna need this to clone git repos)
+
+.PHONY: backup
+backup:
+	tar -czpf "$(TARGET)" -C "$(HOME)" \
+		--exclude "VirtualBox VMs" \
+		--exclude "Dropbox (Greenhouse)" \
+		--exclude .cache \
+		--exclude .cask \
+		--exclude .dbus \
+		--exclude .dropbox \
+		--exclude .dropbox-dist \
+		--exclude .local/share/Trash \
+		--exclude .minikube \
+		--exclude .rbenv \
+		--exclude .vagrant.d \
+		--exclude .wine \
+		--exclude secrets \
+		--exclude old-home.tar.gz \
+		.
+	sha1sum "$(TARGET)" > "$(TARGET).sha1"
