@@ -43,6 +43,7 @@
       - graphviz
       - curl
       - libssl-dev # required for older version of ruby
+      - gconf2
     state: latest
 
 - name: Install ruby build dependencies
