@@ -2,6 +2,7 @@
 
 - name: Provision a workstation
   hosts: all, localhost
+  gather_facts: no
 
   vars:
     user:
