@@ -54,24 +54,6 @@
     state: link
     force: yes
 
-- name: Get cask
-  git:
-    repo: git@github.com:cask/cask.git
-    dest: ~/.cask
-    accept_hostkey: yes
-
-#- name: Bootstrap cask
-#  tags: [emacs]
-#  command: ./bin/cask upgrade-cask
-#  args:
-#    chdir: ~/.cask
-
-#- name: Install dotemacs
-#  tags: [emacs]
-#  shell: ~/.cask/bin/cask install
-#  args:
-#    chdir: ~/src/dotemacs
-
 - name: Install rbenv
   tags: [ruby, rbenv]
   git:
