@@ -4,7 +4,7 @@ This bootstraps a fresh Ubuntu install for me.
 
 ## Assumptions
 
-- Ubuntu (only tested on 16.10)
+- Ubuntu (only tested on 18.10)
 - Your username is `dana`
 - You have an ssh key that your github account knows about
 - `dana` is in the `sudo` group which allows him to do anything
