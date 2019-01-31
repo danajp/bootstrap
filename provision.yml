@@ -31,9 +31,9 @@
       tags: [base]
       become: yes
 
-#    - role: vpn
-#      tags: [vpn]
-#      become: yes
+    - role: vpn
+      tags: [vpn]
+      become: yes
 
     - role: kubernetes
       tags: [kubernetes]
