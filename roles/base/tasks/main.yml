@@ -71,6 +71,7 @@
       - xfonts-terminus
       - arandr
       - gimp
+      - maim
     state: latest
 
 - name: Add powerline symbols to terminus font
