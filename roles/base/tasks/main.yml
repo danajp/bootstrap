@@ -72,6 +72,7 @@
       - arandr
       - gimp
       - maim
+      - xautolock
     state: latest
 
 - name: Add powerline symbols to terminus font
