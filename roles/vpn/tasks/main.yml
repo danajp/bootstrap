@@ -27,12 +27,12 @@
     name: dnsmasq
     state: restarted
 
-- name: Link to stub resolv.conf
-  file:
-    state: link
-    src: /run/systemd/resolve/stub-resolv.conf
-    dest: /etc/resolv.conf
-    force: yes
+- name: Stop network-manager mucking with dns
+  replace:
+    path: /etc/NetworkManager/NetworkManager.conf
+    regexp: '(dns=)(.+)$'
+    replace: '\1none'
+    backup: yes
 
 - name: Reload network-manager systemd unit
   systemd:
