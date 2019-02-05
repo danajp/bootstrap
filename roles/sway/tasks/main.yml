@@ -1,0 +1,12 @@
+- name: Add PPA key (why is this necessary?)
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 17241B4493599B23067EB760CD42F3B2E1285F2F
+
+- name: Add PPA for sway
+  apt_repository:
+    repo: deb http://ppa.launchpad.net/s.noack/ppa/ubuntu bionic main
+
+- name: Install sway
+  apt:
+    name: sway

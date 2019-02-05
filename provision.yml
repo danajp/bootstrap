@@ -31,6 +31,10 @@
       tags: [base]
       become: yes
 
+    - role: sway
+      tags: [sway]
+      become: yes
+
     - role: vpn
       tags: [vpn]
       become: yes
