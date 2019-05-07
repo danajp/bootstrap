@@ -3,5 +3,5 @@
 - name: Install golang
   unarchive:
     remote_src: yes
-    src: https://storage.googleapis.com/golang/go1.11.2.linux-amd64.tar.gz
+    src: https://storage.googleapis.com/golang/go1.12.1.linux-amd64.tar.gz
     dest: /usr/local
