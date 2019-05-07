@@ -15,3 +15,6 @@ slack:
 
 slackcat:
   version: 1.5
+
+aws_vault:
+  version: 4.5.1

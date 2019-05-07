@@ -271,7 +271,7 @@
 - name: Install aws-vault
   tags: [aws]
   get_url:
-    url: https://github.com/99designs/aws-vault/releases/download/v4.2.1/aws-vault-linux-amd64
+    url: "https://github.com/99designs/aws-vault/releases/download/v{{ aws_vault.version }}/aws-vault-linux-amd64"
     dest: /usr/local/bin/aws-vault
     owner: root
     group: root
