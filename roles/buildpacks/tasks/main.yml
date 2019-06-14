@@ -1,12 +1,37 @@
 ---
+- name: Download Pack CLI tarball
+  get_url:
+    url: https://github.com/buildpack/pack/releases/download/v{{ buildpacks.pack.version }}/pack-v{{ buildpacks.pack.version }}-linux.tgz
+    dest: /tmp/pack-cli.tar.gz
 
 - name: Install Pack CLI
   unarchive:
-    src: https://github.com/buildpack/pack/releases/download/v{{ buildpacks.pack.version }}/pack-{{ buildpacks.pack.version }}-linux.tar.gz
+    src: /tmp/pack-cli.tar.gz
     remote_src: yes
+    list_files: yes
     dest: /usr/local/bin
     owner: root
     group: root
     mode: 0755
     extra_opts:
       - ./pack
+
+- name: Remove Pack CLI tarball
+  file:
+    path: /tmp/pack-cli.tar.gz
+    state: absent
+
+- name: Clone Bats Repo
+  git:
+    repo: https://github.com/bats-core/bats-core.git
+    dest: /tmp/bats
+
+- name: Install Bats
+  command: ./install.sh /usr/local
+  args:
+    chdir: /tmp/bats
+
+- name: Remove Bats Repo
+  file:
+    path: /tmp/bats
+    state: absent
