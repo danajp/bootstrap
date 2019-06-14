@@ -97,6 +97,12 @@
     group: root
     mode: 0644
 
+- name: Install Alacritty
+  tags: [packages, desktop, alacritty]
+  apt:
+    deb: https://github.com/jwilm/alacritty/releases/download/v0.2.9/Alacritty-v0.2.9_amd64.deb
+    state: present
+
 - name: Add apt keys for google chrome
   tags: [packages, desktop, chrome]
   apt_key:
