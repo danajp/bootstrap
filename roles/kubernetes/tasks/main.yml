@@ -92,3 +92,11 @@
     owner: root
     group: root
     mode: 0755
+
+- name: Install argo cli
+  get_url:
+    url: https://github.com/argoproj/argo/releases/download/v2.3.0/argo-linux-amd64
+    dest: /usr/local/bin/argo
+    owner: root
+    group: root
+    mode: 0755
