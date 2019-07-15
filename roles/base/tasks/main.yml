@@ -117,6 +117,21 @@
   apt_key:
     url: https://dl-ssl.google.com/linux/linux_signing_key.pub
 
+- name: Add apt repository for firefox
+  # No longer getting updates because this isn't an LTS of ubuntu, so
+  # get security updates from upstream PPA
+  tags: [packages, desktop, firefox]
+  apt_repository:
+    repo: ppa:ubuntu-mozilla-security/ppa
+    state: present
+    update_cache: yes
+
+- name: Install firefox
+  tags: [packages, desktop, firefox]
+  apt:
+    pkg: firefox
+    state: present
+
 - name: Add apt repository for google chrome
   tags: [packages, desktop, chrome]
   apt_repository:
