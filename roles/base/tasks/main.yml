@@ -331,3 +331,13 @@
     owner: root
     group: root
     mode: 0755
+
+- name: Install terraform cli
+  tags: [terraform]
+  unarchive:
+    src: "https://releases.hashicorp.com/terraform/{{item.version}}/terraform_{{terraform.version}}_linux_amd64.zip"
+    dest: "/usr/local/bin/terraform"
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755
