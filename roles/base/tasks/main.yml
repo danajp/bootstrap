@@ -99,7 +99,7 @@
 - name: Install Alacritty
   tags: [packages, desktop, alacritty]
   apt:
-    deb: https://github.com/jwilm/alacritty/releases/download/v0.2.9/Alacritty-v0.2.9_amd64.deb
+    deb: https://github.com/jwilm/alacritty/releases/download/v0.3.3/Alacritty-v0.3.3-ubuntu_18_04_amd64.deb
     state: present
 
 - name: Install jq
