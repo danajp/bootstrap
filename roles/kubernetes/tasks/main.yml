@@ -86,8 +86,9 @@
     helm plugin install https://github.com/databus23/helm-diff --version master
 
 - name: Install stern
+  tags: [stern]
   get_url:
-    url: "https://github.com/wercker/stern/releases/download/1.6.0/stern_linux_amd64"
+    url: "https://github.com/wercker/stern/releases/download/1.11.0/stern_linux_amd64"
     dest: /usr/local/bin/stern
     owner: root
     group: root
