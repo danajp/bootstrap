@@ -335,8 +335,8 @@
 - name: Install terraform cli
   tags: [terraform]
   unarchive:
-    src: "https://releases.hashicorp.com/terraform/{{item.version}}/terraform_{{terraform.version}}_linux_amd64.zip"
-    dest: "/usr/local/bin/terraform"
+    src: "https://releases.hashicorp.com/terraform/{{terraform.version}}/terraform_{{terraform.version}}_linux_amd64.zip"
+    dest: "/usr/local/bin"
     remote_src: yes
     owner: root
     group: root
