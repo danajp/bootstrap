@@ -341,3 +341,14 @@
     owner: root
     group: root
     mode: 0755
+
+- name: install DuoConnect
+  tags: [duo]
+  unarchive:
+    src: https://dl.duosecurity.com/DuoConnect-latest.tar.gz
+    remote_src: yes
+    dest: /usr/local/bin
+    owner: root
+    group: root
+    mode: 0755
+    exclude: install.sh
