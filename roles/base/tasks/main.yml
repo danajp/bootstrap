@@ -4,7 +4,6 @@
   tags: [packages]
   apt:
     name:
-      - emacs
       - git
       - gnupg
       - tmux
@@ -45,6 +44,19 @@
       - libssl1.0-dev # required to build older versions of ruby
       - gconf2
     state: latest
+
+- name: Add emacs PPA
+  tags: [emacs, packages]
+  apt_repository:
+    repo: ppa:kelleyk/emacs
+    state: present
+    update_cache: yes
+
+- name: Install emacs
+  tags: [emacs, packages]
+  apt:
+    name:
+      - emacs26
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
