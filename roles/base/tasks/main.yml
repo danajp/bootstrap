@@ -344,15 +344,51 @@
     group: root
     mode: 0755
 
-- name: Install terraform cli
+- name: Create terraform download dirs
+  tags: [terraform]
+  file:
+    state: directory
+    dest: "/tmp/terraform/{{item}}"
+  with_items: "{{terraform.versions}}"
+
+- name: Download terraform cli
   tags: [terraform]
   unarchive:
-    src: "https://releases.hashicorp.com/terraform/{{terraform.version}}/terraform_{{terraform.version}}_linux_amd64.zip"
-    dest: "/usr/local/bin"
+    src: "https://releases.hashicorp.com/terraform/{{item}}/terraform_{{item}}_linux_amd64.zip"
+    dest: "/tmp/terraform/{{item}}"
     remote_src: yes
     owner: root
     group: root
     mode: 0755
+  with_items: "{{terraform.versions}}"
+
+- name: Install terraform executables
+  tags: [terraform]
+  copy:
+    src: "/tmp/terraform/{{item}}/terraform"
+    dest: "/usr/local/bin/terraform-{{item}}"
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755
+  with_items: "{{terraform.versions}}"
+
+- name: Symlink default terraform cli
+  tags: [terraform]
+  file:
+    state: link
+    src: "/usr/local/bin/terraform-{{terraform.default_version}}"
+    dest: /usr/local/bin/terraform
+    force: yes
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Delete terraform download dirs
+  tags: [terraform]
+  file:
+    state: absent
+    dest: /tmp/terraform
 
 - name: install DuoConnect
   tags: [duo]
