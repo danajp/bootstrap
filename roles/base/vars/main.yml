@@ -21,7 +21,5 @@ aws_vault:
 
 terraform:
   versions:
-    - 0.12.6
-    - 0.12.7
-    - 0.12.9
-  default_version: 0.12.7
+    - 0.12.12
+  default_version: 0.12.12
