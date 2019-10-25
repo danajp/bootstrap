@@ -97,6 +97,29 @@
     executable: /bin/bash
     creates: ~/.rbenv/version
 
+- name: Install tfenv
+  tags: [terraform, tfenv]
+  git:
+    repo: https://github.com/tfutils/tfenv.git
+    dest: ~/.tfenv
+    accept_hostkey: yes
+
+- name: Install terraform versions
+  tags: [terraform, tfenv]
+  shell: |
+    . ~/.bashrc
+    tfenv install {{ item }}
+  args:
+    executable: /bin/bash
+    creates: "~/.tfenv/versions/{{ item }}/terraform"
+  with_items: "{{ tfenv.install_versions }}"
+
+- name: Set global terraform version
+  tags: [terraform, tfenv]
+  copy:
+    dest: ~/.terraform-version
+    content: "{{ tfenv.global_version }}"
+
 - name: Solarized theme for gnome-terminal
   tags: [solarized]
   shell: |
