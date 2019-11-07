@@ -8,5 +8,5 @@
 - name: Install golang
   unarchive:
     remote_src: yes
-    src: https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz
+    src: https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz
     dest: /usr/local
