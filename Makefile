@@ -37,15 +37,21 @@ backup:
 		--exclude "Dropbox (Greenhouse)" \
 		--exclude .cache \
 		--exclude .cask \
+		--exclude .dajoku-cli \
 		--exclude .dbus \
 		--exclude .dropbox \
 		--exclude .dropbox-dist \
+		--exclude .gem \
 		--exclude .local/share/Trash \
 		--exclude .minikube \
+		--exclude .pack \
+		--exclude .pyenv \
 		--exclude .rbenv \
+		--exclude .terraform-plugin-cache \
+		--exclude .tfenv \
 		--exclude .vagrant.d \
 		--exclude .wine \
-		--exclude secrets \
 		--exclude old-home.tar.gz \
+		--exclude secrets \
 		.
 	sha1sum "$(TARGET)" > "$(TARGET).sha1"
