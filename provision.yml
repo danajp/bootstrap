@@ -43,10 +43,6 @@
       tags: [golang]
       become: yes
 
-    - role: buildpacks
-      tags: [buildpacks]
-      become: yes
-
     - role: user
       tags: [user]
       become: yes
