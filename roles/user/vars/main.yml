@@ -1,14 +1,11 @@
 rbenv:
   install_versions:
-    - 2.2.4
-    - 2.3.1
-    - 2.3.7
-    - 2.4.1
-    - 2.4.2
-    - 2.4.3
-    - 2.4.4
-    - 2.4.5
-  global_version: 2.4.5
+    - 2.7.0
+    - 2.6.5
+    - 2.6.3
+    - 2.5.7
+    - 2.4.8
+  global_version: 2.6.5
 tfenv:
   install_versions:
     - 0.12.12
