@@ -39,15 +39,9 @@
     mode: 0755
     force: yes
 
-- name: Get latest helm version
-  uri:
-    url: https://api.github.com/repos/kubernetes/helm/releases/latest
-    return_content: yes
-  register: helm_latest_release
-
 - name: Set helm version
   set_fact:
-    helm_version: "{{ helm_latest_release.content | from_json | json_query('tag_name') }}"
+    helm_version: "v2.16.1"
 
 - name: Set helm url
   set_fact:
@@ -80,6 +74,12 @@
   file:
     path: /tmp/helm
     state: absent
+
+- name: Create helm plugins dir
+  tags: [helm]
+  file:
+    state: directory
+    path: ~/.helm/plugins
 
 - name: Install helm-diff plugin
   shell: |
