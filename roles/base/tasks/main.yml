@@ -104,6 +104,10 @@
     group: root
     mode: 0644
 
+- name: Rebuild font cache
+  tags: [packages, powerline]
+  shell: fc-cache
+
 - name: Install Alacritty
   tags: [packages, desktop, alacritty]
   apt:
