@@ -97,7 +97,7 @@
 - name: Install argo cli
   tags: [argo]
   get_url:
-    url: https://github.com/argoproj/argo/releases/download/v2.3.0/argo-linux-amd64
+    url: https://github.com/argoproj/argo/releases/download/v2.4.3/argo-linux-amd64
     dest: /usr/local/bin/argo
     owner: root
     group: root
