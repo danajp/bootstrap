@@ -80,6 +80,7 @@
       - gimp
       - maim
       - xautolock
+      - blueman
     state: latest
 
 - name: Disable Wayland for gdm3
