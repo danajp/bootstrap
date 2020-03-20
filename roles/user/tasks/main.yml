@@ -54,6 +54,83 @@
     state: link
     force: yes
 
+- name: Install asdf
+  tags: [asdf]
+  git:
+    repo: https://github.com/asdf-vm/asdf.git
+    dest: ~/.asdf
+    version: v0.7.7
+
+- name: Install asdf plugins
+  tags: [asdf, asdf-plugins]
+  shell: |
+    . ~/.bashrc
+    asdf plugin add {{ item.name }} {{ item.repo }}
+  args:
+    executable: /bin/bash
+    creates: "~/.asdf/plugins/{{ item.name }}"
+  with_items:
+    - name: argo
+      repo: https://github.com/sudermanjr/asdf-argo
+    - name: ruby
+      repo: https://github.com/asdf-vm/asdf-ruby
+    - name: python
+      repo: https://github.com/danhper/asdf-python
+    - name: terraform
+      repo: https://github.com/Banno/asdf-hashicorp
+    - name: kind
+      repo: https://github.com/johnlayton/asdf-kind
+    - name: kubectl
+      repo: https://github.com/Banno/asdf-kubectl
+    - name: helm
+      repo: https://github.com/Antiarchitect/asdf-helm
+    - name: golang
+      repo: https://github.com/kennyp/asdf-golang
+    - name: minikube
+      repo: https://github.com/alvarobp/asdf-minikube
+
+- name: Install asdf tool versions
+  tags: [asdf, asdf-tool-versions]
+  shell: |
+    . ~/.bashrc
+    asdf install {{ item.name }} {{ item.version }}
+  args:
+    executable: /bin/bash
+    creates: "~/.asdf/installs/{{ item.name }}/{{ item.version }}"
+  with_items:
+   - { name: argo, version: 2.4.3 }
+   - { name: golang, version: 1.13.8 }
+   - { name: helm, version: 2.16.3 }
+   - { name: helm, version: 3.1.2 }
+   - { name: kind, version: 0.7.0 }
+   - { name: kubectl, version: 1.17.4 }
+   - { name: minikube, version: 1.6.2 }
+   - { name: python, version: 3.6.0 }
+   - { name: python, version: 3.6.1 }
+   - { name: python, version: 3.7.5 }
+   - { name: ruby, version: 2.4.0 }
+   - { name: ruby, version: 2.4.1 }
+   - { name: ruby, version: 2.4.2 }
+   - { name: ruby, version: 2.4.3 }
+   - { name: ruby, version: 2.4.4 }
+   - { name: ruby, version: 2.4.5 }
+   - { name: ruby, version: 2.4.6 }
+   - { name: ruby, version: 2.5.5 }
+   - { name: ruby, version: 2.6.3 }
+   - { name: ruby, version: 2.6.4 }
+   - { name: ruby, version: 2.6.5 }
+   - { name: terraform, version: 0.12.7 }
+
+- name: Set asdf global versions to latest for each tool
+  tags: [asdf, asdf-tool-versions]
+  shell: |
+    . ~/.bashrc
+    for plugin in $(asdf plugin list | sort); do
+      asdf list "$plugin" | tail -n1 | sed "s/^ */$plugin /"
+    done > ~/.tool-versions
+  args:
+    executable: /bin/bash
+
 - name: Install rbenv
   tags: [ruby, rbenv]
   git:
