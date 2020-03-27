@@ -239,9 +239,23 @@
     mode: 0644
     backup: yes
 
-- name: Install heroku toolbelt
-  tags: [heroku]
-  shell: wget -O- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+- name: Add apt key for heroku
+  tags: [packages, heroku]
+  apt_key:
+    url: https://cli-assets.heroku.com/apt/release.key
+
+- name: Add apt repository for heroku
+  tags: [packages, heroku]
+  apt_repository:
+    repo: deb https://cli-assets.heroku.com/apt ./
+    state: present
+    update_cache: yes
+
+- name: Install heroku cli
+  tags: [packages, heroku]
+  apt:
+    pkg: heroku
+    state: present
 
 - name: Check if hub is installed
   tags: [hub]
