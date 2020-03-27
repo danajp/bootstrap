@@ -99,6 +99,7 @@
     creates: "~/.asdf/installs/{{ item.name }}/{{ item.version }}"
   with_items:
    - { name: argo, version: 2.4.3 }
+   - { name: golang, version: 1.12.7 }
    - { name: golang, version: 1.13.8 }
    - { name: helm, version: 2.16.3 }
    - { name: helm, version: 3.1.2 }
