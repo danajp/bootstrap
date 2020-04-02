@@ -29,7 +29,6 @@
       - phantomjs
       - nodejs
       - wine-stable
-      - shellcheck
       - default-jre
       - sloccount
       - htop
