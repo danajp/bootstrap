@@ -92,6 +92,20 @@
    - { name: kubectl, version: 1.17.4 }
    - { name: kustomize, version: 3.5.4 }
    - { name: minikube, version: 1.6.2 }
+   - { name: shellcheck, version: 0.7.0 }
+   - { name: stern, version: 1.11.0 }
+   - { name: terraform, version: 0.12.7 }
+
+# these compile stuff and take a long time, skip them by default
+- name: Install expensive asdf tool versions
+  tags: [asdf, asdf-tool-versions-expensive, never]
+  shell: |
+    . ~/.bashrc
+    asdf install {{ item.name }} {{ item.version }}
+  args:
+    executable: /bin/bash
+    creates: "~/.asdf/installs/{{ item.name }}/{{ item.version }}"
+  with_items:
    - { name: python, version: 3.6.0 }
    - { name: python, version: 3.6.1 }
    - { name: python, version: 3.7.5 }
@@ -106,9 +120,6 @@
    - { name: ruby, version: 2.6.3 }
    - { name: ruby, version: 2.6.4 }
    - { name: ruby, version: 2.6.5 }
-   - { name: shellcheck, version: 0.7.0 }
-   - { name: stern, version: 1.11.0 }
-   - { name: terraform, version: 0.12.7 }
 
 - name: Set asdf global versions to latest for each tool
   tags: [asdf, asdf-tool-versions]
