@@ -140,17 +140,29 @@
     pkg: firefox
     state: present
 
+- name: Check for google chrome apt source
+  stat:
+    path: /etc/apt/sources.list.d/google-chrome.list
+  register: chrome_source
+
 - name: Install google chrome
   tags: [packages, desktop, chrome]
   apt:
     deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     state: present
+  when: not chrome_source.stat.exists
+
+- name: Check for slack apt source
+  stat:
+    path: /etc/apt/sources.list.d/slack.list
+  register: slack_source
 
 - name: Install slack client
   tags: [packages, desktop, slack]
   apt:
     deb: "https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack.version }}-amd64.deb"
     state: present
+  when: not slack_source.stat.exists
 
 - name: Add apt keys for docker
   tags: [packages, docker]
