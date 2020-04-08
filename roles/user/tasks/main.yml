@@ -1,26 +1,5 @@
 ---
 
-- name: Create secrets dir
-  file:
-    path: ~/secrets
-    mode: 0700
-    state: directory
-  when: user.secrets.tarball
-
-- name: Unpack secrets
-  unarchive:
-    src: "{{ user.secrets.tarball }}"
-    dest: ~/secrets
-    owner: "{{ user.name }}"
-    group: "{{ user.group }}"
-  when: user.secrets.tarball
-
-- name: Install secrets
-  command: make clean install
-  args:
-    chdir: ~/secrets
-  when: user.secrets.tarball
-
 - name: Get dotfiles
   git:
     repo: git@github.com:danajp/dotfiles.git
