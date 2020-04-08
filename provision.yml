@@ -30,6 +30,10 @@
       tags: [base]
       become: yes
 
+    - role: system76
+      tags: [system76]
+      become: yes
+
     - role: vpn
       tags: [vpn]
       become: yes

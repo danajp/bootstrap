@@ -1,0 +1,12 @@
+- name: Add PPA for system76
+  apt_repository:
+    repo: ppa:system76-dev/stable
+    state: present
+    update_cache: yes
+
+- name: Install system76 packages
+  apt:
+    state: latest
+    name:
+      - system76-driver
+      - system76-driver-nvidia
