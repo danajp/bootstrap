@@ -10,3 +10,25 @@
     name:
       - system76-driver
       - system76-driver-nvidia
+
+- name: displaylink driver dir
+  file:
+    state: directory
+    path: /tmp/display-link-driver
+
+- name: Unarchive displaylink driver
+  unarchive:
+    src: display-link-driver.zip
+    dest: /tmp/display-link-driver
+
+- name: Run displaylink installer
+  shell: |
+    mv /tmp/display-link-driver/displaylink-driver-* /tmp/display-link-driver/installer.run
+    /tmp/display-link-driver/installer.run
+  args:
+    executable: /bin/bash
+
+- name: Remove displaylink driver dir
+  file:
+    state: absent
+    path: /tmp/display-link-driver
