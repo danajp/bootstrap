@@ -43,13 +43,13 @@
       tags: [golang]
       become: yes
 
+#    - role: work
+#      tags: [work]
+
     - role: user
       tags: [user]
       become: yes
       become_user: "{{ user.name }}"
-
-#    - role: work
-#      tags: [work]
 
   post_tasks:
     - name: Add {{ user.name }} to docker group
