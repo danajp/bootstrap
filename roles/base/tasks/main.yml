@@ -196,6 +196,7 @@
   tags: [packages, gcloud]
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    id: A6F9F1CA
 
 - name: Add apt repository for gcloud
   tags: [packages, gcloud]
