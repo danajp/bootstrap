@@ -90,6 +90,10 @@
       repo: https://github.com/alvarobp/asdf-minikube
     - name: shellcheck
       repo: https://github.com/luizm/asdf-shellcheck
+    - name: stern
+      repo: https://github.com/looztra/asdf-stern
+    - name: kustomize
+      repo: https://github.com/Banno/asdf-kustomize
 
 - name: Install asdf tool versions
   tags: [asdf, asdf-tool-versions]
@@ -107,6 +111,7 @@
    - { name: helm, version: 3.1.2 }
    - { name: kind, version: 0.7.0 }
    - { name: kubectl, version: 1.17.4 }
+   - { name: kustomize, version: 3.5.4 }
    - { name: minikube, version: 1.6.2 }
    - { name: python, version: 3.6.0 }
    - { name: python, version: 3.6.1 }
@@ -123,6 +128,7 @@
    - { name: ruby, version: 2.6.4 }
    - { name: ruby, version: 2.6.5 }
    - { name: shellcheck, version: 0.7.0 }
+   - { name: stern, version: 1.11.0 }
    - { name: terraform, version: 0.12.7 }
 
 - name: Set asdf global versions to latest for each tool
