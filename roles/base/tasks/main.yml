@@ -83,18 +83,18 @@
       - blueman
     state: latest
 
-- name: Disable Wayland for gdm3
-  tags: [desktop, gdm3]
-  ini_file:
-    path: /etc/gdm3/custom.conf
-    section: daemon
-    option: WaylandEnable
-    value: "false"
-    backup: yes
-
-- name: Disable login manager altogether
-  tags: [desktop]
-  command: systemctl set-default multi-user.target
+#- name: Disable Wayland for gdm3
+#  tags: [desktop, gdm3]
+#  ini_file:
+#    path: /etc/gdm3/custom.conf
+#    section: daemon
+#    option: WaylandEnable
+#    value: "false"
+#    backup: yes
+#
+#- name: Disable login manager altogether
+#  tags: [desktop]
+#  command: systemctl set-default multi-user.target
 
 - name: Add powerline symbols to terminus font
   tags: [packages, powerline]
