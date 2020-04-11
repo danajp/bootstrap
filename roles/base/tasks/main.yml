@@ -166,7 +166,6 @@
   tags: [packages, docker]
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
-    id: BA07F4FB
 
 - name: Add apt repository for docker
   tags: [packages, docker]
@@ -194,7 +193,6 @@
   tags: [packages, gcloud]
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-    id: A6F9F1CA
 
 - name: Add apt repository for gcloud
   tags: [packages, gcloud]
