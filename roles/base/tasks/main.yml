@@ -21,6 +21,7 @@
       # for ansible aws
       - python-pip
       - python-boto
+      - python3-venv
       - virtualbox
       - powertop
       - powerline
