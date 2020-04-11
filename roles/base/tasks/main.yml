@@ -4,6 +4,7 @@
   tags: [packages]
   apt:
     name:
+      - autorandr
       - git
       - gnupg
       - tmux
