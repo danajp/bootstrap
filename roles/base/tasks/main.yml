@@ -140,6 +140,7 @@
     state: present
 
 - name: Check for google chrome apt source
+  tags: [packages, desktop, chrome]
   stat:
     path: /etc/apt/sources.list.d/google-chrome.list
   register: chrome_source
@@ -150,6 +151,18 @@
     deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     state: present
   when: not chrome_source.stat.exists
+
+- name: Chrome managed policy dir
+  tags: [packages, desktop, chrome]
+  file:
+    state: directory
+    path: /etc/opt/chrome/policies/managed
+
+- name: Add xdg-open policy for google chrome
+  tags: [packages, desktop, chrome]
+  copy:
+    src: chrome-xdg-open-policy.json
+    dest: /etc/opt/chrome/policies/managed/xdg-open.json
 
 - name: Check for slack apt source
   stat:
