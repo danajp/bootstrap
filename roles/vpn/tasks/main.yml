@@ -34,6 +34,12 @@
     replace: '\1none'
     backup: yes
 
+- name: Remove default resolv.conf
+  copy:
+    dest: /etc/resolv.conf
+    content: ''
+    force: yes
+
 - name: Reload network-manager systemd unit
   systemd:
     name: network-manager
