@@ -177,6 +177,24 @@
     state: present
   when: not slack_source.stat.exists
 
+- name: Add apt keys for spotify
+  tags: [packages, desktop, spotify]
+  apt_key:
+    url: https://download.spotify.com/debian/pubkey.gpg
+
+- name: Add apt repository for spotify
+  tags: [packages, desktop, spotify]
+  apt_repository:
+    repo: "deb http://repository.spotify.com stable non-free"
+    state: present
+    update_cache: yes
+
+- name: Install spotify
+  tags: [packages, desktop, spotify]
+  apt:
+    pkg: spotify-client
+    state: present
+
 - name: Add apt keys for docker
   tags: [packages, docker]
   apt_key:
