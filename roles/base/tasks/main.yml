@@ -41,6 +41,7 @@
       - curl
       - gconf2
       - copyq
+      - libffi-dev
     state: latest
 
 - name: Add emacs PPA
