@@ -84,6 +84,12 @@
       - blueman
     state: latest
 
+- name: Install playerctl
+  tags: [packages, desktop, playerctl]
+  apt:
+    deb: https://github.com/altdesktop/playerctl/releases/download/v2.1.1/playerctl-2.1.1_amd64.deb
+    state: present
+
 #- name: Disable Wayland for gdm3
 #  tags: [desktop, gdm3]
 #  ini_file:
