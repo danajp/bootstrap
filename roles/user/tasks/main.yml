@@ -69,6 +69,8 @@
       repo: https://github.com/alvarobp/asdf-minikube
     - name: shellcheck
       repo: https://github.com/luizm/asdf-shellcheck
+    - name: starship
+      repo: https://github.com/grimoh/asdf-starship
     - name: stern
       repo: https://github.com/looztra/asdf-stern
     - name: kustomize
@@ -94,6 +96,7 @@
    - { name: minikube, version: 1.6.2 }
    - { name: shellcheck, version: 0.7.0 }
    - { name: stern, version: 1.11.0 }
+   - { name: starship, version: 0.40.1 }
    - { name: terraform, version: 0.12.7 }
 
 # these compile stuff and take a long time, skip them by default
