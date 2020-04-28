@@ -32,3 +32,17 @@
   file:
     state: absent
     path: /tmp/display-link-driver
+
+- name: Set vconsole font
+  tags: [vconsole]
+  lineinfile:
+    path: /etc/default/console-setup
+    regexp: '^FONTFACE='
+    line: FONTFACE="Terminus"
+
+- name: Set vconsole font
+  tags: [vconsole]
+  lineinfile:
+    path: /etc/default/console-setup
+    regexp: '^FONTSIZE='
+    line: FONTSIZE="16x32"
