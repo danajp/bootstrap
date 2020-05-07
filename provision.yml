@@ -46,9 +46,6 @@
       tags: [golang]
       become: yes
 
-#    - role: work
-#      tags: [work]
-
     - role: user
       tags: [user]
       become: yes
