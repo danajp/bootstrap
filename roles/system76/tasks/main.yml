@@ -1,10 +1,12 @@
 - name: Add PPA for system76
+  tags: [never]
   apt_repository:
     repo: ppa:system76-dev/stable
     state: present
     update_cache: yes
 
 - name: Install system76 packages
+  tags: [never]
   apt:
     state: latest
     name:
