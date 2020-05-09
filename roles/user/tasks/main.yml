@@ -12,11 +12,6 @@
   args:
     chdir: ~/src/dotfiles
 
-- name: Install py3status
-  shell: python3 -m venv ~/.i3/py3status-env && ~/.i3/py3status-env/bin/pip install py3status
-  args:
-    creates: ~/.i3/py3status-env/bin/py3status
-
 - name: Get dotemacs
   tags: [emacs]
   git:
