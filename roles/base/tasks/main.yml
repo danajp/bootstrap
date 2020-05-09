@@ -4,7 +4,6 @@
   tags: [packages]
   apt:
     name:
-      - autorandr
       - git
       - gnupg
       - tmux
@@ -40,7 +39,6 @@
       - graphviz
       - curl
       - gconf2
-      - copyq
       - libffi-dev
     state: latest
 
@@ -87,14 +85,13 @@
   apt:
     name:
       - pasystray
-      - rxvt-unicode
       - xfonts-terminus
       - arandr
       - gimp
       - maim
-      - xautolock
       - blueman
       - firefox
+      - copyq
     state: latest
 
 - name: Install playerctl
