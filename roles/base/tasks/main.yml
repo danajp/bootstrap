@@ -102,20 +102,6 @@
     deb: https://github.com/altdesktop/playerctl/releases/download/v2.1.1/playerctl-2.1.1_amd64.deb
     state: present
 
-#- name: Disable Wayland for gdm3
-#  tags: [desktop, gdm3]
-#  ini_file:
-#    path: /etc/gdm3/custom.conf
-#    section: daemon
-#    option: WaylandEnable
-#    value: "false"
-#    backup: yes
-
-- name: Disable login manager altogether
-  tags: [desktop]
-  command: systemctl set-default multi-user.target
-  # default default is graphical.target
-
 - name: Add powerline symbols to terminus font
   tags: [packages, powerline]
   copy:
