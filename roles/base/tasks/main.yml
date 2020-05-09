@@ -44,6 +44,19 @@
       - libffi-dev
     state: latest
 
+- name: Install regolith packages
+  tags: [regolith, desktop]
+  apt:
+    name:
+      - i3xrocks-battery
+      - i3xrocks-net-traffic
+      - i3xrocks-time
+      - i3xrocks-cpu-usage
+      - i3xrocks-openvpn
+      - regolith-look-solarized-dark
+      - regolith-compositor-none
+      - dunst
+
 - name: Add emacs PPA
   tags: [emacs, packages]
   apt_repository:
@@ -73,7 +86,6 @@
   tags: [packages, desktop]
   apt:
     name:
-      - i3
       - pasystray
       - rxvt-unicode
       - xfonts-terminus
