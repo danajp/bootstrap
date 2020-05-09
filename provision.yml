@@ -42,10 +42,6 @@
       tags: [kubernetes]
       become: yes
 
-    - role: golang
-      tags: [golang]
-      become: yes
-
     - role: user
       tags: [user]
       become: yes
