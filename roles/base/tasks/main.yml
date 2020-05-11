@@ -151,6 +151,7 @@
     dest: /etc/opt/chrome/policies/managed/xdg-open.json
 
 - name: Check for slack apt source
+  tags: [packages, desktop, slack]
   stat:
     path: /etc/apt/sources.list.d/slack.list
   register: slack_source
