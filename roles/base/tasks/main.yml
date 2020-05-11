@@ -82,6 +82,7 @@
     name:
       - pasystray
       - xfonts-terminus
+      - fonts-terminus
       - arandr
       - gimp
       - maim
