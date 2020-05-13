@@ -1,10 +1,12 @@
 - name: Add PPA for system76
+  tags: [never]
   apt_repository:
     repo: ppa:system76-dev/stable
     state: present
     update_cache: yes
 
 - name: Install system76 packages
+  tags: [never]
   apt:
     state: latest
     name:
@@ -12,16 +14,19 @@
       - system76-driver-nvidia
 
 - name: displaylink driver dir
+  tags: [never]
   file:
     state: directory
     path: /tmp/display-link-driver
 
 - name: Unarchive displaylink driver
+  tags: [never]
   unarchive:
     src: display-link-driver.zip
     dest: /tmp/display-link-driver
 
 - name: Run displaylink installer
+  tags: [never]
   shell: |
     mv /tmp/display-link-driver/displaylink-driver-* /tmp/display-link-driver/installer.run
     /tmp/display-link-driver/installer.run
@@ -29,6 +34,7 @@
     executable: /bin/bash
 
 - name: Remove displaylink driver dir
+  tags: [never]
   file:
     state: absent
     path: /tmp/display-link-driver

@@ -12,11 +12,6 @@
   args:
     chdir: ~/src/dotfiles
 
-- name: Install py3status
-  shell: python3 -m venv ~/.i3/py3status-env && ~/.i3/py3status-env/bin/pip install py3status
-  args:
-    creates: ~/.i3/py3status-env/bin/py3status
-
 - name: Get dotemacs
   tags: [emacs]
   git:
@@ -87,7 +82,7 @@
   with_items:
    - { name: argo, version: 2.4.3 }
    - { name: golang, version: 1.12.7 }
-   - { name: golang, version: 1.13.8 }
+   - { name: golang, version: 1.13.10 }
    - { name: helm, version: 2.16.3 }
    - { name: helm, version: 3.1.2 }
    - { name: kind, version: 0.7.0 }
@@ -142,3 +137,12 @@
     gconftool-2 --set "/apps/gnome-terminal/profiles/Default/palette" --type string "#070736364242:#D3D301010202:#858599990000:#B5B589890000:#26268B8BD2D2:#D3D336368282:#2A2AA1A19898:#EEEEE8E8D5D5:#00002B2B3636:#CBCB4B4B1616:#58586E6E7575:#65657B7B8383:#838394949696:#6C6C7171C4C4:#9393A1A1A1A1:#FDFDF6F6E3E3"
     gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#00002B2B3636"
     gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#65657B7B8383"
+
+- name: Set regolith look
+  tags: [regolith]
+  shell: |
+    regolith-look set solarized-dark
+    regolith-look refresh
+  args:
+    executable: /bin/bash
+    creates: ~/.Xresources-regolith

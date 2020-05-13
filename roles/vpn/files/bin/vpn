@@ -80,7 +80,7 @@ connect_all() {
 }
 
 function menu() {
-  echo $(all_vpns) all close-all | xargs -n1 | dmenu -p "vpn:"
+  echo $(all_vpns) all close-all | xargs -n1 | rofi -dmenu -p "vpn:"
 }
 
 main() {

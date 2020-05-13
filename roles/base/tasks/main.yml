@@ -4,7 +4,6 @@
   tags: [packages]
   apt:
     name:
-      - autorandr
       - git
       - gnupg
       - tmux
@@ -18,10 +17,6 @@
       - libpq-dev
       - awscli
       - redis-tools
-      # for ansible aws
-      - python-pip
-      - python-boto
-      - python3-venv
       - virtualbox
       - powertop
       - powerline
@@ -40,9 +35,21 @@
       - graphviz
       - curl
       - gconf2
-      - copyq
       - libffi-dev
     state: latest
+
+- name: Install regolith packages
+  tags: [regolith, desktop]
+  apt:
+    name:
+      - i3xrocks-battery
+      - i3xrocks-net-traffic
+      - i3xrocks-time
+      - i3xrocks-cpu-usage
+      - i3xrocks-openvpn
+      - regolith-look-solarized-dark
+      - regolith-compositor-none
+      - dunst
 
 - name: Add emacs PPA
   tags: [emacs, packages]
@@ -73,15 +80,15 @@
   tags: [packages, desktop]
   apt:
     name:
-      - i3
       - pasystray
-      - rxvt-unicode
       - xfonts-terminus
+      - fonts-terminus
       - arandr
       - gimp
       - maim
-      - xautolock
       - blueman
+      - firefox
+      - copyq
     state: latest
 
 - name: Install playerctl
@@ -89,20 +96,6 @@
   apt:
     deb: https://github.com/altdesktop/playerctl/releases/download/v2.1.1/playerctl-2.1.1_amd64.deb
     state: present
-
-#- name: Disable Wayland for gdm3
-#  tags: [desktop, gdm3]
-#  ini_file:
-#    path: /etc/gdm3/custom.conf
-#    section: daemon
-#    option: WaylandEnable
-#    value: "false"
-#    backup: yes
-
-- name: Disable login manager altogether
-  tags: [desktop]
-  command: systemctl set-default multi-user.target
-  # default default is graphical.target
 
 - name: Add powerline symbols to terminus font
   tags: [packages, powerline]
@@ -133,21 +126,6 @@
     group: root
     mode: 0755
 
-- name: Add apt repository for firefox
-  # No longer getting updates because this isn't an LTS of ubuntu, so
-  # get security updates from upstream PPA
-  tags: [packages, desktop, firefox]
-  apt_repository:
-    repo: ppa:ubuntu-mozilla-security/ppa
-    state: present
-    update_cache: yes
-
-- name: Install firefox
-  tags: [packages, desktop, firefox]
-  apt:
-    pkg: firefox
-    state: present
-
 - name: Check for google chrome apt source
   tags: [packages, desktop, chrome]
   stat:
@@ -174,6 +152,7 @@
     dest: /etc/opt/chrome/policies/managed/xdg-open.json
 
 - name: Check for slack apt source
+  tags: [packages, desktop, slack]
   stat:
     path: /etc/apt/sources.list.d/slack.list
   register: slack_source
