@@ -1,5 +1,16 @@
 ---
 
+- name: Disable IPv6
+  tags: [ipv6]
+  copy:
+    content: |
+      # disable ipv6 entirely
+      # this fixes timeouts when running apt
+      sysctl net.ipv6.conf.all.disable_ipv6=1
+    dest: /etc/sysctl.d/50-local-disable-ipv6.conf
+    owner: root
+    group: root
+
 - name: Install basic packages
   tags: [packages]
   apt:
