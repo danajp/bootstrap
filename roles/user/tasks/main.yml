@@ -70,6 +70,12 @@
       repo: https://github.com/looztra/asdf-stern
     - name: kustomize
       repo: https://github.com/Banno/asdf-kustomize
+    - name: jb
+      repo: https://github.com/beardix/asdf-jb.git
+    - name: jsonnet
+      repo: https://github.com/Banno/asdf-jsonnet
+    - name: tanka
+      repo: https://github.com/trotttrotttrott/asdf-tanka
 
 - name: Install asdf tool versions
   tags: [asdf, asdf-tool-versions]
