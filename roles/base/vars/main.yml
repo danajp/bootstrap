@@ -17,4 +17,4 @@ slackcat:
   version: 1.5
 
 aws_vault:
-  version: 4.6.4
+  version: 6.2.0
