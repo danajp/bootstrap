@@ -54,6 +54,8 @@
       repo: https://github.com/Banno/asdf-hashicorp
     - name: kind
       repo: https://github.com/johnlayton/asdf-kind
+    - name: krew
+      repo: https://github.com/danajp/asdf-krew
     - name: kubectl
       repo: https://github.com/Banno/asdf-kubectl
     - name: helm
