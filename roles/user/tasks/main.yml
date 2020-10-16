@@ -78,6 +78,18 @@
       repo: https://github.com/Banno/asdf-jsonnet
     - name: tanka
       repo: https://github.com/trotttrotttrott/asdf-tanka
+    - name: nodejs
+      repo: https://github.com/asdf-vm/asdf-nodejs.git
+
+- name: Additional asdf plugin setup
+  tags: [asdf, asdf-plugins]
+  shell: |
+    . ~/.bashrc
+    ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+    date > ~/.asdf/plugins/nodejs/dana-keyring-imported
+  args:
+    executable: /bin/bash
+    creates: ~/.asdf/plugins/nodejs/dana-keyring-imported
 
 - name: Install asdf tool versions
   tags: [asdf, asdf-tool-versions]
