@@ -145,7 +145,7 @@
   shell: |
     . ~/.bashrc
     for plugin in $(asdf plugin list | sort); do
-      asdf list "$plugin" | tail -n1 | sed "s/^ */$plugin /"
+      echo "$plugin $(asdf latest $plugin)"
     done > ~/.tool-versions
   args:
     executable: /bin/bash
