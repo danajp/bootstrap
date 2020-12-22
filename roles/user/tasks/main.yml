@@ -81,8 +81,8 @@
     - name: nodejs
       repo: https://github.com/asdf-vm/asdf-nodejs.git
 
-- name: Additional asdf plugin setup
-  tags: [asdf, asdf-plugins]
+- name: Additional nodejs plugin setup
+  tags: [asdf, asdf-plugins, asdf-plugins-nodejs]
   shell: |
     . ~/.bashrc
     ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
@@ -90,6 +90,20 @@
   args:
     executable: /bin/bash
     creates: ~/.asdf/plugins/nodejs/dana-keyring-imported
+
+- name: Default ruby gems
+  tags: [asdf, asdf-plugins, asdf-plugins-ruby]
+  copy:
+    content: |
+      bundler
+    dest: ~/.default-gems
+
+- name: Default python packages
+  tags: [asdf, asdf-plugins, asdf-plugins-python]
+  copy:
+    content: |
+      pipenv
+    dest: ~/.default-python-packages
 
 - name: Install asdf tool versions
   tags: [asdf, asdf-tool-versions]
