@@ -13,7 +13,7 @@ packages: $(ANSIBLE)
 
 .PHONY: tags
 tags:
-	ansible-playbook -K provision.yml --tags $(TAGS)
+	PATH=/usr/bin ansible-playbook -K provision.yml --tags $(TAGS)
 
 .PHONY: image
 image:
