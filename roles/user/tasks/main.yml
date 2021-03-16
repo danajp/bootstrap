@@ -52,6 +52,7 @@
     - name: jsonnet
     - name: kind
     - name: krew
+    - name: kubebuilder
     - name: kubectl
     - name: kustomize
     - name: minikube
