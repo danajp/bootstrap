@@ -39,47 +39,31 @@
   tags: [asdf, asdf-plugins]
   shell: |
     . ~/.bashrc
-    asdf plugin add {{ item.name }} {{ item.repo }}
+    asdf plugin add {{ item.name }} {{ item.repo | default("") }}
   args:
     executable: /bin/bash
     creates: "~/.asdf/plugins/{{ item.name }}"
   with_items:
     - name: argo
-      repo: https://github.com/sudermanjr/asdf-argo
-    - name: ruby
-      repo: https://github.com/asdf-vm/asdf-ruby
-    - name: python
-      repo: https://github.com/danhper/asdf-python
-    - name: terraform
-      repo: https://github.com/Banno/asdf-hashicorp
-    - name: kind
-      repo: https://github.com/johnlayton/asdf-kind
-    - name: krew
-      repo: https://github.com/danajp/asdf-krew
-    - name: kubectl
-      repo: https://github.com/Banno/asdf-kubectl
-    - name: helm
-      repo: https://github.com/Antiarchitect/asdf-helm
     - name: golang
-      repo: https://github.com/kennyp/asdf-golang
-    - name: minikube
-      repo: https://github.com/alvarobp/asdf-minikube
-    - name: shellcheck
-      repo: https://github.com/luizm/asdf-shellcheck
-    - name: starship
-      repo: https://github.com/grimoh/asdf-starship
-    - name: stern
-      repo: https://github.com/looztra/asdf-stern
-    - name: kustomize
-      repo: https://github.com/Banno/asdf-kustomize
+    - name: golangci-lint
+    - name: helm
     - name: jb
-      repo: https://github.com/beardix/asdf-jb.git
     - name: jsonnet
-      repo: https://github.com/Banno/asdf-jsonnet
-    - name: tanka
-      repo: https://github.com/trotttrotttrott/asdf-tanka
+    - name: kind
+    - name: krew
+    - name: kubectl
+    - name: kustomize
+    - name: minikube
     - name: nodejs
-      repo: https://github.com/asdf-vm/asdf-nodejs.git
+    - name: protoc
+    - name: python
+    - name: ruby
+    - name: shellcheck
+    - name: starship
+    - name: stern
+    - name: tanka
+    - name: terraform
 
 - name: Additional nodejs plugin setup
   tags: [asdf, asdf-plugins, asdf-plugins-nodejs]
