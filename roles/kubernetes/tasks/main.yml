@@ -1,26 +1,5 @@
 ---
 
-- name: Make kubebuilder dir
-  tags: [kubebuilder]
-  file:
-    state: directory
-    dest: /usr/local/kubebuilder
-    owner: root
-    group: root
-    mode: 0755
-
-- name: Install kubebuilder
-  tags: [kubebuilder]
-  unarchive:
-    src: https://go.kubebuilder.io/dl/2.2.0/linux/amd64
-    remote_src: yes
-    dest: /usr/local/kubebuilder
-    owner: root
-    group: root
-    mode: 0755
-    extra_opts:
-      - --strip-components=1
-
 - name: Create teleport install dir
   tags: [teleport]
   file:
