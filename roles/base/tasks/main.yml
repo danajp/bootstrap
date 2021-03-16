@@ -47,6 +47,9 @@
       - curl
       - gconf2
       - libffi-dev
+      # python stdlib dependencies
+      - libbz2-dev
+      - liblzma-dev
     state: latest
 
 - name: Install regolith packages
