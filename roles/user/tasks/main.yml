@@ -81,6 +81,7 @@
   copy:
     content: |
       bundler
+      solargraph
     dest: ~/.default-gems
 
 - name: Default python packages
