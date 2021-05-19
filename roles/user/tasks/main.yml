@@ -83,6 +83,7 @@
     content: |
       bundler
       solargraph
+      solargraph-standardrb
     dest: ~/.default-gems
 
 - name: Default python packages
