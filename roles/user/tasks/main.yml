@@ -46,6 +46,7 @@
   with_items:
     - name: argo
     - name: awscli
+    - name: direnv
     - name: golang
     - name: golangci-lint
     - name: helm
