@@ -22,11 +22,6 @@
     state: stopped
     enabled: no
 
-- name: Start dnsmasq
-  systemd:
-    name: dnsmasq
-    state: restarted
-
 - name: Stop network-manager mucking with dns
   replace:
     path: /etc/NetworkManager/NetworkManager.conf
@@ -44,6 +39,11 @@
   systemd:
     name: network-manager
     state: reloaded
+
+- name: Start dnsmasq
+  systemd:
+    name: dnsmasq
+    state: restarted
 
 - name: Installer sudoers config
   copy:
