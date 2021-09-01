@@ -181,7 +181,7 @@
 - name: Add apt keys for spotify
   tags: [packages, desktop, spotify]
   apt_key:
-    url: https://download.spotify.com/debian/pubkey.gpg
+    url: https://download.spotify.com/debian/pubkey_0D811D58.gpg
 
 - name: Add apt repository for spotify
   tags: [packages, desktop, spotify]
