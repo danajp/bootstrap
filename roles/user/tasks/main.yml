@@ -115,7 +115,7 @@
    - { name: minikube, version: 1.6.2 }
    - { name: shellcheck, version: 0.7.0 }
    - { name: stern, version: 1.11.0 }
-   - { name: starship, version: 0.40.1 }
+   - { name: starship, version: 0.57.0 }
    - { name: terraform, version: 0.12.7 }
 
 # these compile stuff and take a long time, skip them by default
