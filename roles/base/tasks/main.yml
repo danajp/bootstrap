@@ -34,6 +34,7 @@
       - youtube-dl
       - phantomjs
       - nodejs
+      - ncat
       - wine-stable
       - default-jre
       - sloccount
