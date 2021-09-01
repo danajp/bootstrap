@@ -11,6 +11,12 @@
       - system76-driver
       - system76-driver-nvidia
 
+- name: Disable annoying HiDPI notification
+  shell: |
+    gsettings set com.system76.hidpi enable false
+  args:
+    executable: /bin/bash
+
 - name: displaylink driver dir
   tags: [never]
   file:
