@@ -64,7 +64,6 @@
     - name: ruby
     - name: shellcheck
     - name: starship
-    - name: stern
     - name: tanka
     - name: terraform
 
@@ -114,7 +113,6 @@
    - { name: kustomize, version: 3.5.4 }
    - { name: minikube, version: 1.6.2 }
    - { name: shellcheck, version: 0.7.0 }
-   - { name: stern, version: 1.11.0 }
    - { name: starship, version: 0.57.0 }
    - { name: terraform, version: 0.12.7 }
 
