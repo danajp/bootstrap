@@ -1,33 +1,7 @@
 ---
 
-- name: Create teleport install dir
-  tags: [teleport]
-  file:
-    path: /tmp/teleport
-    state: directory
-
 - name: Install teleport
   tags: [teleport]
-  unarchive:
-    src: https://get.gravitational.com/teleport-v4.2.1-linux-amd64-bin.tar.gz
-    dest: /tmp/
-    remote_src: true
-    owner: root
-    group: root
-    mode: 0755
-
-- name: Install teleport
-  tags: [teleport]
-  copy:
-    src: /tmp/teleport/tsh
-    remote_src: true
-    dest: /usr/local/bin/tsh
-    owner: root
-    group: root
-    mode: 0755
-
-- name: Remove teleport installation files
-  tags: [teleport]
-  file:
-    path: /tmp/teleport
-    state: absent
+  apt:
+    deb: https://get.gravitational.com/teleport_7.1.0_amd64.deb
+    state: present
