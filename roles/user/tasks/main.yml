@@ -93,6 +93,13 @@
       pipenv
     dest: ~/.default-python-packages
 
+- name: Default go packages
+  tags: [asdf, asdf-plugins, asdf-plugins-golang]
+  copy:
+    content: |
+      golang.org/x/tools/gopls@latest
+    dest: ~/.default-golang-pkgs
+
 - name: Install asdf tool versions
   tags: [asdf, asdf-tool-versions]
   shell: |
