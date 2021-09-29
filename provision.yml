@@ -52,6 +52,6 @@
     - name: Add {{ user.name }} to docker group
       user:
         name: "{{ user.name }}"
-        groups: docker
+        groups: docker,kvm,libvirt
         append: yes
       become: yes

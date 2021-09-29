@@ -51,6 +51,11 @@
       # python stdlib dependencies
       - libbz2-dev
       - liblzma-dev
+      # kvm2 dependencies
+      - qemu-kvm
+      - libvirt-daemon-system
+      - libvirt-clients
+      - bridge-utils
     state: latest
 
 - name: Install regolith packages
