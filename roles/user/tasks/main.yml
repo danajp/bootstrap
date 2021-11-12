@@ -66,6 +66,7 @@
     - name: starship
     - name: tanka
     - name: terraform
+    - name: yq
 
 - name: Additional nodejs plugin setup
   tags: [asdf, asdf-plugins, asdf-plugins-nodejs]
