@@ -16,18 +16,30 @@
     owner: root
     group: root
 
-- name: Disable systemd-resolved systemd unit
+- name: Install dnsmasq systemd drop-in
+  copy:
+    src: dnsmasq.service.d/
+    dest: /etc/systemd/system/dnsmasq.service.d/
+    owner: root
+    group: root
+
+- name: Disable systemd-resolved stub listener
+  lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: '^DNSStubListener='
+    line: 'DNSStubListener=no'
+
+- name: Restart systemd-resolved
   systemd:
     name: systemd-resolved
-    state: stopped
-    enabled: no
+    state: restarted
 
-- name: Stop network-manager mucking with dns
-  replace:
-    path: /etc/NetworkManager/NetworkManager.conf
-    regexp: '(dns=)(.+)$'
-    replace: '\1none'
-    backup: yes
+- name: Install network-manager config
+  copy:
+    src: network-manager-conf.d/
+    dest: /etc/NetworkManager/conf.d/
+    owner: root
+    group: root
 
 - name: Remove default resolv.conf
   copy:

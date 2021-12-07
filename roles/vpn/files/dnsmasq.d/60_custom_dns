@@ -1,5 +1,4 @@
 strict-order
-no-resolv
 
 cache-size=1000
 # avoid dns failures when there are too many concurrent requests (sometimes happens with apt-get)
