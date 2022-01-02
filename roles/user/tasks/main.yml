@@ -101,6 +101,7 @@
       golang.org/x/tools/gopls@latest
       github.com/rogpeppe/godef@latest
       golang.org/x/tools/cmd/goimports@latest
+      github.com/zmb3/gogetdoc@latest
     dest: ~/.default-golang-pkgs
 
 - name: Install asdf tool versions
