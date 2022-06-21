@@ -296,23 +296,22 @@
     mode: 0644
     backup: yes
 
-- name: Add apt key for heroku
-  tags: [packages, heroku]
-  apt_key:
-    url: https://cli-assets.heroku.com/apt/release.key
-
-- name: Add apt repository for heroku
-  tags: [packages, heroku]
-  apt_repository:
-    repo: deb https://cli-assets.heroku.com/apt ./
-    state: present
-    update_cache: yes
-
 - name: Install heroku cli
-  tags: [packages, heroku]
-  apt:
-    pkg: heroku
-    state: present
+  tags: [heroku]
+  unarchive:
+    src: https://cli-assets.heroku.com/heroku-linux-x64.tar.gz
+    remote_src: yes
+    dest: /usr/local/lib
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Link heroku binary
+  tags: [heroku]
+  file:
+    state: link
+    src: /usr/local/lib/heroku/bin/heroku
+    dest: /usr/local/bin/heroku
 
 - name: Install Slackcat
   tags: [slackcat]
