@@ -180,6 +180,26 @@
     src: chrome-xdg-open-policy.json
     dest: /etc/opt/chrome/policies/managed/xdg-open.json
 
+- name: Add apt key for brave
+  tags: [packages, desktop, brave]
+  get_url:
+    url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
+    mode: 644
+
+- name: Add apt source for brave
+  tags: [packages, desktop, brave]
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
+    state: present
+    update_cache: yes
+
+- name: Install brave
+  tags: [packages, desktop, brave]
+  apt:
+    pkg: brave-browser
+    state: present
+
 - name: Check for slack apt source
   tags: [packages, desktop, slack]
   stat:
