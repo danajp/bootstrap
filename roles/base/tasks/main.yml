@@ -355,22 +355,6 @@
   apt:
     deb: https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
 
-#- name: Get yj download url
-#  tags: [yj]
-#  shell: |
-#    curl -s https://api.github.com/repos/sclevine/yj/releases/latest \
-#      | jq -r '.assets[] | select(.name == "yj-linux") | .browser_download_url'
-#  register: yj_url
-#
-#- name: Install yj
-#  tags: [yj]
-#  get_url:
-#    url: "{{ yj_url.stdout }}"
-#    dest: /usr/local/bin/yj
-#    owner: root
-#    group: root
-#    mode: 0755
-
 - name: install DuoConnect
   tags: [duo]
   unarchive:
