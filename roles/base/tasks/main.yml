@@ -261,23 +261,30 @@
     group: root
     mode: 0755
 
-#- name: Add apt keys for gcloud
-#  tags: [packages, gcloud]
-#  apt_key:
-#    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-#
-#- name: Add apt repository for gcloud
-#  tags: [packages, gcloud]
-#  apt_repository:
-#    repo: deb http://packages.cloud.google.com/apt cloud-sdk-{{ ubuntu.release }} main
-#    state: present
-#    update_cache: yes
-#
-#- name: Install gcloud
-#  tags: [packages, gcloud]
-#  apt:
-#    pkg: google-cloud-sdk
-#    state: present
+- name: Add apt keys for gcloud
+  tags: [packages, gcloud]
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+- name: Add apt repository for gcloud
+  tags: [packages, gcloud]
+  apt_repository:
+    repo: deb http://packages.cloud.google.com/apt cloud-sdk main
+    state: present
+    update_cache: yes
+
+- name: Install gcloud
+  tags: [packages, gcloud]
+  apt:
+    pkg: google-cloud-cli
+    state: present
+
+- name: Configure gcloud python
+  tags: [packages, gcloud]
+  copy:
+    dest: /etc/profile.d/gcloud-set-python.sh
+    content: |-
+      export CLOUDSDK_PYTHON=python3
 
 - name: Add sudoers files
   tags: [sudoers]
