@@ -372,6 +372,12 @@
     deb: https://zoom.us/client/latest/zoom_amd64.deb
     state: present
 
+- name: Install teleport
+  tags: [teleport]
+  apt:
+    deb: https://get.gravitational.com/teleport-ent_7.1.1_amd64.deb
+    state: present
+
 #- name: Install mullvad vpn client
 #  tags: [mullvad]
 #  apt:
