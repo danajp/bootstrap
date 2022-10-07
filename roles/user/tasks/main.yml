@@ -4,6 +4,7 @@
   file:
     state: directory
     path: ~/src/dotfiles
+  register: dotfiles_dir
 
 - name: Get dotfiles
   git:
@@ -11,6 +12,7 @@
     dest: ~/src/dotfiles
     accept_hostkey: yes
     update: yes
+  when: dotfiles_dir.changed
 
 - name: Install dotfiles
   command: make clean install
@@ -21,6 +23,7 @@
   file:
     state: directory
     path: ~/src/dotemacs
+  register: dotemacs_dir
 
 - name: Get dotemacs
   tags: [emacs]
@@ -29,6 +32,7 @@
     dest: ~/src/dotemacs
     accept_hostkey: yes
     update: no
+  when: dotemacs_dir.changed
 
 - name: Link emacs config
   tags: [emacs]
