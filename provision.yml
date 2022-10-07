@@ -10,7 +10,7 @@
       name: dana
       group: dana
     ubuntu:
-      release: cosmic
+      release: jammy
 
   pre_tasks:
     - name: Update OS packages
