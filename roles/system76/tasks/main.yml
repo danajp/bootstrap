@@ -56,3 +56,11 @@
     path: /etc/default/console-setup
     regexp: '^FONTSIZE='
     line: FONTSIZE="16x32"
+
+# fixes nvidia driver and power management for i7
+- name: Set kernel params
+  tags: [kernel]
+  copy:
+    dest: /etc/default/grub.d/dana-system76
+    content: |-
+      GRUB_CMDLINE_LINUX="intel_pstate=enable nouveau.modeset=0"

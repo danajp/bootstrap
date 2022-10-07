@@ -1,11 +1,11 @@
 ---
 
-- name: Get dotfiles
-  git:
-    repo: git@github.com:danajp/dotfiles.git
-    dest: ~/src/dotfiles
-    accept_hostkey: yes
-    update: yes
+#- name: Get dotfiles
+#  git:
+#    repo: git@github.com:danajp/dotfiles.git
+#    dest: ~/src/dotfiles
+#    accept_hostkey: yes
+#    update: yes
 
 - name: Install dotfiles
   command: make clean install
@@ -46,7 +46,9 @@
   with_items:
     - name: argo
     - name: awscli
+    - name: bat
     - name: direnv
+    - name: github-cli
     - name: golang
     - name: golangci-lint
     - name: helm
@@ -54,12 +56,13 @@
     - name: jq
     - name: jsonnet
     - name: kind
-    - name: krew
+#    - name: krew
     - name: kubebuilder
     - name: kubectl
     - name: kustomize
     - name: minikube
     - name: nodejs
+    - name: opa
     - name: protoc
     - name: python
     - name: ruby
@@ -67,6 +70,7 @@
     - name: starship
     - name: tanka
     - name: terraform
+    - name: vault
     - name: yj
     - name: yq
 

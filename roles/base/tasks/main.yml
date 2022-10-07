@@ -18,7 +18,7 @@
       - git
       - gnupg
       - tmux
-      - python-dev
+      - python3-dev
       - openssh-server
       - openvpn
       - laptop-mode-tools
@@ -32,7 +32,8 @@
       - powertop
       - powerline
       - youtube-dl
-      - phantomjs
+      # no package?
+      #- phantomjs
       - nodejs
       - ncat
       - wine-stable
@@ -78,11 +79,12 @@
     state: present
     update_cache: yes
 
-- name: Install emacs
-  tags: [emacs, packages]
-  apt:
-    name:
-      - emacs26
+# new package name?
+#- name: Install emacs
+#  tags: [emacs, packages]
+#  apt:
+#    name:
+#      - emacs26
 
 - name: Install ruby build dependencies
   tags: [ruby, packages]
@@ -111,11 +113,12 @@
       - copyq
     state: latest
 
-- name: Install playerctl
-  tags: [packages, desktop, playerctl]
-  apt:
-    deb: https://github.com/altdesktop/playerctl/releases/download/v2.1.1/playerctl-2.1.1_amd64.deb
-    state: present
+# already installed by default?
+#- name: Install playerctl
+#  tags: [packages, desktop, playerctl]
+#  apt:
+#    deb: https://github.com/altdesktop/playerctl/releases/download/v2.1.1/playerctl-2.1.1_amd64.deb
+#    state: present
 
 - name: Add powerline symbols to terminus font
   tags: [packages, powerline]
@@ -200,36 +203,36 @@
     pkg: brave-browser
     state: present
 
-- name: Check for slack apt source
-  tags: [packages, desktop, slack]
-  stat:
-    path: /etc/apt/sources.list.d/slack.list
-  register: slack_source
+#- name: Check for slack apt source
+#  tags: [packages, desktop, slack]
+#  stat:
+#    path: /etc/apt/sources.list.d/slack.list
+#  register: slack_source
+#
+#- name: Install slack client
+#  tags: [packages, desktop, slack]
+#  apt:
+#    deb: "https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack.version }}-amd64.deb"
+#    state: present
+#  when: not slack_source.stat.exists
 
-- name: Install slack client
-  tags: [packages, desktop, slack]
-  apt:
-    deb: "https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack.version }}-amd64.deb"
-    state: present
-  when: not slack_source.stat.exists
-
-- name: Add apt keys for spotify
-  tags: [packages, desktop, spotify]
-  apt_key:
-    url: https://download.spotify.com/debian/pubkey_0D811D58.gpg
-
-- name: Add apt repository for spotify
-  tags: [packages, desktop, spotify]
-  apt_repository:
-    repo: "deb http://repository.spotify.com stable non-free"
-    state: present
-    update_cache: yes
-
-- name: Install spotify
-  tags: [packages, desktop, spotify]
-  apt:
-    pkg: spotify-client
-    state: present
+#- name: Add apt keys for spotify
+#  tags: [packages, desktop, spotify]
+#  apt_key:
+#    url: https://download.spotify.com/debian/pubkey_0D811D58.gpg
+#
+#- name: Add apt repository for spotify
+#  tags: [packages, desktop, spotify]
+#  apt_repository:
+#    repo: "deb http://repository.spotify.com stable non-free"
+#    state: present
+#    update_cache: yes
+#
+#- name: Install spotify
+#  tags: [packages, desktop, spotify]
+#  apt:
+#    pkg: spotify-client
+#    state: present
 
 - name: Add apt keys for docker
   tags: [packages, docker]
@@ -258,23 +261,23 @@
     group: root
     mode: 0755
 
-- name: Add apt keys for gcloud
-  tags: [packages, gcloud]
-  apt_key:
-    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-
-- name: Add apt repository for gcloud
-  tags: [packages, gcloud]
-  apt_repository:
-    repo: deb http://packages.cloud.google.com/apt cloud-sdk-{{ ubuntu.release }} main
-    state: present
-    update_cache: yes
-
-- name: Install gcloud
-  tags: [packages, gcloud]
-  apt:
-    pkg: google-cloud-sdk
-    state: present
+#- name: Add apt keys for gcloud
+#  tags: [packages, gcloud]
+#  apt_key:
+#    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+#
+#- name: Add apt repository for gcloud
+#  tags: [packages, gcloud]
+#  apt_repository:
+#    repo: deb http://packages.cloud.google.com/apt cloud-sdk-{{ ubuntu.release }} main
+#    state: present
+#    update_cache: yes
+#
+#- name: Install gcloud
+#  tags: [packages, gcloud]
+#  apt:
+#    pkg: google-cloud-sdk
+#    state: present
 
 - name: Add sudoers files
   tags: [sudoers]
@@ -345,21 +348,21 @@
   apt:
     deb: https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
 
-- name: Get yj download url
-  tags: [yj]
-  shell: |
-    curl -s https://api.github.com/repos/sclevine/yj/releases/latest \
-      | jq -r '.assets[] | select(.name == "yj-linux") | .browser_download_url'
-  register: yj_url
-
-- name: Install yj
-  tags: [yj]
-  get_url:
-    url: "{{ yj_url.stdout }}"
-    dest: /usr/local/bin/yj
-    owner: root
-    group: root
-    mode: 0755
+#- name: Get yj download url
+#  tags: [yj]
+#  shell: |
+#    curl -s https://api.github.com/repos/sclevine/yj/releases/latest \
+#      | jq -r '.assets[] | select(.name == "yj-linux") | .browser_download_url'
+#  register: yj_url
+#
+#- name: Install yj
+#  tags: [yj]
+#  get_url:
+#    url: "{{ yj_url.stdout }}"
+#    dest: /usr/local/bin/yj
+#    owner: root
+#    group: root
+#    mode: 0755
 
 - name: install DuoConnect
   tags: [duo]
@@ -378,8 +381,8 @@
     deb: https://zoom.us/client/latest/zoom_amd64.deb
     state: present
 
-- name: Install mullvad vpn client
-  tags: [mullvad]
-  apt:
-    deb: https://mullvad.net/download/app/deb/latest/
-    state: present
+#- name: Install mullvad vpn client
+#  tags: [mullvad]
+#  apt:
+#    deb: https://mullvad.net/download/app/deb/latest/
+#    state: present
