@@ -139,16 +139,6 @@
     deb: https://github.com/jwilm/alacritty/releases/download/v0.4.0/Alacritty-v0.4.0-ubuntu_18_04_amd64.deb
     state: present
 
-- name: Install jq
-  # to get the latest jq, which isn't in the apt repos
-  tags: [packages, jq]
-  get_url:
-    url: https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
-    dest: /usr/local/bin/jq
-    owner: root
-    group: root
-    mode: 0755
-
 - name: Install container linux config transpiler
   tags: [packages, ct]
   get_url:
