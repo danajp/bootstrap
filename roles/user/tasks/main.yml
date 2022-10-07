@@ -1,16 +1,26 @@
 ---
 
-#- name: Get dotfiles
-#  git:
-#    repo: git@github.com:danajp/dotfiles.git
-#    dest: ~/src/dotfiles
-#    accept_hostkey: yes
-#    update: yes
+- name: Create dotfiles dir
+  file:
+    state: directory
+    path: ~/src/dotfiles
+
+- name: Get dotfiles
+  git:
+    repo: git@github.com:danajp/dotfiles.git
+    dest: ~/src/dotfiles
+    accept_hostkey: yes
+    update: yes
 
 - name: Install dotfiles
   command: make clean install
   args:
     chdir: ~/src/dotfiles
+
+- name: Create dotemacs dir
+  file:
+    state: directory
+    path: ~/src/dotemacs
 
 - name: Get dotemacs
   tags: [emacs]
