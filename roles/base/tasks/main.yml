@@ -203,36 +203,36 @@
     pkg: brave-browser
     state: present
 
-#- name: Check for slack apt source
-#  tags: [packages, desktop, slack]
-#  stat:
-#    path: /etc/apt/sources.list.d/slack.list
-#  register: slack_source
-#
-#- name: Install slack client
-#  tags: [packages, desktop, slack]
-#  apt:
-#    deb: "https://downloads.slack-edge.com/linux_releases/slack-desktop-{{ slack.version }}-amd64.deb"
-#    state: present
-#  when: not slack_source.stat.exists
+- name: Check for slack apt source
+  tags: [packages, desktop, slack]
+  stat:
+    path: /etc/apt/sources.list.d/slack.list
+  register: slack_source
 
-#- name: Add apt keys for spotify
-#  tags: [packages, desktop, spotify]
-#  apt_key:
-#    url: https://download.spotify.com/debian/pubkey_0D811D58.gpg
-#
-#- name: Add apt repository for spotify
-#  tags: [packages, desktop, spotify]
-#  apt_repository:
-#    repo: "deb http://repository.spotify.com stable non-free"
-#    state: present
-#    update_cache: yes
-#
-#- name: Install spotify
-#  tags: [packages, desktop, spotify]
-#  apt:
-#    pkg: spotify-client
-#    state: present
+- name: Install slack client
+  tags: [packages, desktop, slack]
+  apt:
+    deb: https://downloads.slack-edge.com/releases/linux/4.28.182/prod/x64/slack-desktop-4.28.182-amd64.deb
+    state: present
+  when: not slack_source.stat.exists
+
+- name: Add apt keys for spotify
+  tags: [packages, desktop, spotify]
+  apt_key:
+    url: https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg
+
+- name: Add apt repository for spotify
+  tags: [packages, desktop, spotify]
+  apt_repository:
+    repo: "deb http://repository.spotify.com stable non-free"
+    state: present
+    update_cache: yes
+
+- name: Install spotify
+  tags: [packages, desktop, spotify]
+  apt:
+    pkg: spotify-client
+    state: present
 
 - name: Add apt keys for docker
   tags: [packages, docker]
