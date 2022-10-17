@@ -3,17 +3,17 @@ SSH_KEY?=~/.ssh/id_rsa
 IMAGE?=bootstrap
 USER?=dana
 
-.PHONY: provision
-provision: $(ANSIBLE) $(SSH_KEY)
-	ansible-playbook -K provision.yml
+ifneq ($(strip $(TAGS)),)
+override TAGS := --tags $(TAGS)
+endif
 
-.PHONY: packages
-packages: $(ANSIBLE)
-	ansible-playbook -K provision.yml --tags packages
+.PHONY: base
+base: $(ANSIBLE) $(SSH_KEY)
+	ansible-playbook -K base.yaml -e @vars.yaml $(TAGS) $(ARGS)
 
-.PHONY: tags
-tags:
-	PATH=/usr/bin ansible-playbook -K provision.yml -v --tags $(TAGS)
+.PHONY: user
+user: $(ANSIBLE) $(SSH_KEY)
+	ansible-playbook -K user.yaml -e @vars.yaml $(TAGS) $(ARGS)
 
 .PHONY: image
 image:

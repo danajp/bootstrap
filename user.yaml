@@ -1,0 +1,19 @@
+---
+
+- name: Provision user configuration
+  hosts: all, localhost
+  gather_facts: no
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    user:
+      name: dana
+      group: dana
+    ubuntu:
+      release: jammy
+
+  roles:
+    - role: user
+      tags: [user]
+      become: yes
+      become_user: "{{ user.name }}"
