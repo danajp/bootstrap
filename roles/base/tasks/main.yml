@@ -339,15 +339,6 @@
     group: root
     mode: 0755
 
-- name: Install aws-vault
-  tags: [aws, aws-vault]
-  get_url:
-    url: "https://github.com/99designs/aws-vault/releases/download/v{{ aws_vault.version }}/aws-vault-linux-amd64"
-    dest: /usr/local/bin/aws-vault
-    owner: root
-    group: root
-    mode: 0755
-
 - name: Install vagrant
   tags: [vagrant]
   apt:

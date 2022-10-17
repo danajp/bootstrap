@@ -60,6 +60,7 @@
   with_items:
     - name: argo
     - name: awscli
+    - name: aws-vault
     - name: bat
     - name: direnv
     - name: github-cli
@@ -144,6 +145,7 @@
    - name: argo
      version: 3.2.8
    - name: awscli
+   - name: aws-vault
    - name: github-cli
    - name: golang
    - name: helm

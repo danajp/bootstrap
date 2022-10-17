@@ -12,6 +12,3 @@ hub:
 
 slackcat:
   version: 1.5
-
-aws_vault:
-  version: 6.2.0
