@@ -60,7 +60,7 @@
     state: latest
 
 - name: Install regolith packages
-  tags: [regolith, desktop]
+  tags: [regolith]
   apt:
     name:
       - i3xrocks-battery
@@ -75,7 +75,7 @@
       - dunst
 
 - name: Add emacs PPA
-  tags: [emacs, packages]
+  tags: [emacs]
   apt_repository:
     repo: ppa:kelleyk/emacs
     state: present
@@ -89,7 +89,7 @@
 #      - emacs26
 
 - name: Install ruby build dependencies
-  tags: [ruby, packages]
+  tags: [ruby]
   apt:
     name:
       - libssl-dev
@@ -101,7 +101,7 @@
     state: latest
 
 - name: Install desktop packages
-  tags: [packages, desktop]
+  tags: [desktop]
   apt:
     name:
       - pasystray
@@ -117,13 +117,13 @@
 
 # already installed by default?
 #- name: Install playerctl
-#  tags: [packages, desktop, playerctl]
+#  tags: [packages, playerctl]
 #  apt:
 #    deb: https://github.com/altdesktop/playerctl/releases/download/v2.1.1/playerctl-2.1.1_amd64.deb
 #    state: present
 
 - name: Add powerline symbols to terminus font
-  tags: [packages, powerline]
+  tags: [powerline]
   copy:
     src: 11-powerline-symbols-terminus.conf
     dest: /etc/fonts/conf.d/
@@ -132,17 +132,17 @@
     mode: 0644
 
 - name: Rebuild font cache
-  tags: [packages, powerline]
+  tags: [powerline]
   shell: fc-cache
 
 - name: Install Alacritty
-  tags: [packages, desktop, alacritty]
+  tags: [alacritty]
   apt:
     deb: https://github.com/jwilm/alacritty/releases/download/v0.4.0/Alacritty-v0.4.0-ubuntu_18_04_amd64.deb
     state: present
 
 - name: Install container linux config transpiler
-  tags: [packages, ct]
+  tags: [ct]
   get_url:
     url: https://github.com/flatcar-linux/container-linux-config-transpiler/releases/download/v0.9.2/ct-v0.9.2-x86_64-unknown-linux-gnu
     dest: /usr/local/bin/ct
@@ -151,101 +151,101 @@
     mode: 0755
 
 - name: Check for google chrome apt source
-  tags: [packages, desktop, chrome]
+  tags: [chrome]
   stat:
     path: /etc/apt/sources.list.d/google-chrome.list
   register: chrome_source
 
 - name: Install google chrome
-  tags: [packages, desktop, chrome]
+  tags: [chrome]
   apt:
     deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     state: present
   when: not chrome_source.stat.exists
 
 - name: Chrome managed policy dir
-  tags: [packages, desktop, chrome]
+  tags: [chrome]
   file:
     state: directory
     path: /etc/opt/chrome/policies/managed
 
 - name: Add xdg-open policy for google chrome
-  tags: [packages, desktop, chrome]
+  tags: [chrome]
   copy:
     src: chrome-xdg-open-policy.json
     dest: /etc/opt/chrome/policies/managed/xdg-open.json
 
 - name: Add apt key for brave
-  tags: [packages, desktop, brave]
+  tags: [packages, brave]
   get_url:
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
     mode: 644
 
 - name: Add apt source for brave
-  tags: [packages, desktop, brave]
+  tags: [brave]
   apt_repository:
     repo: "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
     state: present
     update_cache: yes
 
 - name: Install brave
-  tags: [packages, desktop, brave]
+  tags: [brave]
   apt:
     pkg: brave-browser
     state: present
 
 - name: Check for slack apt source
-  tags: [packages, desktop, slack]
+  tags: [slack]
   stat:
     path: /etc/apt/sources.list.d/slack.list
   register: slack_source
 
 - name: Install slack client
-  tags: [packages, desktop, slack]
+  tags: [slack]
   apt:
     deb: https://downloads.slack-edge.com/releases/linux/4.28.182/prod/x64/slack-desktop-4.28.182-amd64.deb
     state: present
   when: not slack_source.stat.exists
 
 - name: Add apt keys for spotify
-  tags: [packages, desktop, spotify]
+  tags: [spotify]
   apt_key:
     url: https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg
 
 - name: Add apt repository for spotify
-  tags: [packages, desktop, spotify]
+  tags: [spotify]
   apt_repository:
     repo: "deb http://repository.spotify.com stable non-free"
     state: present
     update_cache: yes
 
 - name: Install spotify
-  tags: [packages, desktop, spotify]
+  tags: [spotify]
   apt:
     pkg: spotify-client
     state: present
 
 - name: Add apt keys for docker
-  tags: [packages, docker]
+  tags: [docker]
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
 
 - name: Add apt repository for docker
-  tags: [packages, docker]
+  tags: [docker]
   apt_repository:
     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ docker_engine.ubuntu_release }} stable"
     state: present
     update_cache: yes
 
 - name: Install docker
-  tags: [packages, docker]
+  tags: [docker]
   apt:
     pkg: docker-ce
     state: present
 
 - name: Install container-structure-test
-  tags: [packages, docker, container-structure-test]
+  tags: [docker, container-structure-test]
   get_url:
     url: https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64
     dest: /usr/local/bin/container-structure-test
@@ -254,25 +254,25 @@
     mode: 0755
 
 - name: Add apt keys for gcloud
-  tags: [packages, gcloud]
+  tags: [gcloud]
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
 
 - name: Add apt repository for gcloud
-  tags: [packages, gcloud]
+  tags: [gcloud]
   apt_repository:
     repo: deb http://packages.cloud.google.com/apt cloud-sdk main
     state: present
     update_cache: yes
 
 - name: Install gcloud
-  tags: [packages, gcloud]
+  tags: [gcloud]
   apt:
     pkg: google-cloud-cli
     state: present
 
 - name: Configure gcloud python
-  tags: [packages, gcloud]
+  tags: [gcloud]
   copy:
     dest: /etc/profile.d/gcloud-set-python.sh
     content: |-
