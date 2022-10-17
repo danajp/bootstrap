@@ -140,6 +140,10 @@
   apt:
     deb: https://github.com/jwilm/alacritty/releases/download/v0.4.0/Alacritty-v0.4.0-ubuntu_18_04_amd64.deb
     state: present
+- name: Add alacritty to terminal emulators alternatives
+  tags: [alacritty]
+  command:
+    cmd: update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/alacritty 50
 
 - name: Install container linux config transpiler
   tags: [ct]
