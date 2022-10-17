@@ -16,6 +16,7 @@
   apt:
     name:
       - git
+      - emacs
       - gnupg
       - tmux
       - python3-dev
@@ -75,20 +76,6 @@
       - regolith-look-solarized-dark
       - regolith-compositor-none
       - dunst
-
-- name: Add emacs PPA
-  tags: [emacs]
-  apt_repository:
-    repo: ppa:kelleyk/emacs
-    state: present
-    update_cache: yes
-
-# new package name?
-#- name: Install emacs
-#  tags: [emacs, packages]
-#  apt:
-#    name:
-#      - emacs26
 
 - name: Install ruby build dependencies
   tags: [ruby]
@@ -182,7 +169,7 @@
     dest: /etc/opt/chrome/policies/managed/xdg-open.json
 
 - name: Add apt key for brave
-  tags: [packages, brave]
+  tags: [brave]
   get_url:
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
