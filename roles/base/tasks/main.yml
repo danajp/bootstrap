@@ -103,13 +103,6 @@
       - copyq
     state: latest
 
-# already installed by default?
-#- name: Install playerctl
-#  tags: [packages, playerctl]
-#  apt:
-#    deb: https://github.com/altdesktop/playerctl/releases/download/v2.1.1/playerctl-2.1.1_amd64.deb
-#    state: present
-
 - name: Add powerline symbols to terminus font
   tags: [powerline]
   copy:
