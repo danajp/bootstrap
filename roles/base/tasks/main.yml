@@ -57,6 +57,8 @@
       - libvirt-daemon-system
       - libvirt-clients
       - bridge-utils
+      - cura
+      - sqlite3
     state: latest
 
 - name: Install regolith packages
