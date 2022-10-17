@@ -2,15 +2,7 @@
 
 - name: Provision user configuration
   hosts: all, localhost
-  gather_facts: no
-
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
-    user:
-      name: dana
-      group: dana
-    ubuntu:
-      release: jammy
+  gather_facts: yes
 
   roles:
     - role: user
