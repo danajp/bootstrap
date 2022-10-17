@@ -1,0 +1,81 @@
+#!/bin/bash
+
+###
+# Use NetworkManager's dnsmasq to route DNS queries for specific
+# internal domains to a VPN connection's nameservers.
+#
+# Domains not in this list will be resolved by your default
+# nameservers (or according to other dnsmasq configuration).
+#
+# Configuration:
+# VPN_CONNECTION_ID - the name of the connection this applies to (the NAME column of `nmcli connection show`)
+# DOMAINS - space separated list of domains (as used in a server= line of a dnsmasq config file)
+# DNSMASQ_CONFIG - file to write dnsmasq config to
+#
+# This script should be copied to /etc/NetworkManager/dispatcher.d/
+
+set -eo pipefail
+
+DEBUG=
+VPN_CONNECTION_ID=bastion
+DOMAINS="${DOMAINS:-gh.internal amazonaws.com ec2.internal}"
+DNSMASQ_CONFIG="${DNSMASQ_CONFIG:-/etc/NetworkManager/dnsmasq.d/$VPN_CONNECTION_ID.conf}"
+
+prefix_lines() {
+  local prefix
+
+  prefix="$1"
+
+  sed -u "s/^/$prefix/"
+}
+
+dnsmasq_config() {
+  for d in $DOMAINS; do
+    for ns in $VPN_IP4_NAMESERVERS; do
+      echo "server=/$d/$ns"
+    done
+  done
+}
+
+nm_reload() {
+  systemctl reload NetworkManager.service
+}
+
+vpn_up() {
+  echo "vpn coming up"
+
+  dnsmasq_config > "$DNSMASQ_CONFIG"
+  nm_reload
+}
+
+vpn_down() {
+  echo "vpn going down"
+  rm -f "$DNSMASQ_CONFIG"
+  nm_reload
+}
+
+main() {
+  [[ -n "$DEBUG" ]] && env
+
+  if [[ "$CONNECTION_ID" != "$VPN_CONNECTION_ID" ]]; then
+    # make sure we only apply this to the intended vpn, not all vpns
+    return
+  fi
+
+  case "$NM_DISPATCHER_ACTION" in
+    vpn-up)
+      vpn_up
+      ;;
+    vpn-down)
+      vpn_down
+      ;;
+  esac
+}
+
+if [[ -n "$DEBUG" ]]; then
+  # NetworkManager doesn't capture the output of dispatch scripts, so
+  # we must write debug output to a file
+  main "$@" 2>&1 | prefix_lines "[$(date --iso-8601=seconds)] [$NM_DISPATCHER_ACTION] " >> /tmp/dispatcher.log
+else
+  main "$@"
+fi

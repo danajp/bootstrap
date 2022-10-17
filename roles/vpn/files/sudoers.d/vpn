@@ -1,2 +1,0 @@
-dana ALL=(ALL) NOPASSWD: /usr/sbin/openvpn
-dana ALL=(ALL) NOPASSWD: /usr/bin/killall /usr/sbin/openvpn

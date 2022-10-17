@@ -1,0 +1,11 @@
+---
+
+- name: Provision user configuration
+  hosts: all, localhost
+  gather_facts: yes
+
+  roles:
+    - role: user
+      tags: [user]
+      become: yes
+      become_user: "{{ user.name }}"

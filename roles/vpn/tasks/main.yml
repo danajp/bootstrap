@@ -1,75 +1,9 @@
 ---
 
-- name: Install openvpn
-  apt:
-    name: "{{ packages }}"
-    state: latest
-  vars:
-    packages:
-      - openvpn
-      - dnsmasq
-
-- name: Install dnsmasq config
+- name: Install NetworkManager dispatch script
   copy:
-    src: dnsmasq.d/
-    dest: /etc/dnsmasq.d/
-    owner: root
-    group: root
-
-- name: Install dnsmasq systemd drop-in
-  copy:
-    src: dnsmasq.service.d/
-    dest: /etc/systemd/system/dnsmasq.service.d/
-    owner: root
-    group: root
-
-- name: Disable systemd-resolved stub listener
-  lineinfile:
-    path: /etc/systemd/resolved.conf
-    regexp: '^DNSStubListener='
-    line: 'DNSStubListener=no'
-
-- name: Restart systemd-resolved
-  systemd:
-    name: systemd-resolved
-    state: restarted
-
-- name: Install network-manager config
-  copy:
-    src: network-manager-conf.d/
-    dest: /etc/NetworkManager/conf.d/
-    owner: root
-    group: root
-
-- name: Remove default resolv.conf
-  copy:
-    dest: /etc/resolv.conf
-    content: ''
-    force: yes
-
-- name: Reload network-manager systemd unit
-  systemd:
-    name: network-manager
-    state: reloaded
-
-- name: Start dnsmasq
-  systemd:
-    name: dnsmasq
-    state: restarted
-
-- name: Installer sudoers config
-  copy:
-    src: sudoers.d/
-    dest: /etc/sudoers.d/
-    owner: root
-    group: root
-    mode: 0440
-    validate: "visudo -cf %s"
-
-- name: Install vpn scripts
-  copy:
-    src: bin/
-    dest: /usr/local/bin/
+    src: bin/nm-dispatch-update-dnsmasq
+    dest: /etc/NetworkManager/dispatcher.d/vpn-update-dnsmasq
     owner: root
     group: root
     mode: 0755

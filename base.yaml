@@ -1,16 +1,8 @@
 ---
 
-- name: Provision a workstation
+- name: Provision base regolith system
   hosts: all, localhost
-  gather_facts: no
-
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
-    user:
-      name: dana
-      group: dana
-    ubuntu:
-      release: cosmic
+  gather_facts: yes
 
   pre_tasks:
     - name: Update OS packages
@@ -30,26 +22,12 @@
     - role: base
       tags: [base]
       become: yes
-
-    - role: system76
-      tags: [system76]
-      become: yes
-
     - role: vpn
       tags: [vpn]
       become: yes
 
-    - role: kubernetes
-      tags: [kubernetes]
-      become: yes
-
-    - role: user
-      tags: [user]
-      become: yes
-      become_user: "{{ user.name }}"
-
   post_tasks:
-    - name: Add {{ user.name }} to docker group
+    - name: Add {{ user.name }} to additional groups
       user:
         name: "{{ user.name }}"
         groups: docker,kvm,libvirt

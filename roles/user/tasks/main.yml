@@ -1,16 +1,29 @@
 ---
 
+- name: Create dotfiles dir
+  file:
+    state: directory
+    path: ~/src/dotfiles
+  register: dotfiles_dir
+
 - name: Get dotfiles
   git:
     repo: git@github.com:danajp/dotfiles.git
     dest: ~/src/dotfiles
     accept_hostkey: yes
     update: yes
+  when: dotfiles_dir.changed
 
 - name: Install dotfiles
   command: make clean install
   args:
     chdir: ~/src/dotfiles
+
+- name: Create dotemacs dir
+  file:
+    state: directory
+    path: ~/src/dotemacs
+  register: dotemacs_dir
 
 - name: Get dotemacs
   tags: [emacs]
@@ -19,6 +32,7 @@
     dest: ~/src/dotemacs
     accept_hostkey: yes
     update: no
+  when: dotemacs_dir.changed
 
 - name: Link emacs config
   tags: [emacs]
@@ -46,7 +60,10 @@
   with_items:
     - name: argo
     - name: awscli
+    - name: aws-vault
+    - name: bat
     - name: direnv
+    - name: github-cli
     - name: golang
     - name: golangci-lint
     - name: helm
@@ -54,12 +71,13 @@
     - name: jq
     - name: jsonnet
     - name: kind
-    - name: krew
+#    - name: krew
     - name: kubebuilder
     - name: kubectl
     - name: kustomize
     - name: minikube
     - name: nodejs
+    - name: opa
     - name: protoc
     - name: python
     - name: ruby
@@ -67,6 +85,7 @@
     - name: starship
     - name: tanka
     - name: terraform
+    - name: vault
     - name: yj
     - name: yq
 
@@ -106,25 +125,40 @@
       github.com/zmb3/gogetdoc@latest
     dest: ~/.default-golang-pkgs
 
-- name: Install asdf tool versions
+- name: Install global asdf tool versions
   tags: [asdf, asdf-tool-versions]
   shell: |
     . ~/.bashrc
-    asdf install {{ item.name }} {{ item.version }}
+
+    name="{{ item.name }}"
+    version="{{ item.version | default("") }}"
+
+    if [[ "$version" == "" ]]; then
+      version="$(asdf latest "$name")"
+    fi
+
+    asdf install "$name" "$version"
+    asdf global "$name" "$version"
   args:
     executable: /bin/bash
-    creates: "~/.asdf/installs/{{ item.name }}/{{ item.version }}"
   with_items:
-   - { name: argo, version: 3.2.8 }
-   - { name: golang, version: 1.17.7 }
-   - { name: helm, version: 3.8.0 }
-   - { name: kind, version: 0.7.0 }
-   - { name: kubectl, version: 1.23.4 }
-   - { name: kustomize, version: 3.5.4 }
-   - { name: minikube, version: 1.6.2 }
-   - { name: shellcheck, version: 0.8.0 }
-   - { name: starship, version: 1.3.0 }
-   - { name: terraform, version: 0.12.7 }
+   - name: argo
+     version: 3.2.8
+   - name: awscli
+   - name: aws-vault
+   - name: github-cli
+   - name: golang
+   - name: helm
+   - name: jq
+   - name: kind
+   - name: kubectl
+   - name: kustomize
+   - name: minikube
+   - name: shellcheck
+   - name: starship
+   - name: terraform
+   - name: vault
+   - name: yj
 
 # these compile stuff and take a long time, skip them by default
 - name: Install expensive asdf tool versions
@@ -150,16 +184,6 @@
    - { name: ruby, version: 2.6.3 }
    - { name: ruby, version: 2.6.4 }
    - { name: ruby, version: 2.6.5 }
-
-- name: Set asdf global versions to latest for each tool
-  tags: [asdf, asdf-tool-versions]
-  shell: |
-    . ~/.bashrc
-    for plugin in $(asdf plugin list | sort); do
-      echo "$plugin $(asdf latest $plugin)"
-    done > ~/.tool-versions
-  args:
-    executable: /bin/bash
 
 - name: Solarized theme for gnome-terminal
   tags: [solarized]
