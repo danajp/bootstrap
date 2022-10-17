@@ -2,15 +2,13 @@
 
 - name: Provision base regolith system
   hosts: all, localhost
-  gather_facts: no
+  gather_facts: yes
 
   vars:
     ansible_python_interpreter: /usr/bin/python3
     user:
       name: dana
       group: dana
-    ubuntu:
-      release: jammy
 
   pre_tasks:
     - name: Update OS packages

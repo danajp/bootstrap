@@ -240,7 +240,7 @@
 - name: Add apt repository for docker
   tags: [docker]
   apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ docker_engine.ubuntu_release }} stable"
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts['lsb']['codename'] }} stable"
     state: present
     update_cache: yes
 
@@ -324,7 +324,7 @@
 - name: Install Slackcat
   tags: [slackcat]
   get_url:
-    url: "https://github.com/bcicen/slackcat/releases/download/v{{ slackcat.version }}/slackcat-{{ slackcat.version }}-linux-amd64"
+    url: "https://github.com/bcicen/slackcat/releases/download/1.7.3/slackcat-1.7.3-linux-amd64"
     dest: /usr/local/bin/slackcat
     owner: root
     group: root
