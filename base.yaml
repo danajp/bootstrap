@@ -30,6 +30,9 @@
     - role: base
       tags: [base]
       become: yes
+    - role: vpn
+      tags: [vpn]
+      become: yes
 
   post_tasks:
     - name: Add {{ user.name }} to additional groups
