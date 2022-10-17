@@ -70,7 +70,6 @@
       - i3xrocks-net-traffic
       - i3xrocks-time
       - i3xrocks-cpu-usage
-      - i3xrocks-openvpn
       - i3xrocks-nm-vpn
       - i3xrocks-rofication
       - regolith-look-solarized-dark
