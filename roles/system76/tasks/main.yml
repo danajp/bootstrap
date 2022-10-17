@@ -1,3 +1,10 @@
+---
+###
+# This role is probably no longer necessary.
+#
+# Everything appears to work except the keyboard backlight control
+# keys.
+#
 - name: Add PPA for system76
   apt_repository:
     repo: ppa:system76-dev/stable
