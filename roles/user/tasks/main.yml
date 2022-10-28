@@ -59,6 +59,7 @@
     creates: "~/.asdf/plugins/{{ item.name }}"
   with_items:
     - name: argo
+    - name: argocd
     - name: awscli
     - name: aws-vault
     - name: bat
@@ -145,6 +146,7 @@
   with_items:
    - name: argo
      version: 3.2.8
+   - name: argocd
    - name: awscli
    - name: aws-vault
    - name: github-cli
