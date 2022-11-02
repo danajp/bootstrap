@@ -77,6 +77,7 @@
     - name: kubebuilder
     - name: kubectl
     - name: kustomize
+    - name: loki-logcli
     - name: minikube
     - name: nodejs
     - name: opa
@@ -156,6 +157,7 @@
    - name: kind
    - name: kubectl
    - name: kustomize
+   - name: loki-logcli
    - name: minikube
    - name: shellcheck
    - name: starship
