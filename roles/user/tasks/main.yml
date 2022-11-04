@@ -63,6 +63,7 @@
     - name: awscli
     - name: aws-vault
     - name: bat
+    - name: buildpack
     - name: cfssl
     - name: direnv
     - name: github-cli
