@@ -128,6 +128,7 @@
       github.com/rogpeppe/godef@latest
       golang.org/x/tools/cmd/goimports@latest
       github.com/zmb3/gogetdoc@latest
+      github.com/maruel/panicparse/v2/cmd/pp@latest
     dest: ~/.default-golang-pkgs
 
 - name: Install global asdf tool versions
