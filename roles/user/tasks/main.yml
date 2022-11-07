@@ -64,6 +64,7 @@
     - name: aws-vault
     - name: bat
     - name: buildpack
+    - name: buf
     - name: cfssl
     - name: direnv
     - name: github-cli
