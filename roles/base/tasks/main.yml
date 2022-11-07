@@ -57,6 +57,8 @@
       - qemu-kvm
       - libvirt-daemon-system
       - libvirt-clients
+      - virt-manager
+      - genisoimage
       - bridge-utils
       - cura
       - sqlite3
