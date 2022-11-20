@@ -62,6 +62,9 @@
       - bridge-utils
       - cura
       - sqlite3
+      # utility for hp networked printer
+      # run `hp-setup <printer ip>` to setup the printer
+      - hplip-gui
     state: latest
 
 - name: Install regolith packages
