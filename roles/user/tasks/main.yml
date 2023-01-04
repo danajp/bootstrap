@@ -58,6 +58,7 @@
     executable: /bin/bash
     creates: "~/.asdf/plugins/{{ item.name }}"
   with_items:
+    - name: 1password-cli
     - name: argo
     - name: argocd
     - name: awscli
@@ -66,6 +67,7 @@
     - name: buildpack
     - name: buf
     - name: cfssl
+    - name: cmctl
     - name: direnv
     - name: github-cli
     - name: golang
