@@ -349,7 +349,7 @@
 - name: Install teleport
   tags: [teleport]
   apt:
-    deb: https://get.gravitational.com/teleport-ent_7.1.1_amd64.deb
+    deb: https://cdn.teleport.dev/teleport_11.1.2_amd64.deb
     state: present
 
 - name: Install mullvad vpn client
