@@ -65,6 +65,7 @@
       # utility for hp networked printer
       # run `hp-setup <printer ip>` to setup the printer
       - hplip-gui
+      - jwt
     state: latest
 
 - name: Install regolith packages
