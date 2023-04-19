@@ -66,6 +66,7 @@
       # run `hp-setup <printer ip>` to setup the printer
       - hplip-gui
       - jwt
+      - amazon-ecr-credential-helper
     state: latest
 
 - name: Install regolith packages
@@ -358,3 +359,8 @@
   apt:
     deb: https://mullvad.net/download/app/deb/latest/
     state: present
+
+- name: Install AWS session manager plugin
+  tags: [aws]
+  apt:
+    deb: https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb
