@@ -195,6 +195,17 @@
    - { name: ruby, version: 2.6.4 }
    - { name: ruby, version: 2.6.5 }
 
+# installs yaml lsp server with the global nodejs version to be used by emacs
+- name: Install yaml lsp server
+  tags: [asdf, asdf-plugins-nodejs, asdf-plugins-nodejs]
+  shell: |
+    . ~/.bashrc
+    npm install -g yaml-language-server
+    asdf reshim nodejs
+  args:
+    chdir: ~/
+    creates: ~/.asdf/shims/yaml-language-server
+
 - name: Solarized theme for gnome-terminal
   tags: [solarized]
   shell: |
