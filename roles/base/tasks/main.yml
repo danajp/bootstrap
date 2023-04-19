@@ -271,6 +271,24 @@
     content: |-
       export CLOUDSDK_PYTHON=python3
 
+- name: Add apt keys for terraform-ls
+  tags: [terraform-ls]
+  apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+
+- name: Add apt repository for terraform-ls
+  tags: [terraform-ls]
+  apt_repository:
+    repo: "deb https://apt.releases.hashicorp.com {{ ansible_facts['lsb']['codename'] }} main"
+    state: present
+    update_cache: yes
+
+- name: Install terraform-ls
+  tags: [terraform-ls]
+  apt:
+    pkg: terraform-ls
+    state: present
+
 - name: Add sudoers files
   tags: [sudoers]
   copy:
