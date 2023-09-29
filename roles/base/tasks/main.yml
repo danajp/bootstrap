@@ -373,6 +373,23 @@
     deb: https://cdn.teleport.dev/teleport_11.1.2_amd64.deb
     state: present
 
+- name: Install commercial openvpn client apt key
+  tags: [openvpn]
+  apt_key:
+    url: https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub
+
+- name: Install commercial openvpn client apt repo
+  tags: [openvpn]
+  apt_repository:
+    repo: deb https://swupdate.openvpn.net/community/openvpn3/repos jammy main
+    state: present
+    update_cache: yes
+
+- name: Install commercial openvpn client apt repo
+  tags: [openvpn]
+  apt:
+    pkg: openvpn3
+
 - name: Install mullvad vpn client
   tags: [mullvad]
   apt:
@@ -383,3 +400,17 @@
   tags: [aws]
   apt:
     deb: https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb
+
+- name: Install dnsmasq config for work
+  tags: [openvpn, openvpn-network-manager]
+  copy:
+    content: |
+      server=/gh.internal/10.254.0.2
+      server=/ec2.internal/10.254.0.2
+    dest: /etc/NetworkManager/dnsmasq.d/greenhouse-vpn.conf
+
+- name: Reload network manager
+  tags: [openvpn, openvpn-network-manager]
+  systemd:
+    name: NetworkManager
+    state: reloaded
