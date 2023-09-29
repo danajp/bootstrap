@@ -223,3 +223,26 @@
   args:
     executable: /bin/bash
     creates: ~/.Xresources-regolith
+
+- name: Create fonts dir
+  tags: [powerline]
+  file:
+    dest: ~/.local/share/fonts
+    state: directory
+
+- name: Install powerline patched font
+  tags: [powerline]
+  get_url:
+    url: https://github.com/powerline/fonts/raw/master/Inconsolata/Inconsolata%20for%20Powerline.otf
+    dest: ~/.local/share/fonts/Inconsolata for Powerline.otf
+
+- name: Install powerline bold patched font
+  tags: [powerline]
+  get_url:
+    url: https://github.com/powerline/fonts/raw/master/Inconsolata/Inconsolata%20Bold%20for%20Powerline.ttf
+    dest: ~/.local/share/fonts/Inconsolata Bold for Powerline.ttf
+
+- name: Refresh font cache
+  tags: [powerline]
+  shell: |
+    fc-cache -vf ~/.local/share/fonts
