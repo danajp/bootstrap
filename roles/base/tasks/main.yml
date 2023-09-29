@@ -103,6 +103,7 @@
       - xfonts-terminus
       - fonts-terminus
       - fonts-inconsolata
+      - fonts-noto-color-emoji
       - arandr
       - gimp
       - maim
