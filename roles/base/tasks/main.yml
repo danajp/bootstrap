@@ -16,7 +16,6 @@
   apt:
     name:
       - git
-      - emacs
       - gnupg
       - tmux
       - python3-dev
@@ -68,6 +67,19 @@
       - jwt
       - amazon-ecr-credential-helper
     state: latest
+
+- name: Emacs PPA
+  tags: [emacs]
+  apt_repository:
+    repo: 'ppa:ubuntuhandbook1/emacs'
+    state: present
+    update_cache: yes
+
+- name: Install emacs
+  tags: [emacs]
+  apt:
+    name: emacs
+    state: present
 
 - name: Install regolith packages
   tags: [regolith]
