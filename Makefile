@@ -55,3 +55,7 @@ backup:
 		--exclude secrets \
 		.
 	sha1sum "$(TARGET)" > "$(TARGET).sha1"
+
+.PHONY: bootstrap
+bootstrap:
+	git clone https://github.com/asdf-vm/asdf.git ~/.asdf
