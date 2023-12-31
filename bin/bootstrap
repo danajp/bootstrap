@@ -1,0 +1,35 @@
+#!/bin/bash
+
+ASDF_TAG=v0.13.1
+
+set -eo pipefail
+
+init_asdf() {
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+  cd ~/.asdf && git checkout "$ASDF_TAG"
+}
+
+init_asdf_plugin() {
+  local name
+  name="$1"
+
+  asdf plugin add "$name"
+  asdf install "$name" latest
+  asdf global "$name" "$(asdf latest "$name")"
+}
+
+main() {
+  init_asdf
+
+  # shellcheck disable=SC1090
+  . ~/.asdf/asdf.sh
+
+  init_asdf_plugin 1password-cli
+  init_asdf_plugin python
+  init_asdf_plugin ansible-base
+
+  # install local dependencies
+  asdf install
+}
+
+main "$@"

@@ -58,4 +58,4 @@ backup:
 
 .PHONY: bootstrap
 bootstrap:
-	git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+	./bin/bootstrap
