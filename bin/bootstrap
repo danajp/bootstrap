@@ -31,9 +31,6 @@ main() {
 
   init_asdf_plugin 1password-cli
 
-  # install local dependencies
-  asdf install
-
   msg "--- initializing 1password cli ---"
   op account add
 
