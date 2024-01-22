@@ -1,12 +1,12 @@
 # Bootstrap a new machine with ansible
 
-This bootstraps a fresh ~~Ubuntu~~ Regolith linux 2.x install for me.
+This bootstraps a fresh Ubuntu install for me.
 
 ## Assumptions
 
-- using Regolith linux based on Ubuntu 22.04 LTS
+- using Ubuntu 22.04 LTS
 - Your username is `dana`
-- You have an ssh key that your github account knows about
+- ssh key is stored as a 1password document called `ssh-private-key`
 - `dana` is in the `sudo` group which allows him to do anything
 
 ## From a fresh installation
@@ -17,7 +17,7 @@ This bootstraps a fresh ~~Ubuntu~~ Regolith linux 2.x install for me.
    - Power saving/screen blanking
    - Wifi
 1. Update any outdated packages and install prerequisites:
-   `sudo apt update && sudo apt install make git tmux emacs && sudo apt upgrade`
+   `sudo apt update && sudo apt install make git tmux unzip curl emacs && sudo apt upgrade`
 1. Reboot (we likely got a new kernel in the previous step)
 1. Copy secrets repo into `~/secrets` and `make`
 1. Clone this repo into `~/src/bootstrap`

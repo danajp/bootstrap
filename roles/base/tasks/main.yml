@@ -81,6 +81,22 @@
     name: emacs
     state: present
 
+- name: Add apt key for regolith
+  tags: [regolith]
+  shell:
+    cmd: |
+      curl https://regolith-desktop.org/regolith.key \
+        | gpg --dearmor \
+        > /usr/share/keyrings/regolith.gpg
+    creates: /usr/share/keyrings/regolith.gpg
+
+- name: Add apt source for regolith
+  tags: [regolith]
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/regolith.gpg arch=amd64] https://regolith-desktop.org/release-3_0-ubuntu-jammy-amd64 jammy main"
+    state: present
+    update_cache: yes
+
 - name: Install regolith packages
   tags: [regolith]
   apt:
@@ -91,7 +107,8 @@
       - i3xrocks-cpu-usage
       - i3xrocks-nm-vpn
       - regolith-look-solarized-dark
-      - regolith-compositor-xcompmgr
+      - regolith-compositor-none
+      - regolith-session-flashback
       - dunst
       - rofi
 
@@ -216,13 +233,15 @@
 
 - name: Add apt keys for spotify
   tags: [spotify]
-  apt_key:
-    url: https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg
+  shell:
+    cmd: |
+      curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | gpg --dearmor > /usr/share/keyrings/spotify.gpg
+    creates: /usr/share/keyrings/spotify.gpg
 
 - name: Add apt repository for spotify
   tags: [spotify]
   apt_repository:
-    repo: "deb http://repository.spotify.com stable non-free"
+    repo: "deb [signed-by=/usr/share/keyrings/spotify.gpg arch=amd64] http://repository.spotify.com stable non-free"
     state: present
     update_cache: yes
 

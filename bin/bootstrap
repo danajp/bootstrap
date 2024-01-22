@@ -1,0 +1,46 @@
+#!/bin/bash
+
+ASDF_TAG=v0.13.1
+
+set -eo pipefail
+
+msg() {
+  echo "$@" >&2
+}
+
+init_asdf() {
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+  cd ~/.asdf && git checkout "$ASDF_TAG"
+}
+
+init_asdf_plugin() {
+  local name
+  name="$1"
+
+  asdf plugin add "$name"
+  asdf install "$name" latest
+  asdf global "$name" "$(asdf latest "$name")"
+}
+
+main() {
+  msg --- initializing asdf ---
+  init_asdf
+
+  # shellcheck disable=SC1090
+  . ~/.asdf/asdf.sh
+
+  init_asdf_plugin 1password-cli
+
+  msg "--- initializing 1password cli ---"
+  op account add
+
+  msg "--- signin to 1password ---"
+  eval "$(op signin)"
+
+  msg "--- installing ssh private key ---"
+  mkdir -p ~/.ssh
+  op document get ssh-private-key > ~/.ssh/id_rsa
+  chmod 0600 ~/.ssh/id_rsa
+}
+
+main "$@"
