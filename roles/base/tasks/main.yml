@@ -463,3 +463,8 @@
   systemd:
     name: NetworkManager
     state: reloaded
+
+- name: Install duo desktop
+  tags: [duo]
+  apt:
+    deb: https://desktop.pkg.duosecurity.com/duo-desktop-latest.amd64.deb
