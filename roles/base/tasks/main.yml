@@ -381,27 +381,10 @@
   apt:
     deb: https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.deb
 
-- name: install DuoConnect
-  tags: [duo]
-  unarchive:
-    src: https://dl.duosecurity.com/DuoConnect-latest.tar.gz
-    remote_src: yes
-    dest: /usr/local/bin
-    owner: root
-    group: root
-    mode: 0755
-    exclude: install.sh
-
 - name: Install zoom client
   tags: [zoom]
   apt:
     deb: https://zoom.us/client/latest/zoom_amd64.deb
-    state: present
-
-- name: Install teleport
-  tags: [teleport]
-  apt:
-    deb: https://cdn.teleport.dev/teleport_11.1.2_amd64.deb
     state: present
 
 - name: Install commercial openvpn client apt key
