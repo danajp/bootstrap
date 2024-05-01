@@ -122,6 +122,7 @@
       - libsqlite3-dev
       - cmake
       - libgmp-dev
+      - libyaml-dev
     state: latest
 
 - name: Install desktop packages
