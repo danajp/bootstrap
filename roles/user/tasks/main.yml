@@ -133,6 +133,21 @@
       github.com/maruel/panicparse/v2/cmd/pp@latest
     dest: ~/.default-golang-pkgs
 
+- name: Direnv config dir
+  tags: [asdf, asdf-plugins, asdf-plugins-direnv]
+  file:
+    dest: ~/.config/direnv
+    state: directory
+
+- name: Direnv config
+  tags: [asdf, asdf-plugins, asdf-plugins-direnv]
+  copy:
+    content: |
+      [global]
+      hide_env_diff = true
+      warn_timeout = "30s"
+    dest: ~/.config/direnv/direnv.toml
+
 - name: Install global asdf tool versions
   tags: [asdf, asdf-tool-versions]
   shell: |
