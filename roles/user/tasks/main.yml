@@ -42,6 +42,29 @@
     state: link
     force: yes
 
+- name: Download oh-my-zsh installer
+  tags: [zsh]
+  get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /tmp/oh-my-zsh-install.sh
+
+- name: Install oh-my-zsh
+  tags: [zsh]
+  shell:
+    cmd: sh /tmp/oh-my-zsh-install.sh "" --unattended
+    creates: ~/.oh-my-zsh
+
+- name: Remove oh-my-zsh installer
+  tags: [zsh]
+  file:
+    path: /tmp/oh-my-zsh-install.sh
+    state: absent
+
+- name: Default shell zsh
+  tags: [zsh]
+  shell:
+    cmd: chsh -s $(which zsh)
+
 - name: Install asdf
   tags: [asdf]
   git:
