@@ -11,6 +11,17 @@
     owner: root
     group: root
 
+- name: Disable snap
+  tags: [snap]
+  copy:
+    content: |-
+      Package: snapd
+      Pin: release a=*
+      Pin-Priority: -10
+    dest: /etc/apt/preferences.d/disable-snap
+    owner: root
+    group: root
+
 - name: Install basic packages
   tags: [packages]
   apt:
