@@ -118,7 +118,7 @@
       - i3xrocks-cpu-usage
       - i3xrocks-nm-vpn
       - regolith-look-solarized-dark
-      - regolith-compositor-none
+      - regolith-compositor-xcompmgr
       - regolith-session-flashback
       - dunst
       - rofi
