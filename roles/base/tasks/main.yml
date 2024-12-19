@@ -134,6 +134,9 @@
       - cmake
       - libgmp-dev
       - libyaml-dev
+      # for rugged gem
+      - libgit2-dev
+      - pkgconf
     state: latest
 
 - name: Install desktop packages
