@@ -463,3 +463,25 @@
   tags: [duo]
   apt:
     deb: https://desktop.pkg.duosecurity.com/duo-desktop-latest.amd64.deb
+
+- name: Add apt key for signal
+  tags: [signal]
+  shell:
+    cmd: |
+      curl https://updates.signal.org/desktop/apt/keys.asc \
+        | gpg --dearmor \
+        > /usr/share/keyrings/signal.gpg
+    creates: /usr/share/keyrings/signal.gpg
+
+- name: Add apt source for signal
+  tags: [signal]
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/signal.gpg arch=amd64] https://updates.signal.org/desktop/apt xenial main"
+    state: present
+    update_cache: yes
+
+- name: Install signal packages
+  tags: [signal]
+  apt:
+    name:
+      - signal-desktop
