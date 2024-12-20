@@ -84,7 +84,7 @@
   apt_repository:
     repo: 'ppa:ubuntuhandbook1/emacs'
     state: present
-    update_cache: yes
+    update_cache: no
 
 - name: Install emacs
   tags: [emacs]
@@ -250,7 +250,8 @@
   tags: [spotify]
   shell:
     cmd: |
-      curl -sS https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg | gpg --dearmor > /usr/share/keyrings/spotify.gpg
+      https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg
+      curl -fsSL https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | gpg --dearmor > /usr/share/keyrings/spotify.gpg
     creates: /usr/share/keyrings/spotify.gpg
 
 - name: Add apt repository for spotify
@@ -268,13 +269,14 @@
 
 - name: Add apt keys for docker
   tags: [docker]
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
+  shell:
+    cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor > /usr/share/keyrings/docker.gpg
+    creates: /usr/share/keyrings/docker.gpg
 
 - name: Add apt repository for docker
   tags: [docker]
   apt_repository:
-    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts['lsb']['codename'] }} stable"
+    repo: "deb [signed-by=/usr/share/keyrings/docker.gpg arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts['lsb']['codename'] }} stable"
     state: present
     update_cache: yes
 
@@ -295,15 +297,16 @@
 
 - name: Add apt keys for gcloud
   tags: [gcloud]
-  apt_key:
-    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  shell:
+    cmd: curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor > /usr/share/keyrings/gcloud.gpg
+    creates: /usr/share/keyrings/gcloud.gpg
 
 - name: Add apt repository for gcloud
   tags: [gcloud]
   apt_repository:
-    repo: deb http://packages.cloud.google.com/apt cloud-sdk main
+    repo: "deb [signed-by=/usr/share/keyrings/gcloud.gpg arch=amd64] http://packages.cloud.google.com/apt cloud-sdk main"
     state: present
-    update_cache: yes
+    update_cache: no
 
 - name: Install gcloud
   tags: [gcloud]
@@ -320,13 +323,14 @@
 
 - name: Add apt keys for terraform-ls
   tags: [terraform-ls]
-  apt_key:
-    url: https://apt.releases.hashicorp.com/gpg
+  shell:
+    cmd: curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor > /usr/share/keyrings/hashicorp.gpg
+    creates: /usr/share/keyrings/hashicorp.gpg
 
 - name: Add apt repository for terraform-ls
   tags: [terraform-ls]
   apt_repository:
-    repo: "deb https://apt.releases.hashicorp.com {{ ansible_facts['lsb']['codename'] }} main"
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/hashicorp.gpg] https://apt.releases.hashicorp.com {{ ansible_facts['lsb']['codename'] }} main"
     state: present
     update_cache: yes
 
@@ -404,13 +408,13 @@
 
 - name: Install commercial openvpn client apt key
   tags: [openvpn]
-  apt_key:
-    url: https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub
+  shell:
+    cmd: curl -fsSL https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub | gpg --dearmor > /usr/share/keyrings/openvpn.gpg
 
 - name: Install commercial openvpn client apt repo
   tags: [openvpn]
   apt_repository:
-    repo: deb https://swupdate.openvpn.net/community/openvpn3/repos jammy main
+    repo: "deb [signed-by=/usr/share/keyrings/openvpn.gpg arch=amd64] https://swupdate.openvpn.net/community/openvpn3/repos jammy main"
     state: present
     update_cache: yes
 
