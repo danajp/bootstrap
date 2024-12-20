@@ -22,6 +22,36 @@
     owner: root
     group: root
 
+- name: Add apt repo pub keys
+  tags: [apt-repos]
+  get_url:
+    url: "{{ item.key.url }}"
+    dest: "/usr/share/keyrings/{{ item.name }}.{{ item.key.type }}"
+    mode: 644
+    owner: root
+    group: root
+  loop: "{{ apt_repositories }}"
+
+- name: Add apt repos
+  tags: [apt-repos]
+  apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/{{ item.name }}.{{ item.key.type }} arch=amd64] {{ item.repo.url }} {{ item.repo.release }} {{ item.repo.component }}"
+    state: present
+    update_cache: false
+  loop: "{{ apt_repositories }}"
+
+- name: Emacs PPA
+  tags: [emacs]
+  apt_repository:
+    repo: 'ppa:ubuntuhandbook1/emacs'
+    state: present
+    update_cache: false
+
+- name: Update cache
+  tags: [apt-repos]
+  apt:
+    update_cache: true
+
 - name: Install basic packages
   tags: [packages]
   apt:
@@ -79,49 +109,16 @@
       - amazon-ecr-credential-helper
     state: latest
 
-- name: Emacs PPA
-  tags: [emacs]
-  apt_repository:
-    repo: 'ppa:ubuntuhandbook1/emacs'
-    state: present
-    update_cache: no
+- name: Install apt repo packages
+  tags: [apt-repos]
+  apt:
+    name: "{{ apt_repositories | map(attribute='packages') | flatten }}"
 
 - name: Install emacs
   tags: [emacs]
   apt:
     name: emacs
     state: present
-
-- name: Add apt key for regolith
-  tags: [regolith]
-  shell:
-    cmd: |
-      curl https://regolith-desktop.org/regolith.key \
-        | gpg --dearmor \
-        > /usr/share/keyrings/regolith.gpg
-    creates: /usr/share/keyrings/regolith.gpg
-
-- name: Add apt source for regolith
-  tags: [regolith]
-  apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/regolith.gpg arch=amd64] https://regolith-desktop.org/release-3_0-ubuntu-jammy-amd64 jammy main"
-    state: present
-    update_cache: yes
-
-- name: Install regolith packages
-  tags: [regolith]
-  apt:
-    name:
-      - i3xrocks-battery
-      - i3xrocks-net-traffic
-      - i3xrocks-time
-      - i3xrocks-cpu-usage
-      - i3xrocks-nm-vpn
-      - regolith-look-solarized-dark
-      - regolith-compositor-xcompmgr
-      - regolith-session-flashback
-      - dunst
-      - rofi
 
 - name: Install ruby build dependencies
   tags: [ruby]
@@ -213,26 +210,6 @@
     src: chrome-xdg-open-policy.json
     dest: /etc/opt/chrome/policies/managed/xdg-open.json
 
-- name: Add apt key for brave
-  tags: [brave]
-  get_url:
-    url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-    dest: /usr/share/keyrings/brave-browser-archive-keyring.gpg
-    mode: 644
-
-- name: Add apt source for brave
-  tags: [brave]
-  apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"
-    state: present
-    update_cache: yes
-
-- name: Install brave
-  tags: [brave]
-  apt:
-    pkg: brave-browser
-    state: present
-
 - name: Check for slack apt source
   tags: [slack]
   stat:
@@ -246,46 +223,6 @@
     state: present
   when: not slack_source.stat.exists
 
-- name: Add apt keys for spotify
-  tags: [spotify]
-  shell:
-    cmd: |
-      https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg
-      curl -fsSL https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg | gpg --dearmor > /usr/share/keyrings/spotify.gpg
-    creates: /usr/share/keyrings/spotify.gpg
-
-- name: Add apt repository for spotify
-  tags: [spotify]
-  apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/spotify.gpg arch=amd64] http://repository.spotify.com stable non-free"
-    state: present
-    update_cache: yes
-
-- name: Install spotify
-  tags: [spotify]
-  apt:
-    pkg: spotify-client
-    state: present
-
-- name: Add apt keys for docker
-  tags: [docker]
-  shell:
-    cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor > /usr/share/keyrings/docker.gpg
-    creates: /usr/share/keyrings/docker.gpg
-
-- name: Add apt repository for docker
-  tags: [docker]
-  apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/docker.gpg arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts['lsb']['codename'] }} stable"
-    state: present
-    update_cache: yes
-
-- name: Install docker
-  tags: [docker]
-  apt:
-    pkg: docker-ce
-    state: present
-
 - name: Install container-structure-test
   tags: [docker, container-structure-test]
   get_url:
@@ -295,50 +232,12 @@
     group: root
     mode: 0755
 
-- name: Add apt keys for gcloud
-  tags: [gcloud]
-  shell:
-    cmd: curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor > /usr/share/keyrings/gcloud.gpg
-    creates: /usr/share/keyrings/gcloud.gpg
-
-- name: Add apt repository for gcloud
-  tags: [gcloud]
-  apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/gcloud.gpg arch=amd64] http://packages.cloud.google.com/apt cloud-sdk main"
-    state: present
-    update_cache: no
-
-- name: Install gcloud
-  tags: [gcloud]
-  apt:
-    pkg: google-cloud-cli
-    state: present
-
 - name: Configure gcloud python
   tags: [gcloud]
   copy:
     dest: /etc/profile.d/gcloud-set-python.sh
     content: |-
       export CLOUDSDK_PYTHON=python3
-
-- name: Add apt keys for terraform-ls
-  tags: [terraform-ls]
-  shell:
-    cmd: curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor > /usr/share/keyrings/hashicorp.gpg
-    creates: /usr/share/keyrings/hashicorp.gpg
-
-- name: Add apt repository for terraform-ls
-  tags: [terraform-ls]
-  apt_repository:
-    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/hashicorp.gpg] https://apt.releases.hashicorp.com {{ ansible_facts['lsb']['codename'] }} main"
-    state: present
-    update_cache: yes
-
-- name: Install terraform-ls
-  tags: [terraform-ls]
-  apt:
-    pkg: terraform-ls
-    state: present
 
 - name: Add sudoers files
   tags: [sudoers]
@@ -406,23 +305,6 @@
     deb: https://zoom.us/client/latest/zoom_amd64.deb
     state: present
 
-- name: Install commercial openvpn client apt key
-  tags: [openvpn]
-  shell:
-    cmd: curl -fsSL https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub | gpg --dearmor > /usr/share/keyrings/openvpn.gpg
-
-- name: Install commercial openvpn client apt repo
-  tags: [openvpn]
-  apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/openvpn.gpg arch=amd64] https://swupdate.openvpn.net/community/openvpn3/repos jammy main"
-    state: present
-    update_cache: yes
-
-- name: Install commercial openvpn client apt repo
-  tags: [openvpn]
-  apt:
-    pkg: openvpn3
-
 - name: Install mullvad vpn client
   tags: [mullvad]
   apt:
@@ -471,24 +353,3 @@
   apt:
     deb: https://desktop.pkg.duosecurity.com/duo-desktop-latest.amd64.deb
 
-- name: Add apt key for signal
-  tags: [signal]
-  shell:
-    cmd: |
-      curl https://updates.signal.org/desktop/apt/keys.asc \
-        | gpg --dearmor \
-        > /usr/share/keyrings/signal.gpg
-    creates: /usr/share/keyrings/signal.gpg
-
-- name: Add apt source for signal
-  tags: [signal]
-  apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/signal.gpg arch=amd64] https://updates.signal.org/desktop/apt xenial main"
-    state: present
-    update_cache: yes
-
-- name: Install signal packages
-  tags: [signal]
-  apt:
-    name:
-      - signal-desktop
