@@ -30,7 +30,7 @@ apt_repositories:
     packages: [brave-browser]
   - name: spotify
     key:
-      url: https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg
+      url: https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg
       type: gpg
     repo:
       url: http://repository.spotify.com
