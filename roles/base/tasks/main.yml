@@ -24,18 +24,19 @@
 
 - name: Add apt repo pub keys
   tags: [apt-repos]
-  get_url:
-    url: "{{ item.key.url }}"
-    dest: "/usr/share/keyrings/{{ item.name }}.{{ item.key.type }}"
-    mode: 644
-    owner: root
-    group: root
+  shell:
+    cmd: |
+      curl {{ item.key .url }} | gpg --dearmor > /usr/share/keyrings/bootstrap-{{ item.name }}.gpg
+      chmod 644 /usr/share/keyrings/bootstrap-{{ item.name }}.gpg
+
+    creates: "/usr/share/keyrings/bootstrap-{{ item.name }}.gpg"
   loop: "{{ apt_repositories }}"
 
 - name: Add apt repos
   tags: [apt-repos]
   apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/{{ item.name }}.{{ item.key.type }} arch=amd64] {{ item.repo.url }} {{ item.repo.release }} {{ item.repo.component }}"
+    filename: "bootstrap-{{ item.name }}"
+    repo: "deb [signed-by=/usr/share/keyrings/bootstrap-{{ item.name }}.gpg arch=amd64] {{ item.repo.url }} {{ item.repo.release }} {{ item.repo.component }}"
     state: present
     update_cache: false
   loop: "{{ apt_repositories }}"
