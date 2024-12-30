@@ -3,7 +3,6 @@ apt_repositories:
   - name: regolith
     key:
       url: https://regolith-desktop.org/regolith.key
-      type: asc
     repo:
       url: https://regolith-desktop.org/release-3_0-ubuntu-jammy-amd64
       release: jammy
@@ -22,7 +21,6 @@ apt_repositories:
   - name: brave
     key:
       url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
-      type: gpg
     repo:
       url: https://brave-browser-apt-release.s3.brave.com
       release: stable
@@ -31,7 +29,6 @@ apt_repositories:
   - name: spotify
     key:
       url: https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg
-      type: gpg
     repo:
       url: http://repository.spotify.com
       release: stable
@@ -40,7 +37,6 @@ apt_repositories:
   - name: docker
     key:
       url: https://download.docker.com/linux/ubuntu/gpg
-      type: gpg
     repo:
       url: https://download.docker.com/linux/ubuntu
       release: jammy
@@ -50,7 +46,6 @@ apt_repositories:
   - name: gcloud
     key:
       url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-      type: gpg
     repo:
       url: http://packages.cloud.google.com/apt
       release: cloud-sdk
@@ -59,7 +54,6 @@ apt_repositories:
   - name: hashicorp
     key:
       url: https://apt.releases.hashicorp.com/gpg
-      type: gpg
     repo:
       url: https://apt.releases.hashicorp.com
       release: jammy
@@ -68,7 +62,6 @@ apt_repositories:
   - name: openvpn3
     key:
       url: https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub
-      type: asc
     repo:
       url: https://swupdate.openvpn.net/community/openvpn3/repos
       release: jammy
@@ -77,7 +70,6 @@ apt_repositories:
   - name: signal
     key:
       url: https://updates.signal.org/desktop/apt/keys.asc
-      type: asc
     repo:
       url: https://updates.signal.org/desktop/apt
       release: xenial
