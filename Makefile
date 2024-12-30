@@ -59,3 +59,10 @@ backup:
 .PHONY: bootstrap
 bootstrap:
 	./bin/bootstrap
+
+.PHONY: nix
+nix:
+	curl -L https://nixos.org/nix/install | sh -- --daemon
+	nix-env -iA cachix -f https://cachix.org/api/v1/install
+	cachix use devenv
+	nix-env -if https://install.devenv.sh/latest
