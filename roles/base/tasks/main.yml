@@ -354,3 +354,9 @@
   apt:
     deb: https://desktop.pkg.duosecurity.com/duo-desktop-latest.amd64.deb
 
+- name: Disable tracker miner
+  tags: [tracker]
+  lineinfile:
+    dest: /etc/xdg/autostart/tracker-miner-fs-3.desktop
+    regexp: X-GNOME-Autostart-enabled
+    line: X-GNOME-Autostart-enabled=false
