@@ -317,6 +317,12 @@
   apt:
     deb: https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb
 
+- name: Install 1password
+  tags: [1password]
+  apt:
+    deb: https://downloads.1password.com/linux/debian/amd64/stable/1password-latest.deb
+    state: present
+
 # Fixes issue where there's a few seconds delay before audio output
 # starts after switching ouputs
 - name: Disable pulseaudio suspend
