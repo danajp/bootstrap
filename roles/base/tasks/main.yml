@@ -68,14 +68,10 @@
       - ca-certificates
       - postgresql-client
       - libpq-dev
-      - awscli
       - redis-tools
       - virtualbox
       - powertop
       - powerline
-      - youtube-dl
-      # no package?
-      #- phantomjs
       - nodejs
       - ncat
       - wine-stable
@@ -89,7 +85,6 @@
       - moreutils
       - graphviz
       - curl
-      - gconf2
       - libffi-dev
       # python stdlib dependencies
       - libbz2-dev
@@ -101,7 +96,6 @@
       - virt-manager
       - genisoimage
       - bridge-utils
-      - cura
       - sqlite3
       # utility for hp networked printer
       # run `hp-setup <printer ip>` to setup the printer
