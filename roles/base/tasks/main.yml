@@ -102,6 +102,7 @@
       - hplip-gui
       - jwt
       - amazon-ecr-credential-helper
+      - zsh
     state: latest
 
 - name: Install apt repo packages
