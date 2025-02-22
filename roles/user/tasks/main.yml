@@ -67,11 +67,6 @@
     path: /tmp/oh-my-zsh-install.sh
     state: absent
 
-- name: Default shell zsh
-  tags: [zsh]
-  shell:
-    cmd: chsh -s $(which zsh)
-
 - name: Install asdf
   tags: [asdf]
   git:
