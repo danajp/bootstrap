@@ -16,7 +16,6 @@
   git:
     repo: git@github.com:danajp/dotfiles.git
     dest: ~/src/dotfiles
-    accept_hostkey: yes
     update: yes
   when: dotfiles_dir.changed
 
@@ -36,7 +35,6 @@
   git:
     repo: git@github.com:danajp/dotemacs.git
     dest: ~/src/dotemacs
-    accept_hostkey: yes
     update: no
   when: dotemacs_dir.changed
 
