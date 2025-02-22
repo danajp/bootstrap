@@ -215,7 +215,7 @@
 - name: Install slack client
   tags: [slack]
   apt:
-    deb: https://downloads.slack-edge.com/releases/linux/4.28.182/prod/x64/slack-desktop-4.28.182-amd64.deb
+    deb: https://downloads.slack-edge.com/desktop-releases/linux/x64/4.41.105/slack-desktop-4.41.105-amd64.deb
     state: present
   when: not slack_source.stat.exists
 
