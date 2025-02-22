@@ -60,10 +60,10 @@ apt_repositories:
     packages: [terraform-ls]
   - name: openvpn3
     key:
-      url: https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub
+      url: https://packages.openvpn.net/packages-repo.gpg
     repo:
-      url: https://swupdate.openvpn.net/community/openvpn3/repos
-      release: jammy
+      url: https://packages.openvpn.net/openvpn3/debian
+      release: noble
       component: main
     packages: [openvpn3]
   - name: signal
