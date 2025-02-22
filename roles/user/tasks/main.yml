@@ -53,23 +53,27 @@
     dest: ~/bin
     remote_src: true
 
-- name: Download oh-my-zsh installer
+- name: Check if oh-my-zsh installed
   tags: [zsh]
-  get_url:
-    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    dest: /tmp/oh-my-zsh-install.sh
+  ansible.builtin.stat:
+    path: ~/.oh-my-zsh
+  register: omz_exists
 
 - name: Install oh-my-zsh
   tags: [zsh]
-  shell:
-    cmd: sh /tmp/oh-my-zsh-install.sh "" --unattended
-    creates: ~/.oh-my-zsh
+  when: not omz_exists.stat.exists
+  block:
+    - name: Download oh-my-zsh installer
+      tags: [zsh]
+      get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: /tmp/oh-my-zsh-install.sh
 
-- name: Remove oh-my-zsh installer
-  tags: [zsh]
-  file:
-    path: /tmp/oh-my-zsh-install.sh
-    state: absent
+    - name: Install oh-my-zsh
+      tags: [zsh]
+      shell:
+        cmd: sh /tmp/oh-my-zsh-install.sh "" --unattended
+        creates: ~/.oh-my-zsh
 
 - name: Install asdf
   tags: [asdf]
@@ -77,6 +81,12 @@
     repo: https://github.com/asdf-vm/asdf.git
     dest: ~/.asdf
     version: v0.8.1
+    - name: Remove oh-my-zsh installer
+      tags: [zsh]
+      file:
+        path: /tmp/oh-my-zsh-install.sh
+        state: absent
+
 
 - name: Install asdf plugins
   tags: [asdf, asdf-plugins]
