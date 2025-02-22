@@ -318,24 +318,6 @@
     deb: https://downloads.1password.com/linux/debian/amd64/stable/1password-latest.deb
     state: present
 
-# Fixes issue where there's a few seconds delay before audio output
-# starts after switching ouputs
-- name: Disable pulseaudio suspend
-  tags: [pulseaudio]
-  lineinfile:
-    dest: /etc/pulse/default.pa
-    regexp: '^\s*load-module\s+module-suspend-on-idle'
-    line: '# load-module\s+module-suspend-on-idle'
-    state: present
-
-- name: Restart pulseaudio
-  tags: [pulseaudio]
-  lineinfile:
-    dest: /etc/pulse/default.pa
-    regexp: '^\s*load-module\s+module-suspend-on-idle'
-    line: '# load-module\s+module-suspend-on-idle'
-    state: present
-
 - name: Install dnsmasq config for work
   tags: [openvpn, openvpn-network-manager]
   copy:
