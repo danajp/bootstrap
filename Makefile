@@ -12,7 +12,7 @@ base: $(ANSIBLE)
 
 .PHONY: user
 user: $(ANSIBLE)
-	ansible-playbook -K user.yaml -e @vars.yaml $(TAGS) $(ARGS)
+	ansible-playbook user.yaml -e @vars.yaml $(TAGS) $(ARGS)
 
 .PHONY: image
 image:

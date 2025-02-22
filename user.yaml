@@ -7,5 +7,3 @@
   roles:
     - role: user
       tags: [user]
-      become: yes
-      become_user: "{{ user.name }}"
