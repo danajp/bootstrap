@@ -75,18 +75,40 @@
         cmd: sh /tmp/oh-my-zsh-install.sh "" --unattended
         creates: ~/.oh-my-zsh
 
-- name: Install asdf
-  tags: [asdf]
-  git:
-    repo: https://github.com/asdf-vm/asdf.git
-    dest: ~/.asdf
-    version: v0.8.1
     - name: Remove oh-my-zsh installer
       tags: [zsh]
       file:
         path: /tmp/oh-my-zsh-install.sh
         state: absent
 
+- name: Check if asdf installed
+  tags: [asdf, install-asdf]
+  ansible.builtin.stat:
+    path: ~/bin/asdf
+  register: asdf_exists
+
+- name: Download and install asdf
+  tags: [asdf, install-asdf]
+  when: not asdf_exists.stat.exists
+  block:
+    - name: Download asdf tarball
+      ansible.builtin.get_url:
+        url: https://github.com/asdf-vm/asdf/releases/download/v0.16.3/asdf-v0.16.3-linux-386.tar.gz
+        dest: /tmp/asdf.tar.gz
+        mode: '0644'
+
+    - name: Extract only asdf binary to ~/bin
+      ansible.builtin.unarchive:
+        src: /tmp/asdf.tar.gz
+        dest: ~/bin
+        remote_src: yes
+        extra_opts:
+          - asdf
+
+    - name: Remove downloaded tarball
+      ansible.builtin.file:
+        path: /tmp/asdf.tar.gz
+        state: absent
 
 - name: Install asdf plugins
   tags: [asdf, asdf-plugins]
@@ -190,8 +212,6 @@
 - name: Install global asdf tool versions
   tags: [asdf, asdf-tool-versions]
   shell: |
-    . ~/.bashrc
-
     name="{{ item.name }}"
     version="{{ item.version | default("") }}"
 
@@ -223,12 +243,12 @@
    - name: terraform
    - name: vault
    - name: yj
+   - name: nodejs # needed for yaml lsp
 
 # these compile stuff and take a long time, skip them by default
 - name: Install expensive asdf tool versions
-  tags: [asdf, asdf-tool-versions-expensive, never]
+  tags: [asdf-tool-versions-expensive, never]
   shell: |
-    . ~/.bashrc
     asdf install {{ item.name }} {{ item.version }}
   args:
     executable: /bin/bash
@@ -251,9 +271,9 @@
 
 # installs yaml lsp server with the global nodejs version to be used by emacs
 - name: Install yaml lsp server
-  tags: [asdf, asdf-plugins-nodejs, asdf-plugins-nodejs]
+  tags: [asdf, asdf-plugins-nodejs]
   shell: |
-    . ~/.bashrc
+    asdf reshim nodejs
     npm install -g yaml-language-server
     asdf reshim nodejs
   args:
