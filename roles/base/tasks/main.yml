@@ -103,6 +103,15 @@
       - jwt
       - amazon-ecr-credential-helper
       - zsh
+      # alacritty build dependencies
+      - cmake
+      - g++
+      - pkg-config
+      - libfreetype6-dev
+      - libfontconfig1-dev
+      - libxcb-xfixes0-dev
+      - libxkbcommon-dev
+      - python3
     state: latest
 
 - name: Install apt repo packages
@@ -161,17 +170,6 @@
 - name: Rebuild font cache
   tags: [powerline]
   ansible.builtin.shell: fc-cache
-
-- name: Install Alacritty
-  tags: [alacritty]
-  ansible.builtin.apt:
-    deb: https://github.com/jwilm/alacritty/releases/download/v0.4.0/Alacritty-v0.4.0-ubuntu_18_04_amd64.deb
-    state: present
-
-- name: Add alacritty to terminal emulators alternatives
-  tags: [alacritty]
-  ansible.builtin.command:
-    cmd: update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/alacritty 50
 
 - name: Install container linux config transpiler
   tags: [ct]

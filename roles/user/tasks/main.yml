@@ -309,3 +309,44 @@
   tags: [powerline]
   ansible.builtin.shell: |
     fc-cache -vf ~/.local/share/fonts
+
+# We must install alacritty in the user role because rustup is a user
+# scoped tool (like asdf)
+- name: Build and install alacritty
+  tags: [alacritty]
+  block:
+    - name: Install rustup
+      ansible.builtin.shell:
+        cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
+        creates: ~/.cargo/bin/rustup
+
+    - name: Configure rustup
+      ansible.builtin.shell:
+        cmd: |
+          . ~/.zshrc
+          rustup override set stable
+          rustup update stable
+        executable: /usr/bin/zsh
+
+    - name: Clone Alacritty
+      ansible.builtin.git:
+        repo: https://github.com/alacritty/alacritty.git
+        dest: ~/src/alacritty
+        clone: yes
+        update: yes
+
+    - name: Compile Alacritty
+      ansible.builtin.shell:
+        cmd: |
+          . ~/.zshrc
+          cargo build --release
+          cp target/release/alacritty ~/bin/alacritty
+        executable: /usr/bin/zsh
+        chdir: ~/src/alacritty
+        creates: ~/bin/alacritty
+
+    - name: Add alacritty terminfo
+      ansible.builtin.command:
+        cmd: tic -xe alacritty,alacritty-direct extra/alacritty.info
+        chdir: ~/src/alacritty
+
