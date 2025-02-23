@@ -117,7 +117,7 @@
 - name: Install asdf plugins
   tags: [asdf, asdf-plugins]
   ansible.builtin.command:
-    cmd: 'asdf plugin add {{ item.name }} {{ item.repo | default("") }}'
+    cmd: '~/bin/asdf plugin add {{ item.name }} {{ item.repo | default("") }}'
     creates: "~/.asdf/plugins/{{ item.name }}"
   with_items:
     - name: 1password-cli
@@ -216,11 +216,11 @@
     version="{{ item.version | default("") }}"
 
     if [[ "$version" == "" ]]; then
-      version="$(asdf latest "$name")"
+      version="$(~/bin/asdf latest "$name")"
     fi
 
-    asdf install "$name" "$version"
-    asdf global "$name" "$version"
+    ~/bin/asdf install "$name" "$version"
+    ~/bin/asdf set -u "$name" "$version"
   args:
     executable: /bin/bash
   with_items:
@@ -250,7 +250,7 @@
 - name: Install expensive asdf tool versions
   tags: [asdf-tool-versions-expensive, never]
   ansible.builtin.command:
-    cmd: "asdf install {{ item.name }} {{ item.version }}"
+    cmd: "~/bin/asdf install {{ item.name }} {{ item.version }}"
     creates: "~/.asdf/installs/{{ item.name }}/{{ item.version }}"
   with_items:
    - { name: python, version: 3.6.0 }
@@ -272,9 +272,9 @@
 - name: Install yaml lsp server
   tags: [asdf, asdf-plugins-nodejs]
   ansible.builtin.shell: |
-    asdf reshim nodejs
+    ~/bin/asdf reshim nodejs
     npm install -g yaml-language-server
-    asdf reshim nodejs
+    ~/bin/asdf reshim nodejs
   args:
     chdir: ~/
     creates: ~/.asdf/shims/yaml-language-server
