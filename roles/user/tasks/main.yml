@@ -229,6 +229,7 @@
    - name: argocd
    - name: awscli
    - name: aws-vault
+   - name: direnv
    - name: github-cli
    - name: golang
    - name: helm
