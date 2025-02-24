@@ -1,42 +1,46 @@
 ---
 
+- name: Ensure ~/bin directory exists
+  ansible.builtin.file:
+    path: ~/bin
+    state: directory
+    mode: '0755'
+
 - name: Create dotfiles dir
-  file:
+  ansible.builtin.file:
     state: directory
     path: ~/src/dotfiles
   register: dotfiles_dir
 
 - name: Get dotfiles
-  git:
+  ansible.builtin.git:
     repo: git@github.com:danajp/dotfiles.git
     dest: ~/src/dotfiles
-    accept_hostkey: yes
     update: yes
   when: dotfiles_dir.changed
 
 - name: Install dotfiles
-  command: make clean install
-  args:
+  ansible.builtin.command:
+    cmd: make clean install
     chdir: ~/src/dotfiles
 
 - name: Create dotemacs dir
-  file:
+  ansible.builtin.file:
     state: directory
     path: ~/src/dotemacs
   register: dotemacs_dir
 
 - name: Get dotemacs
   tags: [emacs]
-  git:
+  ansible.builtin.git:
     repo: git@github.com:danajp/dotemacs.git
     dest: ~/src/dotemacs
-    accept_hostkey: yes
     update: no
   when: dotemacs_dir.changed
 
 - name: Link emacs config
   tags: [emacs]
-  file:
+  ansible.builtin.file:
     src: ~/src/dotemacs
     dest: ~/.emacs.d
     state: link
@@ -44,48 +48,76 @@
 
 - name: Download emacs-lsp-booster
   tags: [emacs, emacs-lsp-booster]
-  unarchive:
+  ansible.builtin.unarchive:
     src: https://github.com/blahgeek/emacs-lsp-booster/releases/download/v0.2.1/emacs-lsp-booster_v0.2.1_x86_64-unknown-linux-musl.zip
     dest: ~/bin
     remote_src: true
 
-- name: Download oh-my-zsh installer
+- name: Check if oh-my-zsh installed
   tags: [zsh]
-  get_url:
-    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    dest: /tmp/oh-my-zsh-install.sh
+  ansible.builtin.stat:
+    path: ~/.oh-my-zsh
+  register: omz_exists
 
 - name: Install oh-my-zsh
   tags: [zsh]
-  shell:
-    cmd: sh /tmp/oh-my-zsh-install.sh "" --unattended
-    creates: ~/.oh-my-zsh
+  when: not omz_exists.stat.exists
+  block:
+    - name: Download oh-my-zsh installer
+      tags: [zsh]
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: /tmp/oh-my-zsh-install.sh
 
-- name: Remove oh-my-zsh installer
-  tags: [zsh]
-  file:
-    path: /tmp/oh-my-zsh-install.sh
-    state: absent
+    - name: Install oh-my-zsh
+      tags: [zsh]
+      ansible.builtin.command:
+        argv:
+          - sh
+          - /tmp/oh-my-zsh-install.sh
+          - ""
+          - --unattended
+        creates: ~/.oh-my-zsh
 
-- name: Default shell zsh
-  tags: [zsh]
-  shell:
-    cmd: chsh -s $(which zsh)
+    - name: Remove oh-my-zsh installer
+      tags: [zsh]
+      ansible.builtin.file:
+        path: /tmp/oh-my-zsh-install.sh
+        state: absent
 
-- name: Install asdf
-  tags: [asdf]
-  git:
-    repo: https://github.com/asdf-vm/asdf.git
-    dest: ~/.asdf
-    version: v0.8.1
+- name: Check if asdf installed
+  tags: [asdf, install-asdf]
+  ansible.builtin.stat:
+    path: ~/bin/asdf
+  register: asdf_exists
+
+- name: Download and install asdf
+  tags: [asdf, install-asdf]
+  when: not asdf_exists.stat.exists
+  block:
+    - name: Download asdf tarball
+      ansible.builtin.get_url:
+        url: https://github.com/asdf-vm/asdf/releases/download/v0.16.3/asdf-v0.16.3-linux-386.tar.gz
+        dest: /tmp/asdf.tar.gz
+        mode: '0644'
+
+    - name: Extract only asdf binary to ~/bin
+      ansible.builtin.unarchive:
+        src: /tmp/asdf.tar.gz
+        dest: ~/bin
+        remote_src: yes
+        extra_opts:
+          - asdf
+
+    - name: Remove downloaded tarball
+      ansible.builtin.file:
+        path: /tmp/asdf.tar.gz
+        state: absent
 
 - name: Install asdf plugins
   tags: [asdf, asdf-plugins]
-  shell: |
-    . ~/.bashrc
-    asdf plugin add {{ item.name }} {{ item.repo | default("") }}
-  args:
-    executable: /bin/bash
+  ansible.builtin.command:
+    cmd: '~/bin/asdf plugin add {{ item.name }} {{ item.repo | default("") }}'
     creates: "~/.asdf/plugins/{{ item.name }}"
   with_items:
     - name: 1password-cli
@@ -128,8 +160,7 @@
 
 - name: Additional nodejs plugin setup
   tags: [asdf, asdf-plugins, asdf-plugins-nodejs]
-  shell: |
-    . ~/.bashrc
+  ansible.builtin.shell: |
     ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
     date > ~/.asdf/plugins/nodejs/dana-keyring-imported
   args:
@@ -138,7 +169,7 @@
 
 - name: Default ruby gems
   tags: [asdf, asdf-plugins, asdf-plugins-ruby]
-  copy:
+  ansible.builtin.copy:
     content: |
       bundler
       solargraph
@@ -147,14 +178,14 @@
 
 - name: Default python packages
   tags: [asdf, asdf-plugins, asdf-plugins-python]
-  copy:
+  ansible.builtin.copy:
     content: |
       pipenv
     dest: ~/.default-python-packages
 
 - name: Default go packages
   tags: [asdf, asdf-plugins, asdf-plugins-golang]
-  copy:
+  ansible.builtin.copy:
     content: |
       golang.org/x/tools/gopls@latest
       github.com/rogpeppe/godef@latest
@@ -165,13 +196,13 @@
 
 - name: Direnv config dir
   tags: [asdf, asdf-plugins, asdf-plugins-direnv]
-  file:
+  ansible.builtin.file:
     dest: ~/.config/direnv
     state: directory
 
 - name: Direnv config
   tags: [asdf, asdf-plugins, asdf-plugins-direnv]
-  copy:
+  ansible.builtin.copy:
     content: |
       [global]
       hide_env_diff = true
@@ -180,18 +211,16 @@
 
 - name: Install global asdf tool versions
   tags: [asdf, asdf-tool-versions]
-  shell: |
-    . ~/.bashrc
-
+  ansible.builtin.shell: |
     name="{{ item.name }}"
     version="{{ item.version | default("") }}"
 
     if [[ "$version" == "" ]]; then
-      version="$(asdf latest "$name")"
+      version="$(~/bin/asdf latest "$name")"
     fi
 
-    asdf install "$name" "$version"
-    asdf global "$name" "$version"
+    ~/bin/asdf install "$name" "$version"
+    ~/bin/asdf set -u "$name" "$version"
   args:
     executable: /bin/bash
   with_items:
@@ -200,6 +229,7 @@
    - name: argocd
    - name: awscli
    - name: aws-vault
+   - name: direnv
    - name: github-cli
    - name: golang
    - name: helm
@@ -214,15 +244,13 @@
    - name: terraform
    - name: vault
    - name: yj
+   - name: nodejs # needed for yaml lsp
 
 # these compile stuff and take a long time, skip them by default
 - name: Install expensive asdf tool versions
-  tags: [asdf, asdf-tool-versions-expensive, never]
-  shell: |
-    . ~/.bashrc
-    asdf install {{ item.name }} {{ item.version }}
-  args:
-    executable: /bin/bash
+  tags: [asdf-tool-versions-expensive, never]
+  ansible.builtin.command:
+    cmd: "~/bin/asdf install {{ item.name }} {{ item.version }}"
     creates: "~/.asdf/installs/{{ item.name }}/{{ item.version }}"
   with_items:
    - { name: python, version: 3.6.0 }
@@ -242,27 +270,18 @@
 
 # installs yaml lsp server with the global nodejs version to be used by emacs
 - name: Install yaml lsp server
-  tags: [asdf, asdf-plugins-nodejs, asdf-plugins-nodejs]
-  shell: |
-    . ~/.bashrc
+  tags: [asdf, asdf-plugins-nodejs]
+  ansible.builtin.shell: |
+    ~/bin/asdf reshim nodejs
     npm install -g yaml-language-server
-    asdf reshim nodejs
+    ~/bin/asdf reshim nodejs
   args:
     chdir: ~/
     creates: ~/.asdf/shims/yaml-language-server
 
-- name: Solarized theme for gnome-terminal
-  tags: [solarized]
-  shell: |
-    gconftool-2 --set "/apps/gnome-terminal/profiles/Default/use_theme_background" --type bool false
-    gconftool-2 --set "/apps/gnome-terminal/profiles/Default/use_theme_colors" --type bool false
-    gconftool-2 --set "/apps/gnome-terminal/profiles/Default/palette" --type string "#070736364242:#D3D301010202:#858599990000:#B5B589890000:#26268B8BD2D2:#D3D336368282:#2A2AA1A19898:#EEEEE8E8D5D5:#00002B2B3636:#CBCB4B4B1616:#58586E6E7575:#65657B7B8383:#838394949696:#6C6C7171C4C4:#9393A1A1A1A1:#FDFDF6F6E3E3"
-    gconftool-2 --set "/apps/gnome-terminal/profiles/Default/background_color" --type string "#00002B2B3636"
-    gconftool-2 --set "/apps/gnome-terminal/profiles/Default/foreground_color" --type string "#65657B7B8383"
-
 - name: Set regolith look
   tags: [regolith]
-  shell: |
+  ansible.builtin.shell: |
     regolith-look set solarized-dark
     regolith-look refresh
   args:
@@ -271,23 +290,64 @@
 
 - name: Create fonts dir
   tags: [powerline]
-  file:
+  ansible.builtin.file:
     dest: ~/.local/share/fonts
     state: directory
 
 - name: Install powerline patched font
   tags: [powerline]
-  get_url:
+  ansible.builtin.get_url:
     url: https://github.com/powerline/fonts/raw/master/Inconsolata/Inconsolata%20for%20Powerline.otf
     dest: ~/.local/share/fonts/Inconsolata for Powerline.otf
 
 - name: Install powerline bold patched font
   tags: [powerline]
-  get_url:
+  ansible.builtin.get_url:
     url: https://github.com/powerline/fonts/raw/master/Inconsolata/Inconsolata%20Bold%20for%20Powerline.ttf
     dest: ~/.local/share/fonts/Inconsolata Bold for Powerline.ttf
 
 - name: Refresh font cache
   tags: [powerline]
-  shell: |
+  ansible.builtin.shell: |
     fc-cache -vf ~/.local/share/fonts
+
+# We must install alacritty in the user role because rustup is a user
+# scoped tool (like asdf)
+- name: Build and install alacritty
+  tags: [alacritty]
+  block:
+    - name: Install rustup
+      ansible.builtin.shell:
+        cmd: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path -y
+        creates: ~/.cargo/bin/rustup
+
+    - name: Configure rustup
+      ansible.builtin.shell:
+        cmd: |
+          . ~/.zshrc
+          rustup override set stable
+          rustup update stable
+        executable: /usr/bin/zsh
+
+    - name: Clone Alacritty
+      ansible.builtin.git:
+        repo: https://github.com/alacritty/alacritty.git
+        dest: ~/src/alacritty
+        clone: yes
+        update: yes
+
+    - name: Compile Alacritty
+      ansible.builtin.shell:
+        cmd: |
+          . ~/.zshrc
+          cargo build --release
+          cp target/release/alacritty ~/bin/alacritty
+        executable: /usr/bin/zsh
+        chdir: ~/src/alacritty
+        creates: ~/bin/alacritty
+
+    - name: Add alacritty terminfo
+      ansible.builtin.command:
+        cmd: tic -xe alacritty,alacritty-direct extra/alacritty.info
+        chdir: ~/src/alacritty
+

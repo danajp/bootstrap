@@ -2,28 +2,36 @@
 
 This bootstraps a fresh Ubuntu install for me.
 
-## Assumptions
+## Prerequisites
 
-- using Ubuntu 22.04 LTS
+- running Ubuntu 24.04 LTS
 - Your username is `dana`
-- ssh key is stored as a 1password document called `ssh-private-key`
 - `dana` is in the `sudo` group which allows him to do anything
 
 ## From a fresh installation
 
-1. Configure some things via the WYSIWYG control center:
-   - Display resolution/external display
-   - Bluetooth devices
-   - Power saving/screen blanking
-   - Wifi
-1. Update any outdated packages and install prerequisites:
-   `sudo apt update && sudo apt install make git tmux unzip curl emacs && sudo apt upgrade`
-1. Reboot (we likely got a new kernel in the previous step)
-1. Copy secrets repo into `~/secrets` and `make`
-1. Clone this repo into `~/src/bootstrap`
-1. Install the system packages
-   `make base`
-1. Install the user customizations
-   `make user`
+1. [Download](https://1password.com/downloads/linux), install and setup 1password desktop app.
+1. [Configure 1password SSH agent](https://1password.com/downloads/linux)
+1. [Configure git commit signing with SSH](https://developer.1password.com/docs/ssh/git-commit-signing) and put the suggested git config snippet into `~/.gitconfig-signing` (my regular `~/.gitconfig` will include this file)
+1. Install packages required to run make/ansible:
+   `sudo apt update && sudo apt install make git ansible zsh`
+1. Set default shell to zsh `chsh -s $(which zsh)`
+1. Clone this repo
+1. `make base` to install system packages (surely, this will run without error the first time)
+1. `make user` to install user specific configuration
+1. Reboot or at least restart window manager to switch to regolith/i3
 
-This will definitely go smoothly, requiring no modification to the playbooks or manual intervention.
+## Roles
+
+### Base
+
+Installs OS packages and various OS level configuration.
+
+### User
+
+Performs user specific tasks for `dana`, such as:
+
+- clones and installs [dotfiles](https://github.com/danajp/dotfiles)
+- clones [dotemacs](https://github.com/danajp/dotemacs)
+- sets up asdf and plugins
+- handles various other user specific tooling/configuration

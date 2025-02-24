@@ -1,5 +1,4 @@
 ANSIBLE?=/usr/bin/ansible
-SSH_KEY?=~/.ssh/id_rsa
 IMAGE?=bootstrap
 USER?=dana
 
@@ -8,12 +7,12 @@ override TAGS := --tags $(TAGS)
 endif
 
 .PHONY: base
-base: $(ANSIBLE) $(SSH_KEY)
+base: $(ANSIBLE)
 	ansible-playbook -K base.yaml -e @vars.yaml $(TAGS) $(ARGS)
 
 .PHONY: user
-user: $(ANSIBLE) $(SSH_KEY)
-	ansible-playbook -K user.yaml -e @vars.yaml $(TAGS) $(ARGS)
+user: $(ANSIBLE)
+	ansible-playbook user.yaml -e @vars.yaml $(TAGS) $(ARGS)
 
 .PHONY: image
 image:
@@ -26,9 +25,6 @@ test: image
 $(ANSIBLE):
 	sudo apt-get update
 	DEBIAN_FRONTEND=noninteractive sudo apt-get install -y ansible
-
-$(SSH_KEY):
-	$(error No ssh key found at $(SSH_KEY), you\'re gonna need this to clone git repos)
 
 .PHONY: backup
 backup:
