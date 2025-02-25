@@ -145,7 +145,6 @@
   tags: [desktop]
   ansible.builtin.apt:
     name:
-      - pasystray
       - xfonts-terminus
       - fonts-terminus
       - fonts-inconsolata
