@@ -2,11 +2,11 @@
 apt_repositories:
   - name: regolith
     key:
-      url: https://regolith-desktop.org/regolith.key
+      url: https://archive.regolith-desktop.com/regolith.key
     repo:
-      url: https://regolith-desktop.org/release-3_0-ubuntu-jammy-amd64
-      release: jammy
-      component: main
+      url: https://archive.regolith-desktop.com/ubuntu/stable
+      release: noble
+      component: v3.2
     packages:
       - i3xrocks-battery
       - i3xrocks-net-traffic
@@ -14,7 +14,6 @@ apt_repositories:
       - i3xrocks-cpu-usage
       - i3xrocks-nm-vpn
       - regolith-look-solarized-dark
-      - regolith-compositor-xcompmgr
       - regolith-session-flashback
       - dunst
       - rofi
@@ -39,7 +38,7 @@ apt_repositories:
       url: https://download.docker.com/linux/ubuntu/gpg
     repo:
       url: https://download.docker.com/linux/ubuntu
-      release: jammy
+      release: noble
       component: stable
     packages:
       - docker-ce
@@ -56,15 +55,15 @@ apt_repositories:
       url: https://apt.releases.hashicorp.com/gpg
     repo:
       url: https://apt.releases.hashicorp.com
-      release: jammy
+      release: noble
       component: main
     packages: [terraform-ls]
   - name: openvpn3
     key:
-      url: https://swupdate.openvpn.net/repos/openvpn-repo-pkg-key.pub
+      url: https://packages.openvpn.net/packages-repo.gpg
     repo:
-      url: https://swupdate.openvpn.net/community/openvpn3/repos
-      release: jammy
+      url: https://packages.openvpn.net/openvpn3/debian
+      release: noble
       component: main
     packages: [openvpn3]
   - name: signal
