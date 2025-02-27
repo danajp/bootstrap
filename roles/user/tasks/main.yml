@@ -351,3 +351,16 @@
         cmd: tic -xe alacritty,alacritty-direct extra/alacritty.info
         chdir: ~/src/alacritty
 
+- name: Ensure barrier cert dir
+  tags: [barrier]
+  ansible.builtin.file:
+    path: ~/.local/share/barrier/SSL
+    state: directory
+    mode: '0755'
+
+- name: Generate barrier cert
+  tags: [barrier]
+  ansible.builtin.command:
+    cmd: openssl req -x509 -nodes -subj /CN=Barrier -newkey rsa:4096 -keyout Barrier.pem -out Barrier.pem
+    chdir: ~/.local/share/barrier/SSL/
+    creates: ~/.local/share/barrier/SSL/Barrier.pem
