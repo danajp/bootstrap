@@ -145,7 +145,6 @@
   tags: [desktop]
   ansible.builtin.apt:
     name:
-      - barrier
       - xfonts-terminus
       - fonts-terminus
       - fonts-inconsolata
@@ -226,6 +225,12 @@
     owner: root
     group: root
     mode: 0755
+
+- name: Install input-leap
+  tags: [input-leap]
+  ansible.builtin.apt:
+    deb: https://github.com/input-leap/input-leap/releases/download/v3.0.2/InputLeap_3.0.2_ubuntu_24-04_amd64.deb
+    state: present
 
 - name: Configure gcloud python
   tags: [gcloud]
