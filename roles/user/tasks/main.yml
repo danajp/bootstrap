@@ -224,6 +224,7 @@
   args:
     executable: /bin/bash
   with_items:
+   - name: 1password-cli
    - name: argo
      version: 3.2.8
    - name: argocd
