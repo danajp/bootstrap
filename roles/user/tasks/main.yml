@@ -245,7 +245,7 @@
    - name: terraform
    - name: vault
    - name: yj
-   - name: nodejs # needed for yaml lsp
+   - name: nodejs # needed for yaml/bash lsp
 
 # these compile stuff and take a long time, skip them by default
 - name: Install expensive asdf tool versions
@@ -275,6 +275,7 @@
   ansible.builtin.shell: |
     ~/bin/asdf reshim nodejs
     npm install -g yaml-language-server
+    npm install -g bash-language-server
     ~/bin/asdf reshim nodejs
   args:
     chdir: ~/
