@@ -112,6 +112,8 @@
       - libxcb-xfixes0-dev
       - libxkbcommon-dev
       - python3
+      # needed for system authentication with 1pass (fingerprint reader)
+      - policykit-1-gnome
     state: latest
 
 - name: Install apt repo packages
