@@ -97,7 +97,7 @@
   block:
     - name: Download asdf tarball
       ansible.builtin.get_url:
-        url: https://github.com/asdf-vm/asdf/releases/download/v0.16.6/asdf-v0.16.6-linux-386.tar.gz
+        url: https://github.com/asdf-vm/asdf/releases/download/v0.18.0/asdf-v0.18.0-linux-amd64.tar.gz
         dest: /tmp/asdf.tar.gz
         mode: '0644'
 
