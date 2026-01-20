@@ -151,7 +151,6 @@
     - name: python
     - name: ruby
     - name: shellcheck
-    - name: starship
     - name: tanka
     - name: terraform
     - name: vault
@@ -241,7 +240,6 @@
    - name: loki-logcli
    - name: minikube
    - name: shellcheck
-   - name: starship
    - name: terraform
    - name: vault
    - name: yj
